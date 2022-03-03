@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>对勾</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="报名申请（交互）" transform="translate(-788.000000, -3505.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="按钮" transform="translate(760.000000, 3358.000000)">
+                <g id="复选框备份-5" transform="translate(25.000000, 141.000000)">
+                    <g id="编组-3" transform="translate(0.000000, 4.000000)">
+                        <g id="编组-6" transform="translate(9.867963, 9.461536) rotate(-315.000000) translate(-9.867963, -9.461536) translate(6.867963, 4.461536)">
+                            <line x1="0" y1="9" x2="5" y2="9" id="直线-2"></line>
+                            <line x1="5" y1="-4.54747351e-13" x2="5" y2="9" id="直线-3"></line>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

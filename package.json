@@ -1,0 +1,39 @@
+{
+  "name": "nuxt-private-match",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NUXT_SITE_ENV=dev nuxt",
+    "build": "cross-env NUXT_SITE_ENV=prod nuxt build",
+    "build-test": "cross-env NUXT_SITE_ENV=test nuxt build && node build.js",
+    "build-pre": "cross-env NUXT_SITE_ENV=pre nuxt build && node build.js",
+    "build-prod": "cross-env NUXT_SITE_ENV=prod nuxt build && node build.js",
+    "start-local": "cross-env NUXT_SITE_ENV=test nuxt build && cross-env NUXT_SITE_ENV=test NODE_OPTIONS=--inspect --max_old_space_size=10 nuxt start",
+    "start-test": "cross-env NUXT_SITE_ENV=test NODE_OPTIONS=--max_old_space_size=4096 nuxt start",
+    "start-pre": "cross-env NUXT_SITE_ENV=pre NODE_OPTIONS=--max_old_space_size=4096 nuxt start",
+    "start-prod": "cross-env NUXT_SITE_ENV=prod NODE_OPTIONS=--max_old_space_size=4096 nuxt start"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "element-ui": "^2.15.6",
+    "nuxt": "^2.14.6",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "7.10.4",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/eslint-config": "^6.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/proxy": "^2.1.0",
+    "axios": "^0.20.0-0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
+    "eslint": "^7.22.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-vue": "^7.7.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^1.18.9",
+    "sass-loader": "^7.3.0"
+  }
+}

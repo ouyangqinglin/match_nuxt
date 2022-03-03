@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="50px" viewBox="0 0 400 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>矩形</title>
+    <defs>
+        <linearGradient x1="19.2620894%" y1="0%" x2="82.7371326%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#FFD585" offset="0%"></stop>
+            <stop stop-color="#FFEECD" offset="47.3935073%"></stop>
+            <stop stop-color="#FFD585" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="报名申请（交互）" transform="translate(-760.000000, -3560.000000)" fill="url(#linearGradient-1)" stroke="#F4BD77">
+            <g id="按钮" transform="translate(760.000000, 3358.000000)">
+                <g id="按钮备份-2" transform="translate(0.000000, 202.000000)">
+                    <rect id="矩形" x="0.5" y="0.5" width="399" height="49" rx="8"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

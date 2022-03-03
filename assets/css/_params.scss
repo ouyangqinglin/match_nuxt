@@ -1,0 +1,34 @@
+// 默认字体
+$fontFamily: -apple-system-font, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+// 透明1px gif
+$px1: 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==';
+// google
+$timeFun: cubic-bezier(0.45, 1, 0.4, 1);
+$transition: all .2s cubic-bezier(0.45, 1, 0.4, 1);
+$materialBoxShadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+$topBoxShadow: 0 2px 5px rgba(0,0,0,.26);
+
+// 全局参数
+$transparent: rgba(0, 0, 0, 0);
+$infoBorder: rgba(204, 204, 204, 0.3);
+// 各组件参数
+$bgc: #eff1f4; // 背景色
+$commonGold: #AF9673; // 通用金
+$goldT1: #98764B; // 通用金
+$commonRed: #E1322D; // 通用红
+$commonBlue: #3395fa; // 通用蓝
+$commonGreen: #094; // 通用绿
+$commonBlack: #000000; // 通用黑
+$commonLightBlack: #333333; // 通用浅黑
+$commonGray: #666666; // 通用灰
+$commonLineGray: #eaeaea; // 通用线条灰
+$headerNavZ: 50; // 头部导航栏z-index
+$fixedAdZ: 500; // 左下角广告z-index
+$loadingZ: 1500; // 全屏loading z-index
+$toastZ: 2000; // 公共弹窗z-index
+$alertZ: 1100; // 公共alert z-index
+$authZ: 1000; // 认证弹窗z-index
+$apptZ: 600; // 预约窗口
+$loginZ: 999; // 预约窗口
+$chatZ: 998; // 聊天组件
+$pBlue: #007AFF; // 公募蓝

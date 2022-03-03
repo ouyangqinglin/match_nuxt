@@ -1,0 +1,6 @@
+{
+  "client": {
+    "suffix": "-test",
+    "apiHost": "https://activity-test.simuwang.com/"
+  }
+}
