@@ -31,6 +31,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  loading: { color: '#C00000' },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['~/assets/css/_presetClass.scss'],
@@ -39,7 +40,9 @@ export default {
   plugins: [
     `~/plugins/axios.js`,
     `~/plugins/element-ui.js`,
-    `~/plugins/commonComp.js`
+    `~/plugins/commonComp.js`,
+    `~plugins/directive.js`,
+    `~plugins/commonMixin.js`
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

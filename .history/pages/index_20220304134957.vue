@@ -3,8 +3,7 @@
     <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="require('@img/header-bg.jpg')" alt="">
     <Nav />
     <nuxt-child />
-    <div class="pages-index-ps">投资有风险，选择需谨慎</div>
-    <img class="pages-index-banner footer-banner" :src="require('@img/footer-banner.png')" alt="">
+    <img class="pages-index-banner" :src="require('@img/footer-banner.png')" alt="">
   </div>
 </template>
 
@@ -14,16 +13,12 @@ import Nav from '@comp/nav'
 
 export default {
   name: 'index',
-  async asyncData ({ app, store, query }) {
-    console.log('query', query)
-    if (query.match_code) store.commit('saveCode', query.match_code)
-  },
   components: { Nav },
   watch: {
     '$route.path': {
       handler (v) {
-        console.log('route', v)
-        if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
+        console.log('v', v)
+        if (v) $('html, body').animate({ scrollTop: this.$store.state.scroTop }, 0)
       }
     }
   },
@@ -35,25 +30,25 @@ export default {
       })
     }
   },
+  // beforeRouteEnter(to, from, next) {
+  //   next((vm) => {
+  //     if (from.name) {
+  //       setTimeout(() => {
+  //         $("html,body").animate({scrollTop: vm.$store.state.scroTop}, 0)
+  //       },0)
+  //     }
+  //   })
+  // }
 }
 </script>
 
 <style lang="scss">
 .pages-index {
-  position: relative;
+  @include cImg();
   background-color: #990000;
-  &-ps {
-    margin-bottom: 45px;
-    @include nFont(20 #fff 28);
-    opacity: .59;
-    text-align: center;
-  }
   &-banner {
     object-fit: contain;
     width: 100%;
-  }
-  .footer-banner {
-    margin-bottom: -30px;
   }
 }
 </style>

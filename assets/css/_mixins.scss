@@ -1,11 +1,4 @@
-// 设置位置
-@mixin pos($l: null, $t: null, $r: null, $b: null) {
-  position: absolute;
-  left: $l;
-  right: $r;
-  top: $t;
-  bottom: $b;
-}
+
 /* rem宽高
  * 可接受最多3个参数
  * @include wh(1px 5 em) - 第三个为单位 带单位的原样输出，不带单位的带上第三个参数
@@ -36,24 +29,6 @@
     }
   }
 }
-@mixin mCen($pos: null, $length...) { // margin垂直水平居中
-  @if ($pos == null) {
-    @include pos(50%, 50%);
-  } @else {
-    @include pos($pos...);
-  }
-  @if (length($length) == 1) {
-    @include wh($length);
-  } @else {
-    @include wh(nth($length, 1) nth($length, 2));
-  }
-  margin-left: -(nth($length, 1)) / 2 + px;
-  margin-top: -(nth($length, length($length))) / 2 + px;
-}
-@mixin vCen($num) { // 文字垂直居中，$num使用原值
-  height: $num + px;
-  line-height: $num + px;
-}
 /* 设置文字样式
  * @include font(#aaa 700 .2 .4) - 分别设置字色、字重、字号、行高，字色、字重顺序无要求
  * @include font(black .2 .4 bold) - 字色可为单词，字重可使用string
@@ -81,101 +56,8 @@
     }
   }
 }
-@mixin pseudoDef($l: null, $t: null, $r: null, $b: null, $pos: true) { // 设置before、after默认属性
-  content: '';
-  display: block;
-  @if ($pos) {
-    @include pos($l, $t, $r, $b);
-  }
-}
-// 设置动画
-// @include animation(1s ease-in-out) {from {opacity: 1} to {opacity: 0}}
-@mixin animation($options) {
-  $animationName: unique-id();
-  animation: $animationName $options;
-  @keyframes #{$animationName} {
-    @content;
-  }
-}
-/* 设置渐变背景，$dir为起点方向
- * $dir可为纯数字，0：左边为起点，到右边
- */
-@mixin gradient($dir: to top, $colors...) {
-  @if ($dir == null) {
-    $dir: to top
-  }
-  @if (type_of($dir) != 'number') {
-    background: linear-gradient($dir, $colors);
-  } @else {
-    @if (unitless($dir)) {
-      background: linear-gradient($dir+90deg, $colors);
-    } @else {
-      background: linear-gradient($dir, $colors);
-    }
-  }
-}
-@mixin vueTrans($transition...) { // vue过渡动画设置
-  &.trans-enter-active, &.trans-leave-active {
-    transition: $transition;
-  }
-  &.trans-enter, &.trans-leave-to {
-    @content;
-  }
-}
-@mixin vueAnimator($child: null, $transitions...) { // 子元素vue过渡动画设置（详细配置）
-  @if(length($transitions) > 1) {
-    &.trans-enter-active {
-      #{$child} {
-        transition: nth($transitions, 1);
-      }
-    }
-    &.trans-leave-active {
-      #{$child} {
-        transition: nth($transitions, 2);
-      }
-    }
-  } @else {
-    &.trans-enter-active, &.trans-leave-active {
-      #{$child} {
-        transition: $transitions;
-      }
-    }
-  }
-  @content;
-}
-@mixin vueAnimatorEnter($child: null) {
-  &.trans-enter {
-    @if($child) {
-      #{$child} {
-        @content;
-      }
-    } @else {
-      @content;
-    }
-  }
-}
-@mixin vueAnimatorLeaveTo($child: null) {
-  &.trans-leave-to {
-    @if($child) {
-      #{$child} {
-        @content;
-      }
-    } @else {
-      @content;
-    }
-  }
-}
-@mixin vueAnimatorELT($child: null) {
-  &.trans-enter, &.trans-leave-to {
-    @if($child) {
-      #{$child} {
-        @content;
-      }
-    } @else {
-      @content;
-    }
-  }
-}
+
+
 @mixin cImg() { // 设置img为contain
   img {
     @include wh();
@@ -194,13 +76,7 @@
   background: $bgc $url $repeat $pos;
   background-size: $size;
 }
-@mixin placeholderImg($num: 100 100, $pos: center, $size: contain) { // 占位图
-  @if (length($num) == 2) {
-    background: url('http://via.placeholder.com/#{nth($num, 1)}x#{nth($num, 2)}') no-repeat $pos/$size;
-  } @else {
-    background: url('http://via.placeholder.com/#{nth($num, 1)}x#{nth($num, 1)}') no-repeat $pos/$size;
-  }
-}
+
 @mixin scrollbar { // 滚动条样式
   &::-webkit-scrollbar {width: 5px} // 整体
   &:hover::-webkit-scrollbar-thumb {background-color: rgba(153, 153, 153, 1.0)} // 方块
@@ -209,24 +85,7 @@
     background: rgba(216, 216, 216, 1.0);
   }
 }
-@mixin iconfont($font, $obj: null) {
-  @if ($font == 'tick') {$font: '\e902'}
-  @else if($font == 'back') {$font: '\e901'}
-  @else if($font == 'close') {$font: '\e900'}
-  @else if($font == 'clear') {$font: '\e903'}
-  font-family: icomoon, sans-serif;
-  content: $font;
-  @if ($obj) {
-    @include font($obj);
-  }
-}
-@mixin aIconfont ($font, $obj: null) {
-  &:after {
-    @include iconfont($font, $obj);
-    vertical-align: top;
-    @content;
-  }
-}
+
 /* 设置文字样式
  * @include font(#aaa 700 20 40) - 分别设置字色、字重、字号、行高，字色、字重顺序无要求
  * @include font(black 20 40 bold) - 字色可为单词，字重可使用string
@@ -258,56 +117,4 @@
     }
   }
 }
-@mixin naIconfont ($font, $obj: null, $el: after) {
-  @if ($font == 'tick') {$font: '\e902'}
-  @else if($font == 'back') {$font: '\e901'}
-  @else if($font == 'close') {$font: '\e900'}
-  @else if($font == 'clear') {$font: '\e903'}
-  @else if($font == 'search') {$font: '\e904'}
-  &:#{$el} {
-    font-family: icomoon, sans-serif;
-    content: $font;
-    @if ($obj) {
-      @include nFont($obj);
-    }
-    @content;
-  }
-}
-@mixin center ($dir: xy, $useTransform: false) {
-  position: absolute;
-  @if ($useTransform) {
-    $transform: translate(-50%, -50%);
-    @if ($dir == x) {
-      left: 50%;
-      $transform: translateX(-50%);
-    } @else if ($dir == y) {
-      top: 50%;
-      $transform: translateY(-50%);
-    } @else if ($dir == xy) {
-      left: 50%;
-      top: 50%;
-    }
-    transform: $transform;
-  } @else {
-    $margin: auto;
-    @if ($dir == x) {
-      left: 0;
-      right: 0;
-      $margin: 0 auto;
-    } @else if ($dir == y) {
-      top: 0;
-      bottom: 0;
-      $margin: auto 0;
-    } @else if ($dir == xy) {
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-    }
-    margin: $margin;
-  }
-}
-@mixin h50b($num: null) { // 取高一半的border-radius
-  height: $num * 1px;
-  border-radius: $num / 2 * 1px;
-}
+

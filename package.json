@@ -14,11 +14,12 @@
     "start-prod": "cross-env NUXT_SITE_ENV=prod NODE_OPTIONS=--max_old_space_size=4096 nuxt start"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "element-ui": "^2.15.6",
-    "nuxt": "^2.14.6",
     "@nuxtjs/style-resources": "^1.2.1",
-    "cross-env": "^7.0.3"
+    "core-js": "^3.6.5",
+    "cross-env": "^7.0.3",
+    "element-ui": "^2.15.6",
+    "jquery": "^3.6.0",
+    "nuxt": "^2.14.6"
   },
   "devDependencies": {
     "@babel/preset-env": "7.10.4",

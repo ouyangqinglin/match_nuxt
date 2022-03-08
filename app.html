@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+<head {{ HEAD_ATTRS }}>
+  {{ HEAD }}
+  <% if (process.env.suffix === '') { %>
+  <script>
+    var _hmt = _hmt || [];window._hmt = _hmt;(function() {var hm = document.createElement("script");hm.src = "//hm.baidu.com/hm.js?5364fea83c440a628801e72aa9692fc7";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+  </script>
+  <% } %>
+</head>
+<body {{ BODY_ATTRS }}>
+{{ APP }}
+</body>
+</html>

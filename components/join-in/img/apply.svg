@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>write</title>
+    <defs>
+        <filter x="-2.9%" y="-26.4%" width="105.9%" height="140.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="73.4315245%" id="linearGradient-2">
+            <stop stop-color="#FFE2A0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="73.4315245%" id="linearGradient-3">
+            <stop stop-color="#C00000" offset="0%"></stop>
+            <stop stop-color="#C00000" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="TAB-01大赛简介" transform="translate(-451.000000, -7047.000000)" fill-rule="nonzero">
+            <g id="底部按钮" filter="url(#filter-1)" transform="translate(0.000000, 7022.000000)">
+                <g id="write" transform="translate(460.000000, 34.000000)">
+                    <rect id="矩形" fill="#C00000" opacity="0" x="0" y="0" width="42" height="42"></rect>
+                    <path d="M37.6075538,14.1612903 L27.5214367,4.37030186 C27.272978,4.12947618 26.9486739,4.00906333 26.5916779,4 C26.2438357,4.00388429 25.9116856,4.14371856 25.6697653,4.38972329 L6.9045921,23.4227212 C6.7241326,23.6052826 6.60251858,23.8383397 6.55413451,24.0882288 L4.02247073,37.4670021 C3.94139472,37.8955682 4.0826239,38.3344925 4.39908187,38.6361719 C4.64492526,38.8731133 4.97184465,39 5.30791779,39 C5.40207057,39 5.49883871,38.9896419 5.5929915,38.9689257 L17.5438568,36.3302012 C17.7936232,36.2758212 18.0224668,36.1476398 18.200311,35.9650784 L37.635015,15.9843149 C38.1319325,15.4715892 38.1201634,14.6584788 37.6075538,14.1612903 Z M17.7452392,32.6996893 L12.7381417,27.7847736 C12.2242245,27.2798165 11.3951569,27.2837008 10.8890857,27.7925422 C10.3803991,28.3013835 10.3843221,29.119673 10.8969317,29.6233353 L15.4894954,34.130401 L6.95820688,36.0155741 L9.05310635,24.9505401 L26.6269852,7.12814442 L34.8509695,15.1116455 L17.7452392,32.6996893 Z" id="形状" fill="url(#linearGradient-3)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

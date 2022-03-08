@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="38px" viewBox="0 0 38 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 2</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="大赛排名" transform="translate(-944.000000, -1248.000000)">
+            <g transform="translate(360.000000, 910.000000)" id="关键字">
+                <g transform="translate(51.000000, 334.000000)">
+                    <g id="编组-2" transform="translate(534.741909, 5.801123)">
+                        <circle id="椭圆形" stroke="#979797" stroke-width="2" transform="translate(16.967978, 16.967978) rotate(-314.000000) translate(-16.967978, -16.967978) " cx="16.967978" cy="16.967978" r="12"></circle>
+                        <rect id="矩形" fill="#979797" transform="translate(28.082512, 28.477415) rotate(-314.000000) translate(-28.082512, -28.477415) " x="23.082512" y="27.4774149" width="10" height="2"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
