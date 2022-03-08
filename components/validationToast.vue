@@ -68,6 +68,9 @@ export default {
       background: linear-gradient(90deg, #FFBD61, #FFEC98, #FFBD61);
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
+      span {
+        font-size: 20px;
+      }
       img {
         width: 16px;
         cursor: pointer;
