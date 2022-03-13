@@ -42,7 +42,8 @@ export default {
     `~/plugins/element-ui.js`,
     `~/plugins/commonComp.js`,
     `~plugins/directive.js`,
-    `~plugins/commonMixin.js`
+    `~plugins/commonMixin.js`,
+    `~/plugins/commonComp.client.js`
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

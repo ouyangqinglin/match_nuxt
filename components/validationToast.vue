@@ -4,10 +4,10 @@
       <div class="select">
         <div class="select-title">
           <span>短信验证码</span>
-          <img :src="require('@img/close.png')" @click="close">
+          <img :src="require('@img/close.png')" @click="close" alt="">
         </div>
         <div class="validation">
-          <validation @validation="validation" />
+          <Validation @validation="validation" />
         </div>
       </div>
     </div>
@@ -15,8 +15,9 @@
 </template>
 
 <script>
-import validation from './validation.vue'
+import Validation from './validation.vue'
 export default {
+  components: { Validation },
   props: {
     show: {
       type: Boolean,
@@ -57,7 +58,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
+    width: 6rem;
     color: #880303;
     &-title {
       height: 50px;
@@ -69,7 +70,7 @@ export default {
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
       span {
-        font-size: 20px;
+        font-size: .3rem;
       }
       img {
         width: 16px;
@@ -79,7 +80,7 @@ export default {
     .validation {
       background: #FFFFFF;
       border-radius: 0 0 6px 6px;
-      padding: 40px 19px;
+      padding: .4rem .2rem;
     }
   }
 }

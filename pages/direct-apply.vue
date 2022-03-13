@@ -1,66 +1,73 @@
 <template>
-  <div class="pages-apply">
+  <div class="direct-apply">
+    <img :src="require('@img/mobile/banner.jpg')" alt="">
     <!--    公司信息-->
-    <div class="ppw-w1200">
-      <div class="title">私募机构信息</div>
-      <common-flex class="form" v-for="i of companyFields" :key="i.property">
-        <template v-if="i.type === 'text'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-input v-if="i.property !== 'sms_code'" @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
-          <el-input style="width: 260px" v-else @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
-          <div class="msg-btn" @click="sendMsg" v-if="i.property === 'sms_code' && getCodeShow">获取验证码</div>
-          <div class="msg-btn" @click="sendMsg" v-if="i.property === 'sms_code' && !getCodeShow">{{codeTxt}}s</div>
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+    <div class="top">
+      <div class="title"><div>私募机构</div></div>
+      <div class="top-box">
+        <template v-for="i of companyFields">
+          <common-flex class="form" align="center" v-if="i.type === 'text'">
+            <div class="star" v-if="+i.required === 1" />
+            <el-input v-if="i.property !== 'sms_code'" @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
+            <el-input style="flex: 1" v-else @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
+            <div class="msg-btn" @click="sendMsg" v-if="i.property === 'sms_code' && getCodeShow">获取验证码</div>
+            <div class="msg-btn" @click="sendMsg" v-if="i.property === 'sms_code' && !getCodeShow">{{codeTxt}}s</div>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
+          <common-flex class="form" align="center" v-else-if="i.type === 'number'">
+            <div class="star" v-if="+i.required === 1" />
+            <el-input @blur="inputVerify(i, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
+          <common-flex class="form" align="center" v-else-if="i.type === 'date'">
+            <div class="star" v-if="+i.required === 1" />
+            <el-date-picker value-format="yyyy-MM-dd" @blur="dateVerify(i, i.value)" @change="dateVerify(i, i.value)"
+                            v-model="i.value" type="date" :placeholder="i.placeholder" />
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
+          <common-flex class="form" align="center" v-else-if="i.type === 'select'">
+            <div class="star" v-if="+i.required === 1" />
+            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
+          <common-flex direction="column" class="form" v-else-if="i.type === 'checkbox'">
+            <div class="star" v-if="+i.required === 1" />
+            <span class="form-name" style="margin-top: .25rem">{{ i.name }}</span>
+            <div class="checkbox-container">
+              <el-checkbox-group v-model="checkVal">
+                <el-checkbox  @change="checkVerify(i)" v-for="o of optionDefinition[i.property]" :key="o.label" :label="o.label">{{ o.label}}
+                  <el-input v-model="otherVal" placeholder="请输入" @blur="checkVerify(i)" v-if="o.label === '其他' && checkVal.includes('其他')" />
+                </el-checkbox>
+              </el-checkbox-group>
+            </div>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
         </template>
-        <template v-else-if="i.type === 'number'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-input @blur="inputVerify(i, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
-        </template>
-        <template v-else-if="i.type === 'date'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-date-picker value-format="yyyy-MM-dd" @blur="dateVerify(i, i.value)" @change="dateVerify(i, i.value)" v-model="i.value" type="date" :placeholder="i.placeholder" />
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
-        </template>
-        <template v-else-if="i.type === 'select'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-cascader @change="selectVerify(i, i.value)" @blur="selectBlur(i)" popper-class="my-cascader" :options="optionDefinition[i.property]" v-model="i.value" :placeholder="i.placeholder" filterable />
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
-        </template>
-        <template v-else-if="i.type === 'checkbox'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <div class="checkbox-container">
-            <el-checkbox-group v-model="checkVal">
-              <el-checkbox  @change="checkVerify(i)" v-for="o of optionDefinition[i.property]" :key="o.label" :label="o.label">{{ o.label}}
-                <el-input v-model="otherVal" placeholder="请输入" @blur="checkVerify(i)" v-if="o.label === '其他' && checkVal.includes('其他')" />
-              </el-checkbox>
-            </el-checkbox-group>
-          </div>
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
-        </template>
-      </common-flex>
+      </div>
     </div>
     <!--    // 产品信息-->
-    <div class="ppw-w1200 posi" style="margin-top: 45px" v-for="(product, j) of productFields">
-      <div class="title">参赛产品</div>
-      <span @click="deleteProduct(j)" v-show="productFields.length > 1" class="dele">删除</span>
-      <common-flex class="form" v-for="i of product" :key="i.property" align="center">
-        <template v-if="i.type === 'text'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-input @blur="inputProVerify(i, j, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder"></el-input>
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+    <div class="bottom" style="margin-top: 45px" v-for="(product, j) of productFields" :key="j">
+      <div class="title"><div>参赛产品({{ j + 1 }})</div></div>
+      <div class="posi bottom-box">
+        <span @click="deleteProduct(j)" v-show="productFields.length > 1" class="dele">删除</span>
+        <template v-for="i of product">
+          <common-flex class="form"  v-if="i.type === 'text'" align="center">
+            <div class="star" v-if="+i.required === 1" />
+            <el-input @blur="inputProVerify(i, j, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder"></el-input>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
+          <common-flex class="form" v-else-if="i.type === 'select'">
+            <div class="star" v-if="+i.required === 1" />
+            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
+          <common-flex class="form" v-else-if="i.type === 'number'">
+            <div class="star" v-if="+i.required === 1" />
+            <el-input :disabled="!!+(i.disabled)" @blur="inputProVerify(i, j, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </common-flex>
         </template>
-        <template v-else-if="i.type === 'select'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-cascader @blur="selectBlur(i)" @change="selectVerify(i, i.value, j)" popper-class="my-cascader" :options="optionDefinition[i.property]" v-model="i.value" :placeholder="i.placeholder" filterable />
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
-        </template>
-        <template v-else-if="i.type === 'number'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <el-input :disabled="!!+(i.disabled)" @blur="inputProVerify(i, j, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
-          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
-        </template>
-      </common-flex>
+      </div>
     </div>
     <!--    按钮-->
     <common-flex class="btn-container" direction="column" align="center">
@@ -85,11 +92,13 @@
 <script>
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
+import CompSelect from '@comp/select'
 export default {
   name: 'apply',
   components: {
     ValidationToast,
-    PromiseBook
+    PromiseBook,
+    CompSelect
   },
   head () {
     return {
@@ -115,7 +124,7 @@ export default {
   async asyncData ({ app, query }) {
     let config = await app.axios({
       url: `/backend/api/competition/getMatchApplyFields`,
-      data: { match_code: 'sxzq'}
+      data: { match_code: 'sxzt-2'}
     })
     // console.log('query', query.match_code)
     let productFields = []
@@ -126,7 +135,7 @@ export default {
       if (i.children && !i.children.length) delete i.children
     })
     optionDefinition = {...optionDefinition}
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code']
+    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_money_account', 'extend_attributes_recommend_person_name', 'product_code']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
       if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
@@ -138,6 +147,8 @@ export default {
     }
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
+    console.log('companyFields', companyFields)
+    console.log('singleProduct', singleProduct)
     return {
       singleProduct,
       companyFields,
@@ -149,6 +160,49 @@ export default {
     // console.log('route', this.$route.query)
   },
   methods: {
+    getSelectVal (data, item, index) {
+      console.log('111', data, item)
+      if (item.property === 'recommend_name') {
+        for (let i = 0; i < this.companyFields.length; i++) {
+          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
+            if (data.indexOf('>') !== -1) {
+              this.$set(this.companyFields[i], 'type', 'text')
+            } else this.$set(this.companyFields[i], 'type', 'hidden')
+          }
+        }
+      }
+      if (item.property === 'open_account') {
+        for (let j = 0; j < this.companyFields.length; j++) {
+          if (this.companyFields[j].property === 'extend_attributes_money_account') {
+            if (+data === 1) {
+              this.$set(this.companyFields[j], 'type', 'text')
+              this.$set(this.companyFields[j], 'required', '1')
+            }
+            else {
+              this.$set(this.companyFields[j], 'type', 'hidden')
+              this.$set(this.companyFields[j], 'required', '0')
+            }
+          }
+        }
+      }
+      if (item.property === 'product_name') {
+        for (let j = 0; j < this.productFields[index].length; j++) {
+          if (this.productFields[index][j].property === 'product_register_number') {
+            this.$set(this.productFields[index][j], 'value', data[1])
+            this.$set(this.productFields[index][j], 'errMsg', '')
+          }
+          if (this.productFields[index][j].property === 'product_code') {
+            this.$set(this.productFields[index][j], 'value', data[2])
+            this.$set(this.productFields[index][j], 'errMsg', '')
+          }
+          if (this.productFields[index][j].property === 'product_manager') {
+            this.$set(this.productFields[index][j], 'value', data[3])
+            this.$set(this.productFields[index][j], 'errMsg', '')
+          }
+        }
+
+      }
+    },
     deleteProduct (j) {
       this.productFields.splice(j, 1)
     },
@@ -195,7 +249,8 @@ export default {
             this.$set(this.productFields[k][j], 'errMsg', `${this.productFields[k][j].name}不能为空`)
           } else if (this.productFields[k][j].required === '1' && this.productFields[k][j].value) {
             if (this.productFields[k][j].property === 'product_name') {
-              product_info[this.productFields[k][j].property] = this.productFields[k][j].value.split(',')[0]
+              console.log('xx', this.productFields[k][j])
+              product_info[this.productFields[k][j].property] = this.productFields[k][j].value[0]
             }
             else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
           } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
@@ -209,7 +264,7 @@ export default {
         sms_code,
         company_data,
         product_list,
-        match_code: 'sxzq'
+        match_code: 'sxzt-2'
       }
       this.applyMulProduct(data)
       if (errMsg) this.$alert(errMsg, '错误')
@@ -277,7 +332,7 @@ export default {
           token: data.token,
           sig: data.sig,
           scene: 'nc_register',
-          match_code: 'sxzq'
+          match_code: 'sxzt-2'
         },
         success: ({ data }) => {
           if (+data.status === 1) {
@@ -381,48 +436,6 @@ export default {
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },
-    selectBlur (item) {
-      setTimeout(() => {
-        let v = item.value
-        if (!v || !v.length) this.$set(item, 'errMsg', `${item.name}不能为空`)
-        else {
-          this.$set(item, 'errMsg', '')
-          if (v.length > 1) this.$set(item, 'value', v)
-          else if (v.constructor === Array) this.$set(item, 'value', v.join(''))
-        }
-      }, 500)
-    },
-    selectVerify (item, v, index) {
-      let i = 0, j = 0
-      if (item.property === 'recommend_name') {
-        for (i; i < this.companyFields.length; i++) {
-          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') break
-        }
-        if (v && v.length > 1) {
-          this.$set(this.companyFields[i], 'type', 'text')
-        } else {
-          this.$set(this.companyFields[i], 'type', 'hidden')
-        }
-      }
-      if (item.property === 'product_name') {
-        for (j; j < this.productFields[index].length; j++) {
-          if (this.productFields[index][j].property === 'product_register_number') if (v) {
-            this.$set(this.productFields[index][j], 'value', item.value[0][1])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-          if (this.productFields[index][j].property === 'product_code') if (v) {
-            this.$set(this.productFields[index][j], 'value', item.value[0][2])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-          if (this.productFields[index][j].property === 'product_manager') if (v) {
-            this.$set(this.productFields[index][j], 'value', item.value[0][3])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-        }
-
-      }
-      this.selectBlur(item)
-    },
     dateVerify (item, v) {
       if (!v) this.$set(item, 'errMsg', `${item.name}不能为空!`)
       else {
@@ -453,90 +466,109 @@ export default {
 </script>
 
 <style lang="scss">
-.pages-apply {
-  padding: 60px 0;
+.direct-apply {
+  padding-bottom: .6rem;
   width: 100%;
   height: 100%;
-  .ppw-w1200 {
-    padding-bottom: 25px;
+  background-color: #cb0000;
+  @include cImg();
+  .top, .bottom {
+    .title {
+      margin: 0 auto;
+      width: 6.7rem;
+      font-size: 0.32rem;
+      color: #701D1D;
+      div {
+        width: 2.4rem;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        text-align: center;
+        font-weight: bold;
+        border-top-right-radius: 0.35rem;
+        background: linear-gradient(0deg, #ffbc61 0%, #ffed9a 100%);
+      }
+    }
+    &-box {
+      margin: 0 auto;
+      padding: 0 .3rem .6rem;
+      width: 6.7rem;
+      background-color: #FFFFFF;
+      border: .02rem solid #FFC959;
+      border-radius: 0 .2rem .2rem .2rem;
+    }
   }
   .form {
-    margin: 0 auto;
-    width: 990px;
-  }
-  .title {
-    margin: 0 auto;
-    width: 359px;
-    height: 60px;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 500;
-    color: #470000;
-    line-height: 60px;
-    background: linear-gradient(90deg, #FFD585 0%, #FFEECD 47%, #FFD585 100%);
-    border: 1px solid #F4BD77;
-    border-radius: 0 0 6px 6px;
+    margin-top: .5rem;
+    position: relative;
+    width: 100%;
+    .star {
+      position: absolute;
+      left: -.25rem;
+      top: -.25rem;
+    }
+    .star:before {
+      content: '*';
+      font-size: .3rem;
+      color: #C00000;
+    }
   }
   .posi {
     position: relative;
     .dele {
       position: absolute;
-      right: 10px;
-      top: 5px;
-      @include font(.20 #a40202);
+      right: .2rem;
+      top: .05rem;
+      font-size: .3rem;
+      color: #a40202;
       cursor: pointer;
     }
   }
   .form-name {
-    margin-top: 12px;
-    flex-shrink: 0;
-    padding-right: 20px;
-    width: 300px;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: .3rem;
+    font-weight: bold;
     color: #333;
-    text-align: right;
-    line-height: 50px;
-    &.star:before {
-      content: '*';
-      @include font(.2 #C00000);
-    }
   }
   .msg-btn {
-    margin: 12px 0 0 10px;
-    width: 130px;
-    height: 50px;
+    min-width: 1.9rem;
+    height: 1rem;
     text-align: center;
-    @include font(.2 #C00000 .5);
+    font-size: .3rem;
+    color: #C00000;
+    line-height: 1rem;
     cursor: pointer;
     border-radius: 2px;
     background: linear-gradient(90deg, #FFD585 0%, #FFEECD 47%, #FFD585 100%);
-    box-shadow: 0 3px 4px 0 rgba(255, 255, 255, .5);
+    box-shadow: 0 .03rem .04rem 0 rgba(255, 255, 255, .5);
   }
   .form-errMsg {
-    margin: 12px 0 0 12px;
-    @include font(.18 #C00000);
+    position: absolute;
+    left: 0;
+    bottom: -.45rem;
+    font-size: .3rem;
+    color: #C00000;
   }
   .btn-container {
-    @include font(.2 #470000 500);
+    font-size: .3rem;
+    color: #470000;
+    font-weight: 500;
     .add {
-      margin-top: 62px;
-      width: 400px;
-      height: 50px;
+      margin-top: .6rem;
+      width: 6.7rem;
+      height: 1rem;
       cursor: pointer;
       background: url("~@img/add-bg.svg") center/100% 100%;
       img {
-        width: 18px;
-        height: 18px;
-        margin-right: 10px;
+        width: .32rem;
+        height: .32rem;
+        margin-right: .15rem;
       }
     }
     .agree {
-      margin-top: 25px;
+      margin-top: .4rem;
       .toggle-check {
-        margin-right: 10px;
-        width: 20px;
-        height: 20px;
+        margin-right: .2rem;
+        width: .32rem;
+        height: .32rem;
         cursor: pointer;
         background: url("~@img/agree-box.svg") center/100% 100%;
       }
@@ -549,31 +581,30 @@ export default {
       }
     }
     .submit {
-      margin-top: 32px;
-      width: 400px;
-      height: 50px;
+      margin-top: .3rem;
+      width: 6.7rem;
+      height: 1rem;
       cursor: pointer;
       text-align: center;
-      line-height: 50px;
+      line-height: 1rem;
       background: url('~@img/submit-bg.svg') center/100% 100%;
     }
   }
   .el-input {
     flex-shrink: 0;
-    width: 400px;
-    height: 50px;
-    margin-top: 12px;
-    font-size: 18px;
-    background: #F8F8F8;
+    width: 100%;
+    font-size: .3rem;
+    color: #333;
     input {
-      height: 50px;
-      background: #F8F8F8;
+      height: 1rem;
+      background: #fff;
+      border: .02rem solid #D7DAE2;
       &:disabled {
-        background: #E1E1E1;
-        color: #999999;
+        background: #F5F5F5;
+        color: #999;
       }
       &::placeholder {
-        font-size: 18px;
+        font-size: .3rem;
         color: #999;
       }
     }
@@ -585,29 +616,36 @@ export default {
     -moz-appearance: textfield !important;
   }
   .checkbox-container {
-    margin-top: 24px;
+    margin-top: .5rem;
+    .el-checkbox-group {
+      padding-right: .15rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
     .el-checkbox {
+      margin-bottom: .4rem;
       position: relative;
-      margin-bottom: 12px;
-      width: 160px;
+      width: 2.2rem;
+      margin-right: .2rem;
       .el-input, .el-input__inner {
         position: absolute;
-        width: 220px;
-        height: 40px;
-        top: -7px;
-        left: 15px;
+        width: 1.5rem;
+        height: .8rem;
+        top: -.1rem;
+        left: .15rem;
         z-index: -1;
       }
       .el-input {
-        top: -7px;
-        left: 40px;
+        top: -.1rem;
+        left: .8rem;
         background: #fff;
       }
       .el-checkbox__inner {
         position: relative;
         z-index: 1;
-        width: 18px;
-        height: 18px;
+        width: .36rem;
+        height: .36rem;
         &:after {
           width: 6px;
           height: 10px;
@@ -616,23 +654,50 @@ export default {
       .el-checkbox__label {
         position: relative;
         z-index: 1;
-        font-size: 18px;
+        font-size: .3rem;
       }
     }
   }
 }
-.my-cascader .el-cascader-node {
-  width: 340px;
-  height: 40px;
-  font-size: 16px;
+.el-message-box__wrapper {
+  top: 0;
+  transform: translateY(-80%);
+  .el-message-box {
+    width: 80%;
+  }
 }
-
+.msgbox-fade-enter-active, .msgbox-fade-leave-active {
+  transition: all;
+}
+.msgbox-fade-enter-to, .msgbox-fade-leave-to {
+  transform: translateY(0);
+}
+.el-message-box__wrapper {
+  transform: translateY(0);
+}
+.my-cascader {
+  position: relative;
+  z-index: 5;
+  font-size: .28rem;
+  .el-cascader-panel {
+    width: 3.6rem;
+    .el-cascader-menu {
+      position: relative;
+      z-index: 6;
+      opacity: 1;
+      background-color: #fff;
+    }
+  }
+}
+.el-cascader {
+  width: 100%;
+}
 .el-picker-panel {
   th {
-    font-size: 16px;
+    font-size: .3rem;
   }
   span {
-    font-size: 16px;
+    font-size: .3rem;
   }
 }
 </style>
