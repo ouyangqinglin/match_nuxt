@@ -13,7 +13,7 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 export default {
   name: 'comp-nav',
   data () {
@@ -26,6 +26,11 @@ export default {
           name: '大赛简介',
           route: 'introduction',
           key: 'index-introduction'
+        },
+        {
+          name: '东证服务',
+          route: 'service',
+          key: 'index-service'
         },
         {
           name: '大赛奖励',
@@ -60,8 +65,21 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState({
+      page: 'page'
+    }),
+    dynamicNav () {
+      return this.page
+    },
+  },
   mounted () {
-    this.navScrollTop = document.getElementById('fix').offsetTop
+    this.$nextTick(() => {
+
+      setTimeout(() => {
+        this.navScrollTop = document.getElementById('fix').offsetTop
+      }, 300)
+    })
     window.document.addEventListener('scroll', this.scrolling)
     this.curNav = this.$route.name
   },
@@ -113,7 +131,7 @@ export default {
     }
   }
   .fixed {
-    margin: 0;
+    margin-top: 0;
     position: fixed;
     top: 0;
     left: 0;

@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "introduction",
   data () {
@@ -20,6 +22,16 @@ export default {
         require('@img/index/8.png')
       ]
     }
+  },
+  computed: {
+    ...mapState({
+      page: 'page'
+    }),
+    dynamicNav () {
+      return this.page
+    },
+  },
+  mounted () {
   },
 }
 </script>

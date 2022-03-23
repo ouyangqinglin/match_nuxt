@@ -85,9 +85,9 @@ export default {
   name: 'rank',
   async asyncData ({ app, store }) {
     let res = await app.axios({
-      url: '/backend/api/competition/getRankSearchFields',
+      url: '/activity/backend/api/competition/getRankSearchFields',
       type: 'get',
-      data: { match_code: 'xdzq'}
+      data: { match_code: 'xdzq' }
     })
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
     console.log('field', fields)
@@ -256,7 +256,7 @@ export default {
       else csearch_end_date = ''
 
       this.axios({
-        url: '/backend/api/competition/commonRankList',
+        url: '/activity/backend/api/competition/commonRankList',
         type: 'get',
         data: {
           match_code: 'xdzq',

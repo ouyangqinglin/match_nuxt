@@ -1,6 +1,7 @@
 {
   "client": {
     "suffix": "",
-    "apiHost": "https://activity.simuwang.com/"
+    "apiHost": "https://activity.simuwang.com/",
+    "figHost": "https://match.simuwang.com/"
   }
 }

@@ -114,8 +114,8 @@ export default {
   },
   async asyncData ({ app, query }) {
     let config = await app.axios({
-      url: `/backend/api/competition/getMatchApplyFields`,
-      data: { match_code: 'sxzq'}
+      url: `/activity/backend/api/competition/getMatchApplyFields`,
+      data: { match_code: 'sxzq' }
     })
     // console.log('query', query.match_code)
     let productFields = []
@@ -217,7 +217,7 @@ export default {
     },
     applyMulProduct (data) {
       this.axios({
-        url: '/backend/api/competition/applyMulProducts',
+        url: '/activity/backend/api/competition/applyMulProducts',
         data,
         success: (resp) => {
           if (20000 === +(resp.data.code)) this.$alert('提交申请成功', '提示')
@@ -269,7 +269,7 @@ export default {
       }
       const phone = this.companyFields[i].value
       this.axios({
-        url: `/backend/api/competition/sendMatchApplySmsCode`,
+        url: `/activity/backend/api/competition/sendMatchApplySmsCode`,
         type: 'get',
         data: {
           phone,
@@ -302,7 +302,7 @@ export default {
     getCompanyInfo (item, v) {
       if (!v || !v.replace(/\s*/g, '')) return
       this.axios({
-        url: `/backend/api/competition/findCompany`,
+        url: `/activity/backend/api/competition/findCompany`,
         type: 'get',
         data: { registerNumber: v.replace(/\s*/g, '') },
         success: (res) => {
@@ -332,7 +332,7 @@ export default {
     },
     getProductList (id) {
       this.axios({
-        url: `/backend/api/competition/getCompanyProduct`,
+        url: `/activity/backend/api/competition/getCompanyProduct`,
         type: 'get',
         data: { companyId: id, limitFundType: 1 },
         success: ({ data }) => {

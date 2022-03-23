@@ -1,10 +1,10 @@
 <template>
   <div class="pages-index">
-    <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="require('@img/header-bg.jpg')" alt="">
+    <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="comHeaderImg" alt="">
     <Nav />
     <nuxt-child />
     <div class="pages-index-ps">投资有风险，选择需谨慎</div>
-    <img class="pages-index-banner footer-banner" :src="require('@img/footer-banner.png')" alt="">
+    <img class="pages-index-banner footer-banner" :src="comFooterImg" alt="">
   </div>
 </template>
 
@@ -14,18 +14,33 @@ import Nav from '@comp/nav'
 
 export default {
   name: 'index',
-  async asyncData ({ app, store, query }) {
-    console.log('query', query)
-    if (query.match_code) store.commit('saveCode', query.match_code)
-  },
   components: { Nav },
+  data () {
+    return {
+      comHeaderImg: '',
+      comFooterImg: ''
+    }
+  },
   watch: {
     '$route.path': {
       handler (v) {
-        console.log('route', v)
         if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
       }
     }
+  },
+  mounted () {
+    if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
+    let match_code = window.localStorage.getItem('match_code')
+    this.axios({
+      url: `/match/api/match/init`,
+      type: 'get',
+      data: { match_code },
+      success: ({ data }) => {
+        this.comHeaderImg = data.section.header.content.image
+        this.comFooterImg = data.section.footer.content.image
+        window.localStorage.setItem('page', JSON.stringify(data.page))
+      }
+    })
   },
   methods: {
     getOffsetTop () {

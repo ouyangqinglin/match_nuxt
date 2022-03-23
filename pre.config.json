@@ -1,6 +1,7 @@
 {
   "client": {
     "suffix": "-pre",
-    "apiHost": "https://activity-pre.simuwang.com/"
+    "apiHost": "https://activity-pre.simuwang.com/",
+    "figHost": "https://match-pre.simuwang.com/"
   }
 }

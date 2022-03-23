@@ -1,13 +1,14 @@
 <template>
-  <div class="pages-rule">
+  <div class="pages-service">
     <img v-for="(i, j) of imgList" :key="j" :src="i" alt="">
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
-  name: 'rule',
+  name: 'service',
   data () {
     return {
       imgList: [
@@ -22,11 +23,21 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState({
+      page: 'page'
+    }),
+    dynamicNav () {
+      return this.page
+    },
+  },
+  mounted () {
+  },
 }
 </script>
 
 <style lang="scss">
-.pages-rule {
+.pages-service {
   padding: 60px 0;
   @include cImg();
   background-color: #990000;
