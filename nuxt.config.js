@@ -50,12 +50,12 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
   ],
-  // router: {
-  //   mode: 'history',
-  //   // base: process.env.NODE_ENV === 'development' ? '' : '/competition/',
-  //   resourceHints: false,
-  //   prefetchLinks: false
-  // },
+  router: {
+    mode: 'history',
+    base: process.env.NODE_ENV === 'development' ? '/' : '/competition/',
+    // resourceHints: false,
+    // prefetchLinks: false
+  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
