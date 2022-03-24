@@ -6,8 +6,9 @@ if (process.env.NODE_ENV === 'development') {
     localConfig = require(`./${process.env.NUXT_SITE_ENV}.config.local.json`)
   } catch (err) {}
 }
+
 const config = require(`./${process.env.NUXT_SITE_ENV}.config.json`)
-const publicPath = process.env.NODE_ENV === 'development' ? '' : '/competition'
+const publicPath = process.env.NODE_ENV === 'production' ? `https://match.simuwang.com/match/home/competition` : `https://match-${process.env.NUXT_SITE_ENV}.simuwang.com/match/home/competition`
 let clientConfig = Object.assign({}, config.client, localConfig.client) // 需注入process.env的配置（会打包进客户端代码）
 global._CONFIG = Object.assign({}, config.server, localConfig.server) // 服务器配置文件
 
@@ -53,7 +54,7 @@ export default {
   ],
   router: {
     mode: 'history',
-    base: process.env.NODE_ENV === 'development' ? '/' : '/competition'
+    base: process.env.NODE_ENV === 'development' ? '/' : '/match/home/competition'
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [

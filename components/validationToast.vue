@@ -70,7 +70,7 @@ export default {
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
       span {
-        font-size: .3rem;
+        font-size: .22rem;
       }
       img {
         width: 16px;

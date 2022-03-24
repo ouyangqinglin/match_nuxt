@@ -5,7 +5,8 @@ export const state = () => {
     mHost: process.env.figHost,
     scroll_top: '',
     match_code: '',
-    page: []
+    page: [],
+    dyNav: []
   }
 }
 
@@ -18,11 +19,12 @@ export const mutations = {
     Vue.set(state, 'scroll_top', data)
   },
   saveCode (state, code) {
-    window.localStorage.setItem('match_code', code)
-    Vue.set(state, 'match_code', window.localStorage.getItem('code'))
+    Vue.set(state, 'match_code', code)
   },
   savePage (state, data) {
-    window.localStorage.setItem('page', JSON.stringify(data))
-    Vue.set(state, 'page', JSON.parse(window.localStorage.getItem('page')))
+    Vue.set(state, 'page', data)
+  },
+  saveNav (state, data) {
+    Vue.set(state, 'dyNav', data)
   }
 }

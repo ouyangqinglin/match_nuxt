@@ -5,7 +5,7 @@
       <div class="table">
         <template v-if="list.length">
           <common-flex class="tr" justify="space-between" align="center" v-for="(i, index) of list" :key="index">
-            <a :href="i.url" target="_blank" :title="i.content" class="td">{{ i.title }}</a>
+            <a :href="i.url" target="_blank" :title="i.content" class="td ellipsis">{{ i.title }}</a>
             <div class="td">{{ DATE_FORMAT('yyyy-MM-dd', i.report_time * 1000) }}</div>
           </common-flex>
         </template>
@@ -27,13 +27,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 export default {
   name: 'report',
-  async asyncData ({ app, store }) {
+  async asyncData ({ app, store, query }) {
     let list = await app.axios({
-      url: `/backend/api/competition/getReportAllList`,
+      url: `/activity/backend/api/competition/getReportAllList`,
       data: {
-        match_code: 'xdzq',
+        match_code: query.match_code,
         page: 1,
         rows: 10,
       }
@@ -43,13 +45,18 @@ export default {
       maxPage: +(list.data.data.pager.total_page)
     }
   },
+  computed: {
+    ...mapState({
+      match_code: 'match_code'
+    })
+  },
   methods: {
     getDataList (pageNum) {
       this.axios({
-        url: `/backend/api/competition/getReportAllList`,
+        url: `/activity/backend/api/competition/getReportAllList`,
         type: 'get',
         data: {
-          match_code: 'xdzq',
+          match_code: this.match_code,
           page: pageNum,
           rows: 10,
         },
@@ -108,6 +115,9 @@ $borderColor: #DDDDDD;
         &:hover {
           color: #C00000;
           cursor: pointer;
+        }
+        a {
+          max-width: 900px;
         }
         :last-child {
           color: #999;

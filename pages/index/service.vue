@@ -1,6 +1,6 @@
 <template>
   <div class="pages-service">
-    <img v-for="(i, j) of imgList" :key="j" :src="i" alt="">
+    <img v-for="(i, j) of currPage.content" :key="j" :src="i.image" alt="">
   </div>
 </template>
 
@@ -9,29 +9,13 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'service',
-  data () {
-    return {
-      imgList: [
-        require('@img/index/1.png'),
-        require('@img/index/2.png'),
-        require('@img/index/3.png'),
-        require('@img/index/4.png'),
-        require('@img/index/5.png'),
-        require('@img/index/6.png'),
-        require('@img/index/7.png'),
-        require('@img/index/8.png')
-      ]
-    }
-  },
   computed: {
     ...mapState({
       page: 'page'
     }),
-    dynamicNav () {
-      return this.page
-    },
-  },
-  mounted () {
+    currPage () {
+      return this.page.find(i => (!i.title.includes('奖励') && !i.title.includes('规则') && !i.title.includes('简介')))
+    }
   },
 }
 </script>

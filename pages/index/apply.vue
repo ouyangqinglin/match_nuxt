@@ -85,6 +85,7 @@
 <script>
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
+import { mapState } from 'vuex'
 export default {
   name: 'apply',
   components: {
@@ -117,7 +118,6 @@ export default {
       url: `/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: 'sxzq' }
     })
-    // console.log('query', query.match_code)
     let productFields = []
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
@@ -144,6 +144,11 @@ export default {
       productFields,
       optionDefinition
     }
+  },
+  computed: {
+    ...mapState({
+      match_code: 'match_code',
+    })
   },
   mounted () {
     // console.log('route', this.$route.query)
@@ -209,7 +214,7 @@ export default {
         sms_code,
         company_data,
         product_list,
-        match_code: 'sxzq'
+        match_code: this.match_code
       }
       this.applyMulProduct(data)
       if (errMsg) this.$alert(errMsg, '错误')
@@ -277,7 +282,7 @@ export default {
           token: data.token,
           sig: data.sig,
           scene: 'nc_register',
-          match_code: 'sxzq'
+          match_code: this.match_code
         },
         success: ({ data }) => {
           if (+data.status === 1) {
@@ -392,16 +397,18 @@ export default {
         }
       }, 500)
     },
+    // 111
     selectVerify (item, v, index) {
       let i = 0, j = 0
       if (item.property === 'recommend_name') {
         for (i; i < this.companyFields.length; i++) {
-          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') break
-        }
-        if (v && v.length > 1) {
-          this.$set(this.companyFields[i], 'type', 'text')
-        } else {
-          this.$set(this.companyFields[i], 'type', 'hidden')
+          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
+            if (v && v.length > 1) {
+              this.$set(this.companyFields[i], 'type', 'text')
+            } else {
+              this.$set(this.companyFields[i], 'type', 'hidden')
+            }
+          }
         }
       }
       if (item.property === 'product_name') {
@@ -419,7 +426,6 @@ export default {
             this.$set(this.productFields[index][j], 'errMsg', '')
           }
         }
-
       }
       this.selectBlur(item)
     },

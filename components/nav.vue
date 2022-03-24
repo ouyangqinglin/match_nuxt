@@ -2,9 +2,9 @@
   <div class="nav">
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
-      <nuxt-link v-for="i of navList" :key="i.route" :to="i.route">
+      <nuxt-link v-for="i of navList" :key="i.route" :to="`${i.route}?match_code=${$route.query.match_code}`">
         <div class="comp-nav-item" :class="{active: curNav === i.key}" @click="changeNav(i.key)">
-          <span>{{ i.name }}</span>
+          <span>{{ i.title }}</span>
           <img v-if="curNav === i.key" :src="require('@img/item-bg.png')" alt="">
         </div>
       </nuxt-link>
@@ -21,44 +21,24 @@ export default {
       curNav: '',
       fixed: false,
       navScrollTop: '',
-      navList: [
+      solidNav: [
         {
-          name: '大赛简介',
-          route: 'introduction',
-          key: 'index-introduction'
-        },
-        {
-          name: '东证服务',
-          route: 'service',
-          key: 'index-service'
-        },
-        {
-          name: '大赛奖励',
-          route: 'award',
-          key: 'index-award'
-        },
-        {
-          name: '大赛规则',
-          route: 'rule',
-          key: 'index-rule'
-        },
-        {
-          name: '报名申请',
+          title: '报名申请',
           route: 'apply',
           key: 'index-apply'
         },
         {
-          name: '大赛排名',
+          title: '大赛排名',
           route: 'rank',
           key: 'index-rank.vue'
         },
         {
-          name: '获奖名单',
+          title: '获奖名单',
           route: 'assign',
           key: 'index-assign'
         },
         {
-          name: '赛事报道',
+          title: '赛事报道',
           route: 'report',
           key: 'index-report'
         }
@@ -67,15 +47,14 @@ export default {
   },
   computed: {
     ...mapState({
-      page: 'page'
+      dyNav: 'dyNav'
     }),
-    dynamicNav () {
-      return this.page
+    navList () {
+      return [...this.dyNav, ...this.solidNav]
     },
   },
   mounted () {
     this.$nextTick(() => {
-
       setTimeout(() => {
         this.navScrollTop = document.getElementById('fix').offsetTop
       }, 300)

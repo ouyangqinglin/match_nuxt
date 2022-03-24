@@ -59,7 +59,7 @@ export default {
   async asyncData ({ app, store }) {
     console.log('store', store)
     let res = await app.axios({
-      url: `/backend/api/competition/xdzq/getXdzqPrizeCycleOption`,
+      url: `/activity/backend/api/competition/xdzq/getXdzqPrizeCycleOption`,
       type: 'get',
       data: { match_code: 'xdzq' }
     })
@@ -146,7 +146,7 @@ export default {
       else csearch_end_date = ''
 
       this.axios({
-        url: '/backend/api/competition/xdzq/selectPrizeListData',
+        url: '/activity/backend/api/competition/xdzq/selectPrizeListData',
         type: 'get',
         data: {
           match_code: 'xdzq',

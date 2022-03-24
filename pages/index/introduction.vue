@@ -1,6 +1,6 @@
 <template>
   <div class="pages-introduction">
-    <img v-for="(i, j) of imgList" :key="j" :src="i" alt="">
+    <img v-for="(i, j) of currPage.content" :key="j" :src="i.image" alt="">
   </div>
 </template>
 
@@ -8,30 +8,17 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: "introduction",
-  data () {
-    return {
-      imgList: [
-        require('@img/index/1.png'),
-        require('@img/index/2.png'),
-        require('@img/index/3.png'),
-        require('@img/index/4.png'),
-        require('@img/index/5.png'),
-        require('@img/index/6.png'),
-        require('@img/index/7.png'),
-        require('@img/index/8.png')
-      ]
-    }
-  },
+  name: 'introduction',
   computed: {
     ...mapState({
       page: 'page'
     }),
-    dynamicNav () {
-      return this.page
-    },
+    currPage () {
+      return this.page.find(i => i.title.includes('简介'))
+    }
   },
   mounted () {
+    console.log('page', this.page)
   },
 }
 </script>

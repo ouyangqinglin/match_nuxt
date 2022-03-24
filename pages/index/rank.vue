@@ -7,12 +7,14 @@
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
             <common-flex>
-              <div v-if="key === 'csearch_rank_group_id'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
+              <div style="margin-bottom: 20px" v-if="key === fields[0].property" class="item"
+                   @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
-              <div v-if="key === 'csearch_rank_range'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
+              <div style="margin-bottom: 20px" v-if="key === 'csearch_rank_range'" class="item"
+                   @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
             </common-flex>
-            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_group_id'">
+            <common-flex class="sub-strategy" v-if="key === fields[0].property">
               <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">
                 {{ i.label }}</div>
             </common-flex>
@@ -77,18 +79,21 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 const envScript = 'https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html'
 const loginScript = 'https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0'
 let loginScriptLoaded = false
 
 export default {
   name: 'rank',
-  async asyncData ({ app, store }) {
+  async asyncData ({ app, store, query }) {
     let res = await app.axios({
       url: '/activity/backend/api/competition/getRankSearchFields',
       type: 'get',
-      data: { match_code: 'xdzq' }
+      data: { match_code: query.match_code }
     })
+    console.log(res.data.data)
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
     console.log('field', fields)
     console.log('option_definition', option_definition)
@@ -118,6 +123,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      match_code: 'match_code'
+    })
+  },
   watch: {
     csearch_fund_name () {
       clearTimeout(this.timer)
@@ -127,7 +137,7 @@ export default {
     }
   },
   mounted () {
-    this.subStraList = this.option_definition['csearch_rank_group_id'][0].children || []
+    this.subStraList = this.option_definition[this.fields[0].property][0].children || []
     this.subRangList = this.option_definition['csearch_rank_range'][0].children || []
     this.getDataList()
     const start = () => {
@@ -222,7 +232,7 @@ export default {
       for (i; i < parentList.length; i++) {
         if (parentList[i].value === val) break
       }
-      if (props === 'csearch_rank_group_id') {
+      if (props === this.fields[0].property) {
         this.curStra = index
         this.curSubStra = 0
         this.subStraList = parentList[i].children || []
@@ -236,7 +246,7 @@ export default {
     },
     changeSub (index, val, props) {
       console.log(index, val, props)
-      if (props === 'csearch_rank_group_id') {
+      if (props === this.fields[0].property) {
         this.curSubStra = index
       }
       else {
@@ -246,11 +256,11 @@ export default {
     },
     getDataList () {
       console.log('获取')
-      let csearch_rank_group_id = this.option_definition['csearch_rank_group_id'][this.curStra].value || '', csearch_strategy,
+      let csearch_strategy = this.option_definition[this.fields[0].property][this.curStra].value || '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
 
-      if (this.subStraList.length) csearch_strategy = this.subStraList[this.curSubStra].value || ''
-      else csearch_strategy = ''
+      if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
+      else csearch_sub_strategy = ''
 
       if (this.subRangList.length) csearch_end_date = this.subRangList[this.curSubRang].value || ''
       else csearch_end_date = ''
@@ -259,9 +269,9 @@ export default {
         url: '/activity/backend/api/competition/commonRankList',
         type: 'get',
         data: {
-          match_code: 'xdzq',
-          csearch_rank_group_id,
+          match_code: this.match_code,
           csearch_strategy,
+          csearch_sub_strategy,
           csearch_rank_range,
           csearch_end_date,
           csearch_fund_name: this.csearch_fund_name,
@@ -350,9 +360,6 @@ $borderColor: #DDDDDD;
             color: #C00000;
           }
         }
-      }
-      .sub-strategy, .sub-range {
-        margin-top: 20px;
       }
       .item {
         margin-right: 20px;
