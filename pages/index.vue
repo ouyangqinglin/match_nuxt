@@ -2,7 +2,7 @@
   <div class="pages-index">
     <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="headerImg" alt="">
     <Nav />
-<!--    <nuxt-child />-->
+    <nuxt-child />
     <div class="pages-index-ps">投资有风险，选择需谨慎</div>
     <img class="pages-index-banner footer-banner" :src="footerImg" alt="">
   </div>
@@ -71,6 +71,7 @@ export default {
   watch: {
     '$route.path': {
       handler (v) {
+        console.log(v)
         if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
       }
     }

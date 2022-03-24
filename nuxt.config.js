@@ -100,7 +100,7 @@ export default {
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
     },
-    publicPath,
+    dir: '/competition',
     templates: []
   },
 }
