@@ -53,7 +53,7 @@ export default {
   ],
   router: {
     mode: 'history',
-    base: process.env.NODE_ENV === 'development' ? '' : '/competition/',
+    // base: process.env.NODE_ENV === 'development' ? '' : '/competition/',
     resourceHints: false,
     prefetchLinks: false
   },
@@ -100,7 +100,7 @@ export default {
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
     },
-    dir: '/competition',
+    // dir: '/competition',
     templates: []
   },
 }
