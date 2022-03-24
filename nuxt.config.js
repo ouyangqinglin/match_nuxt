@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'development') {
   } catch (err) {}
 }
 const config = require(`./${process.env.NUXT_SITE_ENV}.config.json`)
-// const publicPath = process.env.NODE_ENV === 'development' ? '' : '/competition'
+const publicPath = process.env.NODE_ENV === 'development' ? '' : '/competition'
 let clientConfig = Object.assign({}, config.client, localConfig.client) // 需注入process.env的配置（会打包进客户端代码）
 global._CONFIG = Object.assign({}, config.server, localConfig.server) // 服务器配置文件
 
@@ -87,6 +87,7 @@ export default {
       '~/assets/css/_mixins.scss'
     ],
   },
+  buildDir: publicPath,
   build: {
     extend (config, { isDev }) {
       if (isDev) { // 开发环境
