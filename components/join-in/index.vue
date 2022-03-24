@@ -4,7 +4,7 @@
       <img :src="require('./img/contact.svg')" alt="" class="or">
       <span>联系我们</span>
     </div>
-    <nuxt-link to="apply" class="btn or apply">
+    <nuxt-link to="mobile/apply" class="btn or apply">
       <img :src="require('./img/apply.svg')" alt="" class="or">
       <span>立即报名</span>
     </nuxt-link>
