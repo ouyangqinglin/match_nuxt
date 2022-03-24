@@ -87,7 +87,6 @@ export default {
       '~/assets/css/_mixins.scss'
     ],
   },
-  buildDir: publicPath,
   build: {
     extend (config, { isDev }) {
       if (isDev) { // 开发环境
@@ -99,7 +98,7 @@ export default {
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
     },
-    // publicPath,
+    publicPath,
     templates: []
   },
 }
