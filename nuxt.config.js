@@ -98,8 +98,7 @@ export default {
       config.resolve.alias['@css'] = path.resolve(__dirname, './assets/css')
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
-      console.log('public', config)
-      config.output.publicPath = process.env.NODE_ENV === 'development' ? '/_nuxt/' : './_nuxt/'
+      config.output.publicPath = process.env.NODE_ENV === 'development' ? '/_nuxt/' : '/competition/_nuxt/'
     },
     templates: [],
   },
