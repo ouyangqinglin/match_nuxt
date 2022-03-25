@@ -50,12 +50,12 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
   ],
-  router: {
-    mode: 'hash',
-    base: '/competition/',
-    resourceHints: false,
-    prefetchLinks: false
-  },
+  // router: {
+  //   mode: 'hash',
+  //   base: '/competition',
+  //   resourceHints: false,
+  //   prefetchLinks: false
+  // },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
@@ -98,6 +98,8 @@ export default {
       config.resolve.alias['@css'] = path.resolve(__dirname, './assets/css')
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
+      console.log('public', config)
+      config.output.publicPath = process.env.NODE_ENV === 'development' ? '/_nuxt/' : './_nuxt/'
     },
     templates: [],
   },
