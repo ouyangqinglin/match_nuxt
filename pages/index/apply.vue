@@ -126,7 +126,7 @@ export default {
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    optionDefinition = {...optionDefinition}
+    optionDefinition = { ...optionDefinition }
     let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
@@ -153,6 +153,14 @@ export default {
   },
   mounted () {
     // console.log('route', this.$route.query)
+    this.axios({
+      url: `/activity/backend/api/competition/getMatchApplyFields`,
+      data: { match_code: 'sxzq' },
+      type: 'get',
+      success: (res) => {
+        console.log('res', res)
+      }
+    })
   },
   methods: {
     deleteProduct (j) {
