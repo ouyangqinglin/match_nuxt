@@ -78,15 +78,23 @@ export default {
   },
   mounted () {
     if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
-    let match_code = window.localStorage.getItem('match_code')
+    // let match_code = window.localStorage.getItem('match_code')
+    // this.axios({
+    //   url: `/match/api/match/init`,
+    //   type: 'get',
+    //   data: { match_code },
+    //   success: ({ data }) => {
+    //     this.comHeaderImg = data.section.header.content.image
+    //     this.comFooterImg = data.section.footer.content.image
+    //     window.localStorage.setItem('page', JSON.stringify(data.page))
+    //   }
+    // })
     this.axios({
-      url: `/match/api/match/init`,
+      url: `/activity/backend/api/competition/getMatchApplyFields`,
+      data: { match_code: 'sxzq' },
       type: 'get',
-      data: { match_code },
-      success: ({ data }) => {
-        this.comHeaderImg = data.section.header.content.image
-        this.comFooterImg = data.section.footer.content.image
-        window.localStorage.setItem('page', JSON.stringify(data.page))
+      success: (res) => {
+        console.log('res-index', res)
       }
     })
   },

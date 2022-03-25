@@ -115,7 +115,7 @@ export default {
   },
   async asyncData ({ app, query }) {
     let config = await app.axios({
-      url: `/activity/backend/api/competition/getMatchApplyFields`,
+      url: `/backend/api/competition/getMatchApplyFields`,
       data: { match_code: 'sxzq' }
     })
     console.log('applyAsyncData', config.data.data)
@@ -154,7 +154,7 @@ export default {
   mounted () {
     // console.log('route', this.$route.query)
     this.axios({
-      url: `/activity/backend/api/competition/getMatchApplyFields`,
+      url: `/backend/api/competition/getMatchApplyFields`,
       data: { match_code: 'sxzq' },
       type: 'get',
       success: (res) => {
