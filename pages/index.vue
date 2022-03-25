@@ -77,7 +77,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
+    // if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
     // let match_code = window.localStorage.getItem('match_code')
     // this.axios({
     //   url: `/match/api/match/init`,
