@@ -51,8 +51,8 @@ export default {
   buildModules: [
   ],
   // router: {
-  //   mode: 'history',
-  //   base: process.env.NODE_ENV === 'development' ? '' : '/competition/',
+  //   mode: 'hash',
+  //   base: '/competition',
   //   resourceHints: false,
   //   prefetchLinks: false
   // },
@@ -98,6 +98,7 @@ export default {
       config.resolve.alias['@css'] = path.resolve(__dirname, './assets/css')
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
+      config.output.publicPath = process.env.NODE_ENV === 'development' ? '/_nuxt/' : 'competition/_nuxt/'
     },
     templates: [],
   },
