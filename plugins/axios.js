@@ -10,16 +10,16 @@ export default ({ app, $axios, query, error }) => {
   // }
   // $axios.defaults.paramsSerializer = preprocess
   // ax.defaults.transformRequest = $axios.defaults.transformRequest = [preprocess]
-  $axios.defaults.transformResponse = [function (data) {
-    if (data) {
-      try { // 原版response处理
-        data = JSON.parse(data)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-    return data
-  }]
+  // $axios.defaults.transformResponse = [function (data) {
+  //   if (data) {
+  //     try { // 原版response处理
+  //       data = JSON.parse(data)
+  //     } catch (e) {
+  //       console.error(e)
+  //     }
+  //   }
+  //   return data
+  // }]
   $axios.defaults.timeout = 60000
   $axios.defaults.headers = {
     'Content-Type': 'application/json;charset=UTF-8'
