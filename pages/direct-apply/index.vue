@@ -123,10 +123,10 @@ export default {
   },
   async asyncData ({ app, query }) {
     let config = await app.axios({
-      url: `/backend/api/competition/getMatchApplyFields`,
+      url: `/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: 'sxzt-2'}
     })
-    // console.log('query', query.match_code)
+    console.log('query', query.match_code)
     let productFields = []
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')

@@ -52,9 +52,9 @@ export default {
   ],
   router: {
     mode: 'history',
-    base: process.env.NODE_ENV === 'development' ? '/' : '/competition/',
-    // resourceHints: false,
-    // prefetchLinks: false
+    base: process.env.NODE_ENV === 'development' ? '' : '/competition/',
+    resourceHints: false,
+    prefetchLinks: false
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
