@@ -27,7 +27,7 @@ export default {
       { name: '360-site-verification', content: '0a4c3e5d573973dc06b04b85968ef318' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: routerPrefix + '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
   },
   loading: { color: '#C00000' },
@@ -65,14 +65,14 @@ export default {
   ],
   proxy: {
     '/activity': {
-      target: config.client.apiHost,
+      target: 'https://activity-test.simuwang.com/',
       changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
       pathRewrite: { // 路径重写，
         '^/activity': '' // 替换target中的请求地址，也就是说/activity=/target，请求target这个地址的时候直接写成/backend。
       }
     },
     '/match': {
-      target: config.client.figHost,
+      target: 'https://match-test.simuwang.com/',
       changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
       pathRewrite: { // 路径重写，
         '^/match': '' // 替换target中的请求地址，也就是说/match=/target，请求target这个地址的时候直接写成/match。
@@ -80,8 +80,6 @@ export default {
     }
   },
   axios: {
-    // baseURL: "http://localhost:20008/backend",
-    // prefix: '/backend',
     withCredentials: true,
   },
   styleResources: {
