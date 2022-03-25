@@ -6,6 +6,7 @@ if (process.env.NODE_ENV === 'development') {
     localConfig = require(`./${process.env.NUXT_SITE_ENV}.config.local.json`)
   } catch (err) {}
 }
+const routerPrefix = process.env.NODE_ENV === 'production' ? '/competition' : ''
 const config = require(`./${process.env.NUXT_SITE_ENV}.config.json`)
 let clientConfig = Object.assign({}, config.client, localConfig.client) // 需注入process.env的配置（会打包进客户端代码）
 global._CONFIG = Object.assign({}, config.server, localConfig.server) // 服务器配置文件
@@ -26,8 +27,8 @@ export default {
       { name: '360-site-verification', content: '0a4c3e5d573973dc06b04b85968ef318' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+      { rel: 'icon', type: 'image/x-icon', href: routerPrefix + '/favicon.ico' }
+    ],
   },
   loading: { color: '#C00000' },
 
@@ -51,8 +52,8 @@ export default {
   buildModules: [
   ],
   // router: {
-  //   mode: 'hash',
-  //   base: '/competition',
+  //   mode: 'history',
+  //   base: routerPrefix,
   //   resourceHints: false,
   //   prefetchLinks: false
   // },
@@ -98,7 +99,6 @@ export default {
       config.resolve.alias['@css'] = path.resolve(__dirname, './assets/css')
       config.resolve.alias['@comp'] = path.resolve(__dirname, './components')
       config.devtool = isDev && 'eval-source-map'
-      config.output.publicPath = process.env.NODE_ENV === 'development' ? '/_nuxt/' : '/competition/_nuxt/'
     },
     templates: [],
   },
