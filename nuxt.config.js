@@ -51,7 +51,7 @@ export default {
   buildModules: [
   ],
   router: {
-    mode: 'history',
+    mode: 'hash',
     base: process.env.NODE_ENV === 'development' ? '' : '/competition/',
     resourceHints: false,
     prefetchLinks: false
