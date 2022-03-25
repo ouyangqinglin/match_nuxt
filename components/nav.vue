@@ -2,12 +2,12 @@
   <div class="nav">
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
-      <nuxt-link v-for="i of navList" :key="i.route" :to="`${i.route}?match_code=${$route.query.match_code}`">
+      <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}`" v-for="i of navList" :key="i.route">
         <div class="comp-nav-item" :class="{active: curNav === i.key}" @click="changeNav(i.key)">
           <span>{{ i.title }}</span>
           <img v-if="curNav === i.key" :src="require('@img/item-bg.png')" alt="">
         </div>
-      </nuxt-link>
+      </a>
     </common-flex>
   </div>
 </template>

@@ -20,6 +20,7 @@ export default {
     let config = await app.axios({
       url: `/match/api/match/init?match_code=${query.match_code}`,
     })
+    console.log('11', config)
     let data = config.data.data
     let headerImg = data.section.header.content.image
     let footerImg = data.section.header.content.image
@@ -77,21 +78,22 @@ export default {
     }
   },
   mounted () {
-    // if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
-    // let match_code = window.localStorage.getItem('match_code')
-    // this.axios({
-    //   url: `/match/api/match/init`,
-    //   type: 'get',
-    //   data: { match_code },
-    //   success: ({ data }) => {
-    //     this.comHeaderImg = data.section.header.content.image
-    //     this.comFooterImg = data.section.footer.content.image
-    //     window.localStorage.setItem('page', JSON.stringify(data.page))
-    //   }
-    // })
+    if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
+    let match_code = window.localStorage.getItem('match_code')
+    this.axios({
+      url: `/match/api/match/init`,
+      type: 'get',
+      data: { match_code: 'dbzq' },
+      success: ({ data }) => {
+        console.log('dbzq', data)
+        this.comHeaderImg = data.section.header.content.image
+        this.comFooterImg = data.section.footer.content.image
+        window.localStorage.setItem('page', JSON.stringify(data.page))
+      }
+    })
     this.axios({
       url: `/activity/backend/api/competition/getMatchApplyFields`,
-      data: { match_code: 'sxzq' },
+      data: { match_code: 'dbzq' },
       type: 'get',
       success: (res) => {
         console.log('res-index', res)
