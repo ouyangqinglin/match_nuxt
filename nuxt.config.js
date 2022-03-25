@@ -51,8 +51,8 @@ export default {
   buildModules: [
   ],
   router: {
-    mode: 'history',
-    base: './'
+    mode: 'hash',
+    base: ''
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
