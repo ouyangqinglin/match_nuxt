@@ -27,7 +27,7 @@ export default {
       { name: '360-site-verification', content: '0a4c3e5d573973dc06b04b85968ef318' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: routerPrefix + '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
   },
   loading: { color: '#C00000' },
