@@ -118,6 +118,7 @@ export default {
       url: `/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: 'sxzq' }
     })
+    console.log('applyAsyncData', config)
     let productFields = []
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
