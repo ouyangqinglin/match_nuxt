@@ -81,6 +81,7 @@ export default {
   },
   axios: {
     proxy: true,
+    withCredentials: true,
   },
   styleResources: {
     scss: [ // scss通用库
