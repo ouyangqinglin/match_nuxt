@@ -52,7 +52,9 @@ export default {
   ],
   router: {
     mode: 'hash',
-    base: ''
+    base: '/competition/',
+    resourceHints: false,
+    prefetchLinks: false
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
