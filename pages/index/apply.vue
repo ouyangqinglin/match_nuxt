@@ -283,7 +283,7 @@ export default {
       }
       const phone = this.companyFields[i].value
       this.axios({
-        url: `/activity/backend/api/competition/sendMatchApplySmsCode`,
+        url: `/backend/api/competition/sendMatchApplySmsCode`,
         type: 'get',
         data: {
           phone,
