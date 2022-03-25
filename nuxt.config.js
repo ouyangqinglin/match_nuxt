@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development') {
     localConfig = require(`./${process.env.NUXT_SITE_ENV}.config.local.json`)
   } catch (err) {}
 }
-const routerPrefix = process.env.NODE_ENV === 'production' ? '/competition' : ''
+const routerPrefix = process.env.NODE_ENV === 'development' ? '' : '/competition'
 const config = require(`./${process.env.NUXT_SITE_ENV}.config.json`)
 let clientConfig = Object.assign({}, config.client, localConfig.client) // 需注入process.env的配置（会打包进客户端代码）
 global._CONFIG = Object.assign({}, config.server, localConfig.server) // 服务器配置文件
@@ -51,12 +51,12 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
   ],
-  // router: {
-  //   mode: 'history',
-  //   base: routerPrefix,
-  //   resourceHints: false,
-  //   prefetchLinks: false
-  // },
+  router: {
+    mode: 'history',
+    base: routerPrefix,
+    resourceHints: false,
+    prefetchLinks: false
+  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
