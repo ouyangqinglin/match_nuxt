@@ -35,12 +35,12 @@ function copyFolder (from, to) {
   }
 }
 
-delDir('./build/competition')
-fs.mkdirSync('./build/competition')
-copyFolder('./.nuxt', './build/competition/.nuxt')
-copyFolder('./static', './build/competition/static')
-fs.copyFileSync('./nuxt.config.js', './build/competition/nuxt.config.js')
-fs.copyFileSync('./package.json', './build/competition/package.json')
-fs.copyFileSync('./test.config.json', './build/competition/test.config.json')
-fs.copyFileSync('./pre.config.json', './build/competition/pre.config.json')
-fs.copyFileSync('./prod.config.json', './build/competition/prod.config.json')
+delDir('./build')
+fs.mkdirSync('./build')
+copyFolder('./.nuxt', './build/.nuxt')
+copyFolder('./static', './build/static')
+fs.copyFileSync('./nuxt.config.js', './build/nuxt.config.js')
+fs.copyFileSync('./package.json', './build/package.json')
+fs.copyFileSync('./test.config.json', './build/test.config.json')
+fs.copyFileSync('./pre.config.json', './build/pre.config.json')
+fs.copyFileSync('./prod.config.json', './build/prod.config.json')
