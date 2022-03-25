@@ -100,6 +100,5 @@ export default {
       config.devtool = isDev && 'eval-source-map'
     },
     templates: [],
-    publicPath: process.env.NODE_ENV === 'development' ? '' : '/competition/',
   },
 }
