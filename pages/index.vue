@@ -1,10 +1,10 @@
 <template>
   <div class="pages-index">
-    <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="headerImg" alt="">
-    <Nav />
-    <nuxt-child />
-    <div class="pages-index-ps">投资有风险，选择需谨慎</div>
-    <img class="pages-index-banner footer-banner" :src="footerImg" alt="">
+<!--    <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="headerImg" alt="">-->
+<!--    <Nav />-->
+<!--    <nuxt-child />-->
+<!--    <div class="pages-index-ps">投资有风险，选择需谨慎</div>-->
+<!--    <img class="pages-index-banner footer-banner" :src="footerImg" alt="">-->
   </div>
 </template>
 
@@ -15,54 +15,54 @@ import Nav from '@comp/nav'
 export default {
   name: 'index',
   components: { Nav },
-  async asyncData ({ query, store, app }) {
-    if (query.match_code) store.commit('saveCode', query.match_code)
-    let config = await app.axios({
-      url: `/match/api/match/init?match_code=${query.match_code}`,
-    })
-    console.log('11', config)
-    let data = config.data.data
-    let headerImg = data.section.header.content.image
-    let footerImg = data.section.header.content.image
-    store.commit('savePage', data.page)
-    let list = [
-      {
-        title: '',
-        route: 'introduction',
-        key: 'index-introduction'
-      },
-      {
-        title: '',
-        route: 'service',
-        key: 'index-service'
-      },
-      {
-        title: '',
-        route: 'award',
-        key: 'index-award'
-      },
-      {
-        title: '',
-        route: 'rule',
-        key: 'index-rule'
-      },
-    ]
-    if (data.page.length < 3) list.splice(1, 1)
-    let j = 0
-    for (j; j < data.page.length; j++) {
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].route.includes('introduction') && data.page[j].title.includes('简介')) list[i].title = data.page[j].title
-        if (list[i].route.includes('rule') && data.page[j].title.includes('规则')) list[i].title = data.page[j].title
-        if (list[i].route.includes('award') && data.page[j].title.includes('奖励')) list[i].title = data.page[j].title
-        if (list[i].route.includes('service') && (!data.page[j].title.includes('规则') && !data.page[j].title.includes('简介') && !data.page[j].title.includes('奖励'))) list[i].title = data.page[j].title
-      }
-    }
-    store.commit('saveNav', list)
-    return {
-      headerImg,
-      footerImg
-    }
-  },
+  // async asyncData ({ query, store, app }) {
+  //   if (query.match_code) store.commit('saveCode', query.match_code)
+  //   let config = await app.axios({
+  //     url: `/match/api/match/init?match_code=${query.match_code}`,
+  //   })
+  //   console.log('11', config)
+  //   let data = config.data.data
+  //   let headerImg = data.section.header.content.image
+  //   let footerImg = data.section.header.content.image
+  //   store.commit('savePage', data.page)
+  //   let list = [
+  //     {
+  //       title: '',
+  //       route: 'introduction',
+  //       key: 'index-introduction'
+  //     },
+  //     {
+  //       title: '',
+  //       route: 'service',
+  //       key: 'index-service'
+  //     },
+  //     {
+  //       title: '',
+  //       route: 'award',
+  //       key: 'index-award'
+  //     },
+  //     {
+  //       title: '',
+  //       route: 'rule',
+  //       key: 'index-rule'
+  //     },
+  //   ]
+  //   if (data.page.length < 3) list.splice(1, 1)
+  //   let j = 0
+  //   for (j; j < data.page.length; j++) {
+  //     for (let i = 0; i < list.length; i++) {
+  //       if (list[i].route.includes('introduction') && data.page[j].title.includes('简介')) list[i].title = data.page[j].title
+  //       if (list[i].route.includes('rule') && data.page[j].title.includes('规则')) list[i].title = data.page[j].title
+  //       if (list[i].route.includes('award') && data.page[j].title.includes('奖励')) list[i].title = data.page[j].title
+  //       if (list[i].route.includes('service') && (!data.page[j].title.includes('规则') && !data.page[j].title.includes('简介') && !data.page[j].title.includes('奖励'))) list[i].title = data.page[j].title
+  //     }
+  //   }
+  //   store.commit('saveNav', list)
+  //   return {
+  //     headerImg,
+  //     footerImg
+  //   }
+  // },
   data () {
     return {
       comHeaderImg: '',
@@ -78,21 +78,22 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
-    let match_code = window.localStorage.getItem('match_code')
+    // if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
+    // let match_code = window.localStorage.getItem('match_code')
+    // this.axios({
+    //   url: `/match/api/match/init`,
+    //   type: 'get',
+    //   data: { match_code: 'dbzq' },
+    //   success: ({ data }) => {
+    //     console.log('dbzq', data)
+    //     this.comHeaderImg = data.section.header.content.image
+    //     this.comFooterImg = data.section.footer.content.image
+    //     window.localStorage.setItem('page', JSON.stringify(data.page))
+    //   }
+    // })
+    console.log('process', process)
     this.axios({
-      url: `/match/api/match/init`,
-      type: 'get',
-      data: { match_code: 'dbzq' },
-      success: ({ data }) => {
-        console.log('dbzq', data)
-        this.comHeaderImg = data.section.header.content.image
-        this.comFooterImg = data.section.footer.content.image
-        window.localStorage.setItem('page', JSON.stringify(data.page))
-      }
-    })
-    this.axios({
-      url: `/activity/backend/api/competition/getMatchApplyFields`,
+      url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: 'dbzq' },
       type: 'get',
       success: (res) => {
