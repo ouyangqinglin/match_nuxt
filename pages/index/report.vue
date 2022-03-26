@@ -33,7 +33,7 @@ export default {
   name: 'report',
   async asyncData ({ app, store, query }) {
     let list = await app.axios({
-      url: `/activity/backend/api/competition/getReportAllList`,
+      url: `/competition/activity/backend/api/competition/getReportAllList`,
       data: {
         match_code: query.match_code,
         page: 1,
@@ -53,7 +53,7 @@ export default {
   methods: {
     getDataList (pageNum) {
       this.axios({
-        url: `/activity/backend/api/competition/getReportAllList`,
+        url: `/competition/activity/backend/api/competition/getReportAllList`,
         type: 'get',
         data: {
           match_code: this.match_code,
