@@ -92,7 +92,6 @@ export default {
   watch: {
     '$route.path': {
       handler (v) {
-        console.log(v)
         if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
       }
     }
