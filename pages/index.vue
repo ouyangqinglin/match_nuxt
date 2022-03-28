@@ -1,5 +1,5 @@
 <template>
-  <div class="pages-index">
+  <div class="pages-index" :style="{background: '#080e81'}">
     <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="headerImg" alt="">
     <Nav />
     <nuxt-child />
@@ -22,7 +22,9 @@
         <div class="pages-index-right-float-first-txt">返回顶部</div>
       </div>
     </div>
-    <img class="pages-index-banner footer-banner" :src="footerImg" alt="">
+    <common-flex justify="center">
+      <img class="pages-index-banner footer-banner" :src="footerImg" alt="">
+    </common-flex>
   </div>
 </template>
 
@@ -41,7 +43,7 @@ export default {
     console.log('11', config)
     let data = config.data.data
     let headerImg = data.section.header.content.image
-    let footerImg = data.section.header.content.image
+    let footerImg = data.section.footer.content.image
     store.commit('savePage', data.page)
     let list = [
       {
@@ -139,7 +141,7 @@ export default {
 <style lang="scss">
 .pages-index {
   position: relative;
-  background-color: #990000;
+  padding-bottom: 30px;
   &-ps {
     margin-bottom: 45px;
     @include nFont(20 #fff 28);
@@ -190,7 +192,7 @@ export default {
   }
 
   .footer-banner {
-    margin-bottom: -30px;
+    width: 1200px;
   }
 }
 </style>

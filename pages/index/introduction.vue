@@ -1,7 +1,7 @@
 <template>
-  <div class="pages-introduction">
+  <common-flex direction="column" align="center" class="pages-introduction">
     <img v-for="(i, j) of currPage.content" :key="j" :src="i.image" alt="">
-  </div>
+  </common-flex>
 </template>
 
 <script>
@@ -27,5 +27,9 @@ export default {
 .pages-introduction {
   padding: 60px 0;
   @include cImg();
+  img {
+    margin-bottom: 55px;
+    width: 1200px;
+  }
 }
 </style>
