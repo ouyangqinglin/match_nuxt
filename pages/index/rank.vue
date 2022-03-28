@@ -81,24 +81,19 @@
 <script>
 import { mapState } from "vuex"
 import util from '@js/util.js'
-const addScript = function (url, cb) {
-  let el = document.createElement("script")
-  el.type = "text/javascript"
-  el.src = url;
-  el.onload = () => {
-    cb()
-  }
-  document.body.appendChild(el)
-}
-const envScript = `https://www${util.getSiteSuffix()}.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`
-const loginScript = `https://passport${util.getSiteSuffix()}.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`
 
-// const envScript = `https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`
-// const loginScript = `https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`
 let loginScriptLoaded = false
 
 export default {
   name: 'rank',
+  head () {
+    return {
+      script: [
+        { src: `https://www${this.$store.state.suffix}.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`, async: true, defer: true },
+        { src: `https://passport${this.$store.state.suffix}.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`, async: true, defer: true },
+      ]
+    }
+  },
   async asyncData ({ app, store, query }) {
     let res = await app.axios({
       url: '/competition/activity/backend/api/competition/getRankSearchFields',
@@ -149,11 +144,13 @@ export default {
     }
   },
   mounted () {
-    console.log('create', window)
     this.subStraList = this.option_definition['csearch_strategy'][0].children || [] // 子策略
     this.subRangList = this.option_definition['csearch_rank_range'][0].children || [] // 榜单下的排名日期
     this.getDataList()
-    const start = () => {
+    if (loginScriptLoaded) this.start()
+  },
+  methods: {
+    start () {
       if (!window.muid || window.muid.toString() === "0") {
         this.logined = false
       } else {
@@ -166,21 +163,7 @@ export default {
           this.certificated = false
         }
       }
-    }
-    if (loginScriptLoaded) {
-      start()
-    } else {
-      addScript(envScript, function () {
-        console.log('envScript')
-        addScript(loginScript, function () {
-          loginScriptLoaded = true
-          console.log('loginScript')
-          start()
-        })
-      })
-    }
-  },
-  methods: {
+    },
     login () {
       window.gr_show_auth();
     },
