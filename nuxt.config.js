@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 const routerPrefix = process.env.NODE_ENV === 'development' ? '' : '/competition'
 const config = require(`./${process.env.NUXT_SITE_ENV}.config.json`)
+const publicPath = process.env.NODE_ENV === 'development' ? '' : '/competition'
 let clientConfig = Object.assign({}, config.client, localConfig.client) // 需注入process.env的配置（会打包进客户端代码）
 global._CONFIG = Object.assign({}, config.server, localConfig.server) // 服务器配置文件
 
@@ -28,7 +29,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
+    ]
   },
   loading: { color: '#C00000' },
 

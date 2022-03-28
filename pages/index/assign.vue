@@ -1,70 +1,69 @@
 <template>
   <div class="pc-assign">
-    <common-flex direction="column" align="center" class="ppw-w1200 main">
-      <div class="title">获奖名单</div>
-      <div class="body">
-        <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">
-          <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
-          <div>
-            <common-flex>
-              <div v-if="key === 'csearch_rank_group_id'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
-                {{ i.label }}</div>
-              <div v-if="key === 'csearch_rank_range'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
-                {{ i.label }}</div>
-            </common-flex>
-            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_group_id'">
-              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">
-                {{ i.label }}</div>
-            </common-flex>
-            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_range'">
-              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">
-                {{ i.label }}</div>
-            </common-flex>
-          </div>
-        </common-flex>
-      </div>
-      <div class="ppw-w1200 table">
-        <common-flex class="th">
-          <div v-for="i of itemList">{{ i.label }}</div>
-        </common-flex>
-        <template v-if="dataList.length">
-          <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">
-            <template v-for="j of itemList">
-              <div class="td ellipsis" v-if="j.key === 'ret'" v-profit_handler.percent="i[j.key]" />
-              <div class="td ellipsis" v-else-if="j.key === 'score'">{{ (i[j.key] + '').slice(0, 5) }}</div>
-              <div class="td ellipsis" style="position: relative; z-index: 1" v-else-if="j.key === 'rank_score'">
-                <img class="rank-img" :src="require('@img/rank/rank-1.png')" alt="" v-if="+(i[j.key]) === 1">
-                <img class="rank-img" :src="require('@img/rank/rank-2.png')" alt="" v-if="+(i[j.key]) === 2">
-                <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.key]) === 3">
-                {{ i[j.key] }}
-              </div>
-              <div class="td ellipsis" v-else>{{ i[j.key]}}</div>
-            </template>
-          </common-flex>
-        </template>
-        <template v-else>
-          <common-flex class="empty" direction="column" justify="center" align="center">
-            <img :src="require('@img/no-data.png')" alt="">
-            <p>没有符合条件的产品或产品未上榜</p>
-          </common-flex>
-        </template>
-      </div>
-    </common-flex>
+<!--    <common-flex direction="column" align="center" class="ppw-w1200 main">-->
+<!--      <div class="title">获奖名单</div>-->
+<!--      <div class="body">-->
+<!--        <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">-->
+<!--          <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>-->
+<!--          <div>-->
+<!--            <common-flex>-->
+<!--              <div v-if="key === 'csearch_rank_group_id'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">-->
+<!--                {{ i.label }}</div>-->
+<!--              <div v-if="key === 'csearch_rank_range'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">-->
+<!--                {{ i.label }}</div>-->
+<!--            </common-flex>-->
+<!--            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_group_id'">-->
+<!--              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">-->
+<!--                {{ i.label }}</div>-->
+<!--            </common-flex>-->
+<!--            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_range'">-->
+<!--              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">-->
+<!--                {{ i.label }}</div>-->
+<!--            </common-flex>-->
+<!--          </div>-->
+<!--        </common-flex>-->
+<!--      </div>-->
+<!--      <div class="ppw-w1200 table">-->
+<!--        <common-flex class="th">-->
+<!--          <div v-for="i of itemList">{{ i.label }}</div>-->
+<!--        </common-flex>-->
+<!--        <template v-if="dataList.length">-->
+<!--          <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">-->
+<!--            <template v-for="j of itemList">-->
+<!--              <div class="td ellipsis" v-if="j.key === 'ret'" v-profit_handler.percent="i[j.key]" />-->
+<!--              <div class="td ellipsis" v-else-if="j.key === 'score'">{{ (i[j.key] + '').slice(0, 5) }}</div>-->
+<!--              <div class="td ellipsis" style="position: relative; z-index: 1" v-else-if="j.key === 'rank_score'">-->
+<!--                <img class="rank-img" :src="require('@img/rank/rank-1.png')" alt="" v-if="+(i[j.key]) === 1">-->
+<!--                <img class="rank-img" :src="require('@img/rank/rank-2.png')" alt="" v-if="+(i[j.key]) === 2">-->
+<!--                <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.key]) === 3">-->
+<!--                {{ i[j.key] }}-->
+<!--              </div>-->
+<!--              <div class="td ellipsis" v-else>{{ i[j.key]}}</div>-->
+<!--            </template>-->
+<!--          </common-flex>-->
+<!--        </template>-->
+<!--        <template v-else>-->
+<!--          <common-flex class="empty" direction="column" justify="center" align="center">-->
+<!--            <img :src="require('@img/no-data.png')" alt="">-->
+<!--            <p>没有符合条件的产品或产品未上榜</p>-->
+<!--          </common-flex>-->
+<!--        </template>-->
+<!--      </div>-->
+<!--    </common-flex>-->
   </div>
 </template>
 
 <script>
 export default {
   name: 'assign',
-  async asyncData ({ app, store }) {
-    console.log('store', store)
+  async asyncData ({ app, query }) {
     let res = await app.axios({
-      url: `/activity/backend/api/competition/xdzq/getXdzqPrizeCycleOption`,
+      url: `/competition/activity/backend/api/competition/xdzq/getXdzqPrizeCycleOption`,
       type: 'get',
-      data: { match_code: 'xdzq' }
+      data: { match_code:  query.match_code }
     })
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
-    console.log('field', fields)
+    console.log('assign-field', fields)
     console.log('option_definition', option_definition)
     return {
       fields,
@@ -95,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    this.subStraList = this.option_definition['csearch_rank_group_id'][0].children || []
+    this.subStraList = this.option_definition['csearch_strategy'][0].children || []
     this.subRangList = this.option_definition['csearch_rank_range'][0].children || []
     this.getDataList()
   },

@@ -1,9 +1,8 @@
 import Vue from 'vue'
 export const state = () => {
   return {
-    suffix: process.env.apiHost,
+    suffix: process.env.suffix,
     apiHost: process.env.figHost,
-    mHost: process.env.figHost,
     scroll_top: '',
     match_code: '',
     page: [],
