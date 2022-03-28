@@ -80,9 +80,21 @@
 
 <script>
 import { mapState } from "vuex"
+import util from '@js/util.js'
+const addScript = function (url, cb) {
+  let el = document.createElement("script")
+  el.type = "text/javascript"
+  el.src = url;
+  el.onload = () => {
+    cb()
+  }
+  document.body.appendChild(el)
+}
+const envScript = `https://www${util.getSiteSuffix()}.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`
+const loginScript = `https://passport${util.getSiteSuffix()}.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`
 
-const envScript = 'https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html'
-const loginScript = 'https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0'
+// const envScript = `https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`
+// const loginScript = `https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`
 let loginScriptLoaded = false
 
 export default {
@@ -137,16 +149,17 @@ export default {
     }
   },
   mounted () {
-    this.subStraList = this.option_definition[this.fields[0].property][0].children || []
-    this.subRangList = this.option_definition['csearch_rank_range'][0].children || []
+    console.log('create', window)
+    this.subStraList = this.option_definition['csearch_strategy'][0].children || [] // 子策略
+    this.subRangList = this.option_definition['csearch_rank_range'][0].children || [] // 榜单下的排名日期
     this.getDataList()
     const start = () => {
       if (!window.muid || window.muid.toString() === "0") {
         this.logined = false
       } else {
         this.logined = true
-        const isAuth = Number(this.getCookie("certification"))
-        const evaluation = Number(this.getCookie('evaluation_result'))
+        const isAuth = Number(util.cookie("certification"))
+        const evaluation = Number(util.cookie('evaluation_result'))
         if (isAuth === 1 && evaluation > 0) {
           this.certificated = true
         } else {
@@ -157,10 +170,9 @@ export default {
     if (loginScriptLoaded) {
       start()
     } else {
-      let that = this
-      this.addScript(envScript, function () {
+      addScript(envScript, function () {
         console.log('envScript')
-        that.addScript(loginScript, function () {
+        addScript(loginScript, function () {
           loginScriptLoaded = true
           console.log('loginScript')
           start()
@@ -171,53 +183,6 @@ export default {
   methods: {
     login () {
       window.gr_show_auth();
-    },
-    getCookie (name, value = void 0, options = void 0) {
-      if (value !== void 0) { // name and value given, set cookie
-        options = options || {}
-        if (value === null) {
-          value = ''
-          options.expires = -1
-        }
-        let expires = ''
-        if (options.expires && (typeof options.expires === 'number' || options.expires.toUTCString)) {
-          let date
-          if (typeof options.expires === 'number') {
-            date = new Date()
-            date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000))
-          } else {
-            date = options.expires
-          }
-          expires = '; expires=' + date.toUTCString() // use expires attribute, max-age is not supported by IE
-        }
-        let path = options.path ? '; path=' + options.path : ''
-        let domain = options.domain ? '; domain=' + options.domain : ''
-        let secure = options.secure ? '; secure' : ''
-        document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('')
-      } else { // only name given, get cookie
-        let cookieValue = null
-        if (document.cookie && document.cookie !== '') {
-          let cookies = document.cookie.split(';')
-          for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim()
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = (cookie.substring(name.length + 1))
-              break
-            }
-          }
-        }
-        return cookieValue
-      }
-    },
-    addScript (url, cb) {
-      let el = document.createElement("script")
-      el.type = "text/javascript"
-      el.src = url
-      el.onload = () => {
-        cb()
-      }
-      document.body.appendChild(el)
     },
     getName (props) {
       let i = 0
@@ -256,7 +221,7 @@ export default {
     },
     getDataList () {
       console.log('获取')
-      let csearch_strategy = this.option_definition[this.fields[0].property][this.curStra].value || '', csearch_sub_strategy,
+      let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
 
       if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
