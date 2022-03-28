@@ -1,7 +1,7 @@
 <template>
-  <div class="pages-rule">
+  <common-flex direction="column" align="center" class="pages-rule">
     <img v-for="(i, j) of currPage.content" :key="j" :src="i.image" alt="">
-  </div>
+  </common-flex>
 </template>
 
 <script>
@@ -25,6 +25,9 @@ export default {
 .pages-rule {
   padding: 60px 0;
   @include cImg();
-  background-color: #990000;
+  img {
+    margin-bottom: 55px;
+    width: 1200px;
+  }
 }
 </style>
