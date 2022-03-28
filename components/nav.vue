@@ -30,7 +30,7 @@ export default {
         {
           title: '大赛排名',
           route: 'rank',
-          key: 'index-rank.vue'
+          key: 'index-rank'
         },
         {
           title: '获奖名单',
