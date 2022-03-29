@@ -32,7 +32,7 @@
           <div class="checkbox-container">
             <el-checkbox-group v-model="checkVal">
               <el-checkbox  @change="checkVerify(i)" v-for="o of optionDefinition[i.property]" :key="o.label" :label="o.label">{{ o.label}}
-                <el-input v-model="otherVal" placeholder="请输入" @blur="checkVerify(i)" v-if="o.label === '其他' && checkVal.includes('其他')" />
+                <el-input v-model.trim="otherVal" placeholder="请输入" @blur="checkVerify(i)" v-if="o.label === '其他' && checkVal.includes('其他')" />
               </el-checkbox>
             </el-checkbox-group>
           </div>
@@ -75,7 +75,7 @@
         <div>我已阅读并同意</div>
         <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
       </common-flex>
-      <div class="submit" @click="submit">提交报名</div>
+      <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
     <validation-toast :show.sync="validateShow" v-if="validateShow" @validation="getValidation" />
     <promise-book :show.sync="promiseShow" v-if="promiseShow" />
@@ -104,13 +104,13 @@ export default {
       value: '',
       inputVal: '',
       validateShow: false,
+      hasApply: false,
       promiseShow: false,
       agreeFlag: false,
       getCodeShow: true,
       detailCount: 0,
       timer: null,
       codeTxt: 60,
-      optionDefinition: {},
     }
   },
   async asyncData ({ app, query }) {
@@ -126,7 +126,7 @@ export default {
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    optionDefinition = { ...optionDefinition }
+    // optionDefinition = { ...optionDefinition }
     let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
@@ -139,11 +139,12 @@ export default {
     }
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
+    console.log('optionDefinition', optionDefinition)
     return {
       singleProduct,
       companyFields,
       productFields,
-      optionDefinition
+      optionDefinition,
     }
   },
   computed: {
@@ -214,17 +215,18 @@ export default {
         product_list,
         match_code: this.match_code
       }
-      this.applyMulProduct(data)
       if (errMsg) this.$alert(errMsg, '错误')
       else this.applyMulProduct(data)
     },
     applyMulProduct (data) {
+      this.hasApply = true
       this.axios({
         url: '/competition/activity/backend/api/competition/applyMulProducts',
         data,
         success: (resp) => {
           if (20000 === +(resp.data.code)) this.$alert('提交申请成功', '提示')
           else this.$alert(resp.msg, '错误')
+          this.hasApply = false
         }
       })
     },
@@ -440,14 +442,15 @@ export default {
       for (i; i < this.companyFields.length; i++) {
         if (item.property === this.companyFields[i].property) break
       }
-      if ((v.includes('其他') && v.length < 2) || !v.length) {
+      if (v.includes('其他') && v.length <= 1) {
         if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空!`)
         else {
           this.$set(item, 'errMsg', '')
           this.$set(item, 'value', v)
         }
-      }
-      else {
+      } else if (!v.length) {
+        this.$set(item, 'errMsg', `${item.name}不能为空!`)
+      } else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v)
       }
@@ -636,6 +639,7 @@ export default {
     font-size: 16px;
   }
   span {
+    position: relative;
     font-size: 16px;
   }
 }

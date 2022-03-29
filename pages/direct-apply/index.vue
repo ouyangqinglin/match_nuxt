@@ -124,7 +124,7 @@ export default {
   async asyncData ({ app, query }) {
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
-      data: { match_code: 'sxzt-2' }
+      data: { match_code: query.match_code }
     })
     console.log('query', query.match_code)
     let productFields = []
@@ -449,14 +449,15 @@ export default {
       for (i; i < this.companyFields.length; i++) {
         if (item.property === this.companyFields[i].property) break
       }
-      if ((v.includes('其他') && v.length < 2) || !v.length) {
+      if (v.includes('其他') && v.length <= 1) {
         if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空!`)
         else {
           this.$set(item, 'errMsg', '')
           this.$set(item, 'value', v)
         }
-      }
-      else {
+      } else if (!v.length) {
+        this.$set(item, 'errMsg', `${item.name}不能为空!`)
+      } else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v)
       }

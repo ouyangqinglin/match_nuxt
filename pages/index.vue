@@ -45,6 +45,7 @@ export default {
     let headerImg = data.section.header.content.image
     let footerImg = data.section.footer.content.image
     store.commit('savePage', data.page)
+    store.commit('saveLetter', data.section.commitment_letter)
     let list = [
       {
         title: '',
@@ -92,7 +93,7 @@ export default {
   watch: {
     '$route.path': {
       handler (v) {
-        if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
+        // if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
       }
     }
   },

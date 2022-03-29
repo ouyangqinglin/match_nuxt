@@ -81,7 +81,7 @@ export default {
     overflow-wrap: break-word;
     text-align: center;
     border-radius: .16rem;
-    font-size: .3rem;
+    font-size: .2rem;
     color: #fff;
     &.sp {
       padding: .7rem .8rem;
