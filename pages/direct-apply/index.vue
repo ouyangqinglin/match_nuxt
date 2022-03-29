@@ -1,5 +1,5 @@
 <template>
-  <div class="direct-apply">
+  <div class="direct-apply" :style="{background: themeColor, color: themeColor}">
     <img :src="require('@img/mobile/banner.jpg')" alt="">
     <!--    公司信息-->
     <div class="top">
@@ -107,6 +107,7 @@ export default {
   },
   data () {
     return {
+      themeColor: '#070e7f',
       checkVal: [],
       otherVal: '',
       value: '',
@@ -471,14 +472,12 @@ export default {
   padding-bottom: .6rem;
   width: 100%;
   height: 100%;
-  background-color: #cb0000;
   @include cImg();
   .top, .bottom {
     .title {
       margin: 0 auto;
       width: 6.7rem;
       font-size: 0.32rem;
-      color: #701D1D;
       div {
         width: 2.4rem;
         height: 0.7rem;

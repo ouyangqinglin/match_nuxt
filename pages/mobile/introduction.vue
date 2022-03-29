@@ -2,12 +2,14 @@
   <div class="mobile-introduction">
     <img src="./img/banner.jpg" alt="">
     <common-flex justify="space-between" class="mobile-introduction-nav">
-      <nuxt-link :to="`/mobile/${i.route}`" v-for="(i, j) of navList" :key="j">
-        <common-flex direction="column" align="center" justify="center" class="mobile-introduction-nav-item">
-          <img :src="i.src" alt="">
-          <div>{{ i.label }}</div>
-        </common-flex>
-      </nuxt-link>
+      <template v-for="(i, j) of navList">
+        <a :href="`${$store.state.apiHost}competition/mobile/${i.route}?match_code=${$route.query.match_code}`">
+          <common-flex direction="column" align="center" justify="center" class="mobile-introduction-nav-item">
+            <img :src="i.src" alt="">
+            <div>{{ i.label }}</div>
+          </common-flex>
+        </a>
+      </template>
     </common-flex>
     <img class="mobile-introduction-content" :src="i" alt="" v-for="i of imgList">
   </div>
