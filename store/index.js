@@ -6,7 +6,8 @@ export const state = () => {
     scroll_top: '',
     match_code: '',
     page: [],
-    dyNav: []
+    dyNav: [],
+    commitment_letter: {}
   }
 }
 
@@ -26,5 +27,8 @@ export const mutations = {
   },
   saveNav (state, data) {
     Vue.set(state, 'dyNav', data)
+  },
+  saveLetter (state, data) {
+    Vue.set(state, 'commitment_letter', data)
   }
 }

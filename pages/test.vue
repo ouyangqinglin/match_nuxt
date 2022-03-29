@@ -17,6 +17,6 @@ export default {
 </script>
 
 <template>
-  <div>test</div>
+  <div></div>
 </template>
 
