@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: #fff">
-    <Header label="报名申请" />
+    <Header label="大赛排名" />
     <div style="height: .45rem; background: #f1f1f1" />
     <div class="rank">
       <div class="header"><CommonTitle title="大赛排名"/></div>

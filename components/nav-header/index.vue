@@ -30,6 +30,8 @@ export default {
   font-size: .36rem;
   position: relative;
   z-index: 3;
+  color: #000;
+  background-color: #fff;
   img {
     position: absolute;
     top: calc(50% - .18rem);
