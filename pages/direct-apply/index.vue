@@ -36,7 +36,7 @@
             <div class="checkbox-container">
               <el-checkbox-group v-model="checkVal">
                 <el-checkbox  @change="checkVerify(i)" v-for="o of optionDefinition[i.property]" :key="o.label" :label="o.label">{{ o.label}}
-                  <el-input v-model="otherVal" placeholder="请输入" @blur="checkVerify(i)" v-if="o.label === '其他' && checkVal.includes('其他')" />
+                  <el-input v-model.trim="otherVal" placeholder="请输入" @blur="checkVerify(i)" v-if="o.label === '其他' && checkVal.includes('其他')" />
                 </el-checkbox>
               </el-checkbox-group>
             </div>
