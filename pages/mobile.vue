@@ -18,6 +18,7 @@ export default {
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
     })
     let data = config.data.data
+    let competitonName = data.info.competition_name
     store.commit('saveConfig', data.config)
     store.commit('saveMobilePage', data.page)
     let menu = JSON.parse(data.config.menu)
@@ -55,10 +56,13 @@ export default {
     console.log('menu', menu)
     console.log('h5-config', data)
     console.log(data.page)
+    return {
+      competitonName
+    }
   },
   head () {
     return {
-      title: '私募大赛H5'
+      title: this.competitonName
     }
   },
   data () {
@@ -73,7 +77,8 @@ export default {
 
 <style lang="scss">
 .pages-mobile {
-  padding-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  background-color: #F1F1F1;
   .footer {
     position: fixed;
     bottom: 0;

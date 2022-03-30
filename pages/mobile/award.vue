@@ -26,6 +26,9 @@ export default {
 .mobile-award {
   .content {
     @include cImg();
+    img {
+      margin-top: .25rem;
+    }
   }
 }
 </style>

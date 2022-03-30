@@ -21,8 +21,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.nav-header{
+<style lang="scss" scoped>
+.nav-header {
   height: .88rem;
   line-height: .88rem;
   text-align: center;
@@ -30,7 +30,7 @@ export default {
   font-size: .36rem;
   position: relative;
   z-index: 3;
-  img{
+  img {
     position: absolute;
     top: calc(50% - .18rem);
     left: .3rem;

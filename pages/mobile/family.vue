@@ -27,6 +27,9 @@ export default {
 .mobile-family {
   .content {
     @include cImg();
+    img {
+      margin-top: .25rem;
+    }
   }
 }
 </style>
