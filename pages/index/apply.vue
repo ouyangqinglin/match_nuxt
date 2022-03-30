@@ -2,7 +2,7 @@
   <div class="pages-apply">
     <!--    公司信息-->
     <div class="ppw-w1200">
-      <div class="title">私募机构信息</div>
+      <div class="title" :style="{color: theme}">私募机构信息</div>
       <common-flex class="form" v-for="i of companyFields" :key="i.property">
         <template v-if="i.type === 'text'">
           <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
@@ -150,6 +150,7 @@ export default {
   computed: {
     ...mapState({
       match_code: 'match_code',
+      theme: 'theme'
     })
   },
   methods: {
@@ -478,7 +479,6 @@ export default {
     text-align: center;
     font-size: 30px;
     font-weight: 500;
-    color: #470000;
     line-height: 60px;
     background: linear-gradient(90deg, #FFD585 0%, #FFEECD 47%, #FFD585 100%);
     border: 1px solid #F4BD77;
@@ -525,7 +525,7 @@ export default {
     @include font(.18 #C00000);
   }
   .btn-container {
-    @include font(.2 #470000 500);
+    @include font(.2 500);
     .add {
       margin-top: 62px;
       width: 400px;

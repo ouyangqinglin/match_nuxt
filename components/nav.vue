@@ -3,7 +3,7 @@
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
       <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}`" v-for="i of navList" :key="i.route">
-        <div class="comp-nav-item" :class="{active: curNav === i.key}" @click="changeNav(i.key)">
+        <div class="comp-nav-item" :style="{color: curNav === i.key ? '#fff': theme}" :class="{active: curNav === i.key}" @click="changeNav(i.key)">
           <span>{{ i.title }}</span>
           <img v-if="curNav === i.key" :src="require('@img/item-bg.png')" alt="">
         </div>
@@ -47,7 +47,8 @@ export default {
   },
   computed: {
     ...mapState({
-      dyNav: 'dyNav'
+      dyNav: 'dyNav',
+      theme: 'theme'
     }),
     navList () {
       return [...this.dyNav, ...this.solidNav]
@@ -90,7 +91,7 @@ export default {
       position: relative;
       width: 161px;
       text-align: center;
-      @include nFont(24 400 #880303);
+      @include nFont(24 400);
       z-index: 2;
       cursor: pointer;
       border-right: solid 1px #7C5053;
@@ -107,7 +108,7 @@ export default {
       border-right: none;
     }
     .active {
-      @include nFont(28 500 #FFF6B6)
+      @include nFont(28 500 #FFFFFF)
     }
   }
   .fixed {

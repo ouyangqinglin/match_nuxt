@@ -7,7 +7,8 @@ export const state = () => {
     match_code: '',
     page: [],
     dyNav: [],
-    commitment_letter: {}
+    commitment_letter: {},
+    theme: ''
   }
 }
 
@@ -30,5 +31,8 @@ export const mutations = {
   },
   saveLetter (state, data) {
     Vue.set(state, 'commitment_letter', data)
-  }
+  },
+  saveTheme (state, data) {
+    Vue.set(state,'theme', data)
+  },
 }

@@ -115,7 +115,7 @@ export default {
       }
     }
     .body {
-      padding: .6rem .3rem .3rem .3rem;
+      padding: .75rem .3rem .3rem .3rem;
       max-height: 6rem;
       overflow-y: scroll;
       &::-webkit-scrollbar {

@@ -1,6 +1,6 @@
 <template>
   <div class="direct-apply" :style="{background: themeColor, color: themeColor}">
-    <img :src="require('@img/mobile/banner.jpg')" alt="">
+    <img :src="require('@img/mobile/banner.png')" alt="">
     <!--    公司信息-->
     <div class="top">
       <div class="title"><div>私募机构</div></div>
@@ -9,7 +9,7 @@
           <common-flex class="form" align="center" v-if="i.type === 'text'">
             <div class="star" v-if="+i.required === 1" />
             <el-input v-if="i.property !== 'sms_code'" @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
-            <el-input style="flex: 1" v-else @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
+            <el-input id="message" style="flex: 1" v-else @blur="inputVerify(i, i.value)" :disabled="!!+(i.disabled)" v-model="i.value" :placeholder="i.placeholder" />
             <div class="msg-btn" @click="sendMsg" v-if="i.property === 'sms_code' && getCodeShow">获取验证码</div>
             <div class="msg-btn" @click="sendMsg" v-if="i.property === 'sms_code' && !getCodeShow">{{codeTxt}}s</div>
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
@@ -49,7 +49,7 @@
     <div class="bottom" style="margin-top: 45px" v-for="(product, j) of productFields" :key="j">
       <div class="title"><div>参赛产品({{ j + 1 }})</div></div>
       <div class="posi bottom-box">
-        <span @click="deleteProduct(j)" v-show="productFields.length > 1" class="dele">删除</span>
+        <span @click="deleteProduct(j)" :style="{color: themeColor}" v-show="productFields.length > 1" class="dele">删除</span>
         <template v-for="i of product">
           <common-flex class="form"  v-if="i.type === 'text'" align="center">
             <div class="star" v-if="+i.required === 1" />
@@ -82,9 +82,9 @@
         <div>我已阅读并同意</div>
         <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
       </common-flex>
-      <div class="submit" @click="submit">提交报名</div>
+      <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
-    <validation-toast :show.sync="validateShow" v-if="validateShow" @validation="getValidation" />
+    <validation-toast :show.sync="validateShow" @validation="getValidation" />
     <promise-book :show.sync="promiseShow" v-if="promiseShow" />
   </div>
 </template>
@@ -98,20 +98,20 @@ export default {
   components: {
     ValidationToast,
     PromiseBook,
-    CompSelect
+    CompSelect,
   },
   head () {
     return {
-      title: '山西证券'
+      title: this.competitionName
     }
   },
   data () {
     return {
-      themeColor: '#070e7f',
       checkVal: [],
       otherVal: '',
       value: '',
       inputVal: '',
+      hasApply: false,
       validateShow: false,
       promiseShow: false,
       agreeFlag: false,
@@ -122,7 +122,16 @@ export default {
       optionDefinition: {},
     }
   },
-  async asyncData ({ app, query }) {
+  async asyncData ({ app, query, store }) {
+    let initData = await app.axios({
+      url: `/competition/match/api/match/init?match_code=${query.match_code}`,
+    })
+    let init = initData.data.data
+    let themeColor = init.config.theme_color
+    let competitionName = init.info.competition_name
+    console.log('init', init)
+    store.commit('saveLetter', init.section.commitment_letter)
+    store.commit('saveTheme', themeColor)
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: query.match_code }
@@ -151,18 +160,16 @@ export default {
     console.log('companyFields', companyFields)
     console.log('singleProduct', singleProduct)
     return {
+      themeColor,
+      competitionName,
       singleProduct,
       companyFields,
       productFields,
       optionDefinition
     }
   },
-  mounted () {
-    // console.log('route', this.$route.query)
-  },
   methods: {
     getSelectVal (data, item, index) {
-      console.log('111', data, item)
       if (item.property === 'recommend_name') {
         for (let i = 0; i < this.companyFields.length; i++) {
           if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
@@ -265,19 +272,20 @@ export default {
         sms_code,
         company_data,
         product_list,
-        match_code: 'sxzt-2'
+        match_code: this.$route.query.match_code
       }
-      this.applyMulProduct(data)
       if (errMsg) this.$alert(errMsg, '错误')
       else this.applyMulProduct(data)
     },
     applyMulProduct (data) {
+      this.hasApply = true
       this.axios({
         url: '/competition/activity/backend/api/competition/applyMulProducts',
         data,
         success: (resp) => {
           if (20000 === +(resp.data.code)) this.$alert('提交申请成功', '提示')
           else this.$alert(resp.msg, '错误')
+          this.hasApply = false
         }
       })
     },
@@ -298,6 +306,8 @@ export default {
       } else this.agreeFlag = !this.agreeFlag
     },
     getValidation (data) {
+      let message = document.getElementById('message').getBoundingClientRect().top
+      window.scrollTo(0, message)
       setTimeout(() =>{
         this.validateShow = false
         this.getPhoneCode(data)
@@ -333,7 +343,7 @@ export default {
           token: data.token,
           sig: data.sig,
           scene: 'nc_register',
-          match_code: 'sxzt-2'
+          match_code: this.$route.query.match_code
         },
         success: ({ data }) => {
           if (+data.status === 1) {
@@ -519,7 +529,6 @@ export default {
       right: .2rem;
       top: .05rem;
       font-size: .3rem;
-      color: #a40202;
       cursor: pointer;
     }
   }
@@ -549,7 +558,6 @@ export default {
   }
   .btn-container {
     font-size: .3rem;
-    color: #470000;
     font-weight: 500;
     .add {
       margin-top: .6rem;

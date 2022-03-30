@@ -1,5 +1,5 @@
 <template>
-  <div class="pages-index" :style="{background: '#080e81'}">
+  <div class="pages-index" :style="{background: themeColor, color: themeColor}">
     <img class="pages-index-banner" @load="getOffsetTop" id="header-banner" :src="headerImg" alt="">
     <Nav />
     <nuxt-child />
@@ -35,6 +35,11 @@ import Nav from '@comp/nav'
 export default {
   name: 'index',
   components: { Nav },
+  head () {
+    return {
+      title: this.competitionName
+    }
+  },
   async asyncData ({ query, store, app }) {
     if (query.match_code) store.commit('saveCode', query.match_code)
     let config = await app.axios({
@@ -42,6 +47,9 @@ export default {
     })
     console.log('11', config)
     let data = config.data.data
+    let themeColor = data.config.theme_color
+    store.commit('saveTheme', themeColor)
+    let competitionName = data.info.competition_name
     let headerImg = data.section.header.content.image
     let footerImg = data.section.footer.content.image
     store.commit('savePage', data.page)
@@ -80,46 +88,11 @@ export default {
     }
     store.commit('saveNav', list)
     return {
+      themeColor,
+      competitionName,
       headerImg,
       footerImg
     }
-  },
-  data () {
-    return {
-      comHeaderImg: '',
-      comFooterImg: ''
-    }
-  },
-  watch: {
-    '$route.path': {
-      handler (v) {
-        // if (v) $('html, body').animate({ scrollTop: this.$store.state.scroll_top }, 0)
-      }
-    }
-  },
-  mounted () {
-    if (this.$route.query.match_code) window.localStorage.setItem('match_code', this.$route.query.match_code)
-    let match_code = window.localStorage.getItem('match_code')
-    this.axios({
-      url: `/competition/match/api/match/init`,
-      type: 'get',
-      data: { match_code },
-      success: ({ data }) => {
-        console.log('dbzq', data)
-        this.comHeaderImg = data.section.header.content.image
-        this.comFooterImg = data.section.footer.content.image
-        window.localStorage.setItem('page', JSON.stringify(data.page))
-      }
-    })
-    console.log('process', process)
-    this.axios({
-      url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
-      data: { match_code: 'dbzq' },
-      type: 'get',
-      success: (res) => {
-        console.log('res-index', res)
-      }
-    })
   },
   methods: {
     getOffsetTop () {
@@ -128,7 +101,7 @@ export default {
         this.$store.commit('toTop', this.offsetTop)
       })
     },
-    toTop() {
+    toTop () {
       $("html,body").animate({scrollTop: 200}, 0);
       setTimeout( () => {
         $("html,body").animate({scrollTop: 0}, 300);
@@ -185,7 +158,6 @@ export default {
       &-txt {
         font-size: 14px;
         font-weight: 400;
-        color: #470000;
         line-height: 18px;
       }
     }
