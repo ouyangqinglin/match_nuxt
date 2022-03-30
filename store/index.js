@@ -8,7 +8,10 @@ export const state = () => {
     page: [],
     dyNav: [],
     commitment_letter: {},
-    theme: ''
+    theme: '',
+    menu: [],
+    mobile_config: {},
+    mobile_page: []
   }
 }
 
@@ -34,5 +37,14 @@ export const mutations = {
   },
   saveTheme (state, data) {
     Vue.set(state,'theme', data)
+  },
+  saveMenu (state, data) {
+    Vue.set(state, 'menu', data)
+  },
+  saveConfig (state, data) {
+    Vue.set(state, 'mobile_config', data)
+  },
+  saveMobilePage (state, data) {
+    Vue.set(state, 'mobile_page', data)
   },
 }

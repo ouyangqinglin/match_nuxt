@@ -43,7 +43,7 @@ export default {
   async asyncData ({ query, store, app }) {
     if (query.match_code) store.commit('saveCode', query.match_code)
     let config = await app.axios({
-      url: `/competition/match/api/match/init?match_code=${query.match_code}`,
+      url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=pc`,
     })
     console.log('11', config)
     let data = config.data.data
