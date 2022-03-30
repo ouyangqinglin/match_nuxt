@@ -124,8 +124,9 @@ export default {
   },
   async asyncData ({ app, query, store }) {
     let initData = await app.axios({
-      url: `/competition/match/api/match/init?match_code=${query.match_code}`,
+      url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
     })
+    console.log('initData', initData)
     let init = initData.data.data
     let themeColor = init.config.theme_color
     let competitionName = init.info.competition_name
@@ -167,6 +168,15 @@ export default {
       productFields,
       optionDefinition
     }
+  },
+  mounted () {
+    this.axios({
+      url: `/competition/match/api/match/init?match_code=${this.$route.query.match_code}&channel=h5`,
+      type: 'get',
+      success: (res) => {
+        console.log('res', res)
+      }
+    })
   },
   methods: {
     getSelectVal (data, item, index) {

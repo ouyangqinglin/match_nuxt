@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="411px" height="70px" viewBox="0 0 411 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 6</title>
+    <defs>
+        <linearGradient x1="100%" y1="66.8699751%" x2="0%" y2="66.8699751%" id="linearGradient-1">
+            <stop stop-color="#C47546" offset="0%"></stop>
+            <stop stop-color="#FFE2BA" offset="52.7670694%"></stop>
+            <stop stop-color="#C47546" offset="99.431306%"></stop>
+            <stop stop-color="#FFF7DB" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="66.8699751%" x2="0%" y2="66.8699751%" id="linearGradient-2">
+            <stop stop-color="#F1C1A5" offset="0%"></stop>
+            <stop stop-color="#FFE2BA" offset="52.7670694%"></stop>
+            <stop stop-color="#F1C1A5" offset="100%"></stop>
+            <stop stop-color="#FFF7DB" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="TAB-05报名申请" transform="translate(-170.000000, -155.000000)">
+            <g id="box备份-7" transform="translate(0.000000, 155.000000)">
+                <g id="编组-6" transform="translate(170.000000, 0.000000)">
+                    <polygon id="矩形" fill="url(#linearGradient-1)" transform="translate(205.500000, 8.927377) scale(1, -1) translate(-205.500000, -8.927377) " points="0 0.207326963 411 -7.66021118e-18 383.595694 17.8547534 27.4043055 17.6474265"></polygon>
+                    <path d="M382.703243,0.501596957 L359.345516,69.4990527 L52.0533315,68.6881078 L28.7019116,1.31122644 L382.703243,0.501596957 Z" id="矩形-2" stroke="#FFA561" fill="url(#linearGradient-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

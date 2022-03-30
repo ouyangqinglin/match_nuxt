@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile-assign">
+  <div class="mobile-family">
     <Header :label="$route.query.title" />
     <div class="content"><img v-for="i of currPage.content" :src="i.image" alt=""></div>
   </div>
@@ -8,8 +8,9 @@
 <script>
 import { mapState } from "vuex";
 import Header from '@comp/nav-header'
+
 export default {
-  name: "mobile-assign",
+  name: "family",
   components: { Header },
   computed: {
     ...mapState({
@@ -23,7 +24,7 @@ export default {
 </script>
 
 <style lang="scss">
-.mobile-assign {
+.mobile-family {
   .content {
     @include cImg();
   }
