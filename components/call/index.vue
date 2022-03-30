@@ -3,15 +3,9 @@
     <div class="call" v-if="showCall">
       <div class="toast">
         <div class="title">拨打大赛组委会电话</div>
-        <a href="tel:18221186388">
+        <a href="tel:18221186388" v-for="i of phone">
           <div class="contact">
-            <div>李嘉桐：18221186388</div>
-            <img :src="require('./contact-icon.svg')" alt="">
-          </div>
-        </a>
-        <a href="tel:13734016484">
-          <div class="contact">
-            <div>张美丽：13734016484</div>
+            <div><span v-if="i.name">{{ i.name }}：</span>{{ i.phone }}</div>
             <img :src="require('./contact-icon.svg')" alt="">
           </div>
         </a>
@@ -24,11 +18,21 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: 'call',
   props: {
     showCall: {
       type: Boolean
+    }
+  },
+  computed: {
+    ...mapState({
+      config: 'mobile_config'
+    }),
+    phone () {
+      return JSON.parse(this.config.organize_contact)
     }
   },
   methods: {
