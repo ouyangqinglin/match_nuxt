@@ -1,6 +1,6 @@
 <template>
   <div class="direct-apply" :style="{background: themeColor, color: themeColor}">
-    <img :src="require('@img/mobile/banner.png')" alt="">
+    <img :src="headerBanner" alt="">
     <!--    公司信息-->
     <div class="top">
       <div class="title"><div>私募机构</div></div>
@@ -130,6 +130,7 @@ export default {
     let init = initData.data.data
     let themeColor = init.config.theme_color
     let competitionName = init.info.competition_name
+    let headerBanner = init.config.apply_banner
     console.log('init', init)
     store.commit('saveLetter', init.section.commitment_letter)
     store.commit('saveTheme', themeColor)
@@ -163,6 +164,7 @@ export default {
     return {
       themeColor,
       competitionName,
+      headerBanner,
       singleProduct,
       companyFields,
       productFields,

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div class="margin-box"></div>
+  <div style="background-color: #fff">
     <Header label="报名申请" />
     <div style="height: .45rem; background: #f1f1f1" />
     <div class="rank">

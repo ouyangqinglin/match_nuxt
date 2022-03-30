@@ -3,14 +3,18 @@
     <div class="call" v-if="showCall">
       <div class="toast">
         <div class="title">拨打大赛组委会电话</div>
-        <a href="tel:18221186388"><div class="contact">
-          <div>李嘉桐：18221186388</div>
-          <img :src="require('./contact-icon.svg')" alt="">
-        </div></a>
-        <a href="tel:13734016484"><div class="contact">
-          <div>张美丽：13734016484</div>
-          <img :src="require('./contact-icon.svg')" alt="">
-        </div></a>
+        <a href="tel:18221186388">
+          <div class="contact">
+            <div>李嘉桐：18221186388</div>
+            <img :src="require('./contact-icon.svg')" alt="">
+          </div>
+        </a>
+        <a href="tel:13734016484">
+          <div class="contact">
+            <div>张美丽：13734016484</div>
+            <img :src="require('./contact-icon.svg')" alt="">
+          </div>
+        </a>
         <div class="btn-group">
           <div @click="hideToast">否</div>
         </div>
