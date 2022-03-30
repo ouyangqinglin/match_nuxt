@@ -1,6 +1,7 @@
 <template>
   <div class="mobile-apply" :style="{color: themeColor}">
-    <Header :label="$route.query.title" />
+    <Header label="报名申请" />
+    <div style="height: .45rem; background: #f1f1f1" />
     <!--    公司信息-->
     <div class="top">
       <div class="top-header">私募机构信息</div>
@@ -488,7 +489,6 @@ export default {
 
 <style lang="scss">
 .mobile-apply {
-  padding-top: .3rem;
   width: 100%;
   height: 100%;
   background: #F1F1F1;

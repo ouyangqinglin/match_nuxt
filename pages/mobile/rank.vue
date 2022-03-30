@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="margin-box"></div>
+    <Header label="报名申请" />
+    <div style="height: .45rem; background: #f1f1f1" />
     <div class="rank">
       <div class="header"><CommonTitle title="大赛排名"/></div>
       <div class="fake-input-box" v-for="(item, i) of fields" :key="i" @click="showPopUp(item.property)">
@@ -114,11 +116,11 @@
 <script>
 import popUp from '@comp/pop-up'
 import CommonTitle from '@comp/mobile-page-title'
+import Header from '@comp/nav-header'
 
-const MATCH_CODE = 'sxzq'
 export default {
   name: 'rank',
-  components: { popUp, CommonTitle },
+  components: { popUp, CommonTitle, Header },
   data () {
     return {
       trs: [],
@@ -136,8 +138,6 @@ export default {
       csearch_scale_group: 2,
       curScaleGroup: 0,
       /* params */
-      match_code: MATCH_CODE,
-      channel: MATCH_CODE,
       csearch_strategy: '1',
       csearch_sub_strategy: '1',
       csearch_rank_range: '1m',
@@ -174,7 +174,7 @@ export default {
         this.page = 1
       }
       let params = {
-        match_code: 'sxzq',
+        match_code: this.$route.query.match_code,
         source_type: 'h5',
         page: this.page,
         rows: this.amountPerPage
@@ -214,7 +214,7 @@ export default {
       this.axios({
         url: `/competition/activity/backend/api/competition/getRankSearchFields`,
         type: 'get',
-        data: { match_code: 'sxzq' },
+        data: { match_code: this.$route.query.match_code },
         success: (res) => {
           console.log('rank-config', res)
           this.configFields = res.data.fields

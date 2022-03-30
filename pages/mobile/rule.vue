@@ -26,6 +26,9 @@ export default {
 .mobile-rule {
   .content {
     @include cImg();
+    img {
+      margin-top: .25rem;
+    }
   }
 }
 </style>
