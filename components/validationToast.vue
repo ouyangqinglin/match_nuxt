@@ -29,6 +29,7 @@ export default {
   methods: {
     validation(data) {
       this.$emit('validation', data)
+      this.close()
     },
     close () {
       this.$emit('update:show', false)

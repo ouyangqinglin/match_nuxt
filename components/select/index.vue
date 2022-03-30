@@ -1,7 +1,7 @@
 <template>
-  <div class="comp-select">
+  <div class="comp-select" :style="{color: themeColor}">
     <el-select disabled class="comp-select-form" type="text" :placeholder="placeholder"  :value="lableVal"/>
-    <div class="open" @click="toastShow = true"></div>
+    <div class="open" @click="openSelect"></div>
     <transition name="toast">
       <common-flex justify="center" align="center" class="toast" v-if="toastShow">
         <div class="toast-body">
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "comp-select",
   model: {
@@ -59,6 +61,9 @@ export default {
     filterList () {
       return this.parentList.filter((i) => i.label.indexOf(this.keyword) !== -1)
     },
+    ...mapState({
+      themeColor: 'themeColor'
+    })
   },
   methods: {
     toMark (str) {
@@ -67,10 +72,24 @@ export default {
     },
     close () {
       this.toastShow = false
+      this.toggleScroll(0)
       this.keyword = ''
       this.showChild = false
       this.parentLabel = ''
       this.parentVal = ''
+    },
+    openSelect () {
+      this.toastShow = true
+      this.toggleScroll(1)
+    },
+    toggleScroll (flag) {
+      if (flag) {
+        document.body.style.height = '100vh'
+        document.body.style['overflow-y'] = 'hidden'
+      } else {
+        document.body.style.height = 'unset'
+        document.body.style['overflow-y'] = 'auto'
+      }
     },
     choose (i) {
       console.log(i)
@@ -167,7 +186,6 @@ export default {
         padding: 0 .3rem;
         height: .8rem;
         font-size: .3rem;
-        color: #701D1D;
         background: linear-gradient(90deg, #FFBD61, #FFF8A7, #FFBD61);
         box-shadow: 0 .03rem .04rem 0 rgba(255, 255, 255, 0.5);
         border-radius: .2rem .2rem 0 0;
