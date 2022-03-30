@@ -41,11 +41,11 @@ export default {
 
 <style lang="scss">
 .fade-enter-active, .fade-leave-active {
-  transition: all .5s;
+  transition: all .3s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-  transform: scale(1.6);
+  transform: scale(1.1);
 }
 .call{
   position: fixed;
