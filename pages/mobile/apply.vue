@@ -126,18 +126,15 @@ export default {
     let initData = await app.axios({
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
     })
-    console.log('initData', initData)
     let init = initData.data.data
     let themeColor = init.config.theme_color
     let competitionName = init.info.competition_name
-    console.log('init', init)
     store.commit('saveLetter', init.section.commitment_letter)
     store.commit('saveTheme', themeColor)
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: query.match_code }
     })
-    console.log('query', query.match_code)
     let productFields = []
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
@@ -158,8 +155,6 @@ export default {
     }
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
-    console.log('companyFields', companyFields)
-    console.log('singleProduct', singleProduct)
     return {
       themeColor,
       competitionName,
@@ -168,15 +163,6 @@ export default {
       productFields,
       optionDefinition
     }
-  },
-  mounted () {
-    this.axios({
-      url: `/competition/match/api/match/init?match_code=${this.$route.query.match_code}&channel=h5`,
-      type: 'get',
-      success: (res) => {
-        console.log('res', res)
-      }
-    })
   },
   methods: {
     getSelectVal (data, item, index) {
@@ -267,7 +253,6 @@ export default {
             this.$set(this.productFields[k][j], 'errMsg', `${this.productFields[k][j].name}不能为空`)
           } else if (this.productFields[k][j].required === '1' && this.productFields[k][j].value) {
             if (this.productFields[k][j].property === 'product_name') {
-              console.log('xx', this.productFields[k][j])
               product_info[this.productFields[k][j].property] = this.productFields[k][j].value[0]
             }
             else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
@@ -276,8 +261,6 @@ export default {
         }
         product_list.push(product_info)
       }
-      console.log('company_data', company_data)
-      console.log('product_list', product_list)
       let data = {
         sms_code,
         company_data,
