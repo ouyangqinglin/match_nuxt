@@ -17,6 +17,7 @@
         </template>
       </div>
       <el-pagination
+        v-if="list.length"
         background
         layout="prev, pager, next"
         @current-change="changePage"

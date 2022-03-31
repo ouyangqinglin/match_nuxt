@@ -15,7 +15,7 @@ export default {
       page: 'page'
     }),
     currPage () {
-      return this.page.find(i => i.title.includes('规则'))
+      return this.page.find(i => i.title === this.$route.query.title)
     }
   },
 }
