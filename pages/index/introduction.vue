@@ -17,9 +17,6 @@ export default {
       return this.page.find(i => i.title.includes('简介'))
     }
   },
-  mounted () {
-    console.log('page', this.page)
-  },
 }
 </script>
 
