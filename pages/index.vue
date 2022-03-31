@@ -22,7 +22,7 @@
         <div class="pages-index-right-float-first-txt">返回顶部</div>
       </div>
     </div>
-    <common-flex justify="center">
+    <common-flex justify="center" class="pages-index-footer">
       <img class="pages-index-banner footer-banner" :src="footerImg" alt="">
     </common-flex>
   </div>
@@ -113,7 +113,6 @@ export default {
 <style lang="scss">
 .pages-index {
   position: relative;
-  padding-bottom: 30px;
   &-ps {
     margin-bottom: 45px;
     @include nFont(20 #fff 28);
@@ -161,9 +160,12 @@ export default {
       }
     }
   }
-
-  .footer-banner {
-    width: 1200px;
+  &-footer {
+    padding: 30px 0;
+    background: rgba(255, 255, 255, .2);
+    .footer-banner {
+      width: 1200px;
+    }
   }
 }
 </style>
