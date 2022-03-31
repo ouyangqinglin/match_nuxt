@@ -55,7 +55,6 @@ export default {
     },
   },
   mounted () {
-    console.log('xxx', this.$route)
     this.$nextTick(() => {
       setTimeout(() => {
         this.navScrollTop = document.getElementById('fix').offsetTop
