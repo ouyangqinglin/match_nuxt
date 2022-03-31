@@ -75,7 +75,7 @@ export default {
         key: 'index-rule'
       },
     ]
-    if (data.page.length < 3) list.splice(1, 1)
+    if (data.page.length <= 3) list.splice(1, 1)
     let j = 0
     for (j; j < data.page.length; j++) {
       for (let i = 0; i < list.length; i++) {
