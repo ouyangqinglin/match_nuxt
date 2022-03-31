@@ -53,9 +53,6 @@ export default {
       }
     }
     store.commit('saveMenu', menu)
-    console.log('menu', menu)
-    console.log('h5-config', data)
-    console.log(data.page)
     return {
       competitonName
     }

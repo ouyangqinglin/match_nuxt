@@ -63,8 +63,6 @@ export default {
       data: { match_code:  query.match_code }
     })
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
-    console.log('assign-field', fields)
-    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition
@@ -125,7 +123,6 @@ export default {
       this.getDataList()
     },
     changeSub (index, val, props) {
-      console.log(index, val, props)
       if (props === 'csearch_rank_group_id') {
         this.curSubStra = index
       }
@@ -155,7 +152,6 @@ export default {
           csearch_end_date
         },
         success: ({ data }) => {
-          console.log('结果', data)
           this.dataList = data.prize_list
         }
       })

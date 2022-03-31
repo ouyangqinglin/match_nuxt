@@ -187,7 +187,6 @@ export default {
         type: 'get',
         data: params,
         success: (res) => {
-          console.log('rank-res', res)
           this.trs = this.trs.concat(res.data.data)
           this.title_arr = res.data.title_arr
           this.title_arr.forEach( (i) => {
@@ -215,7 +214,6 @@ export default {
         type: 'get',
         data: { match_code: this.$route.query.match_code },
         success: (res) => {
-          console.log('rank-config', res)
           this.configFields = res.data.fields
           this.fields = this.configFields.filter((i) => i.name !== '产品组别')
           this.strategy = res.data.option_definition[this.fields[0].property]
@@ -286,7 +284,6 @@ export default {
       }
       if (type === 'period') {
         // 页面配置{周期}展示值
-        // console.log('this.fields', this.fields)
         this.fields[1].viewValue = this.period[this.curPeriod].label
         this.csearch_rank_range = this.period[this.curPeriod].value
         if (this.period[this.curPeriod].children && this.period[this.curPeriod].children.length) {

@@ -70,7 +70,7 @@
       </common-flex>
       <common-flex class="agree" justify="center" align="center">
         <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail()">
-          <img v-if="agreeFlag" style="margin-bottom: 2px" :src="require('@img/agree-active.svg')" alt="">
+          <img v-if="agreeFlag" style="margin: 1px 0 0 2px; width: 18px; height: 18px" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
         <div>我已阅读并同意</div>
         <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
@@ -91,11 +91,6 @@ export default {
   components: {
     ValidationToast,
     PromiseBook
-  },
-  head () {
-    return {
-      title: '山西证券'
-    }
   },
   data () {
     return {
@@ -118,7 +113,6 @@ export default {
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: query.match_code }
     })
-    console.log('applyAsyncData', config.data.data)
     let productFields = []
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
@@ -126,7 +120,6 @@ export default {
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    // optionDefinition = { ...optionDefinition }
     let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
@@ -139,7 +132,6 @@ export default {
     }
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
-    console.log('optionDefinition', optionDefinition)
     return {
       singleProduct,
       companyFields,
@@ -208,8 +200,6 @@ export default {
         }
         product_list.push(product_info)
       }
-      console.log('company_data', company_data)
-      console.log('product_list', product_list)
       let data = {
         sms_code,
         company_data,
