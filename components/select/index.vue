@@ -92,7 +92,6 @@ export default {
       }
     },
     choose (i) {
-      console.log(i)
       if (i.children) {
         this.showChild = true
         this.childList = i.children

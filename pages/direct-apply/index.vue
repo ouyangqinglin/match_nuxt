@@ -77,7 +77,7 @@
       </common-flex>
       <common-flex class="agree" justify="center" align="center">
         <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail()">
-          <img v-if="agreeFlag" style="margin-bottom: 2px" :src="require('@img/agree-active.svg')" alt="">
+          <img v-if="agreeFlag" style="margin: .01rem 0 0 .02rem" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
         <div>我已阅读并同意</div>
         <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
@@ -126,19 +126,16 @@ export default {
     let initData = await app.axios({
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
     })
-    console.log('initData', initData)
     let init = initData.data.data
     let themeColor = init.config.theme_color
     let competitionName = init.info.competition_name
     let headerBanner = init.config.apply_banner
-    console.log('init', init)
     store.commit('saveLetter', init.section.commitment_letter)
     store.commit('saveTheme', themeColor)
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: query.match_code }
     })
-    console.log('query', query.match_code)
     let productFields = []
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
@@ -159,8 +156,6 @@ export default {
     }
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
-    console.log('companyFields', companyFields)
-    console.log('singleProduct', singleProduct)
     return {
       themeColor,
       competitionName,
@@ -171,23 +166,19 @@ export default {
       optionDefinition
     }
   },
-  mounted () {
-    this.axios({
-      url: `/competition/match/api/match/init?match_code=${this.$route.query.match_code}&channel=h5`,
-      type: 'get',
-      success: (res) => {
-        console.log('res', res)
-      }
-    })
-  },
   methods: {
     getSelectVal (data, item, index) {
+      this.$set(item, 'errMsg', '')
       if (item.property === 'recommend_name') {
         for (let i = 0; i < this.companyFields.length; i++) {
           if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
             if (data.indexOf('>') !== -1) {
+              this.$set(item, 'value', data.split('>'))
               this.$set(this.companyFields[i], 'type', 'text')
-            } else this.$set(this.companyFields[i], 'type', 'hidden')
+            } else {
+              this.$set(item, 'value', data)
+              this.$set(this.companyFields[i], 'type', 'hidden')
+            }
           }
         }
       }
@@ -205,23 +196,28 @@ export default {
           }
         }
       }
-      if (item.property === 'product_name') {
-        for (let j = 0; j < this.productFields[index].length; j++) {
-          if (this.productFields[index][j].property === 'product_register_number') {
-            this.$set(this.productFields[index][j], 'value', data[1])
-            this.$set(this.productFields[index][j], 'errMsg', '')
+      if (item.form_title === '参赛产品信息') {
+        if (item.property === 'product_name') {
+          for (let j = 0; j < this.productFields[index].length; j++) {
+            if (this.productFields[index][j].property === 'product_register_number') {
+              this.$set(this.productFields[index][j], 'value', data[1])
+              this.$set(this.productFields[index][j], 'errMsg', '')
+            }
+            if (this.productFields[index][j].property === 'product_code') {
+              this.$set(this.productFields[index][j], 'value', data[2])
+              this.$set(this.productFields[index][j], 'errMsg', '')
+            }
+            if (this.productFields[index][j].property === 'product_manager') {
+              this.$set(this.productFields[index][j], 'value', data[3])
+              this.$set(this.productFields[index][j], 'errMsg', '')
+            }
           }
-          if (this.productFields[index][j].property === 'product_code') {
-            this.$set(this.productFields[index][j], 'value', data[2])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-          if (this.productFields[index][j].property === 'product_manager') {
-            this.$set(this.productFields[index][j], 'value', data[3])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
+        } else {
+          if (data.includes('>')) this.$set(item, 'value', data.split('>'))
+          else this.$set(item, 'value', data)
         }
-
       }
+
     },
     deleteProduct (j) {
       this.productFields.splice(j, 1)
@@ -244,7 +240,7 @@ export default {
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
             if (this.companyFields[i].value.constructor === Array) {
-              this.companyFields[i+1].value = this.companyFields[i].value[1]
+              company_data.recommend_other_name = this.companyFields[i].value[1]
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
             }
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
@@ -268,18 +264,19 @@ export default {
           if (this.productFields[k][j].required === '1' && !this.productFields[k][j].value) {
             this.$set(this.productFields[k][j], 'errMsg', `${this.productFields[k][j].name}不能为空`)
           } else if (this.productFields[k][j].required === '1' && this.productFields[k][j].value) {
-            if (this.productFields[k][j].property === 'product_name') {
-              console.log('xx', this.productFields[k][j])
-              product_info[this.productFields[k][j].property] = this.productFields[k][j].value[0]
-            }
-            else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
+            if (this.productFields[k][j].property === 'product_name') product_info[this.productFields[k][j].property] = this.productFields[k][j].value[0]
+            else if (this.productFields[k][j].property === 'product_tactics') {
+              if (this.productFields[k][j].value.constructor === Array) {
+                product_info.product_sub_tactics = this.productFields[k][j].value[1]
+                product_info.product_tactics = this.productFields[k][j].value[0]
+              } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
+            } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
           } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
           errMsg = errMsg || this.productFields[k][j].errMsg
         }
         product_list.push(product_info)
       }
       console.log('company_data', company_data)
-      console.log('product_list', product_list)
       let data = {
         sms_code,
         company_data,
@@ -460,7 +457,7 @@ export default {
       }
     },
     dateVerify (item, v) {
-      if (!v) this.$set(item, 'errMsg', `${item.name}不能为空!`)
+      if (!v) this.$set(item, 'errMsg', `${item.name}不能为空`)
       else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v)
@@ -473,13 +470,13 @@ export default {
         if (item.property === this.companyFields[i].property) break
       }
       if (v.includes('其他') && v.length <= 1) {
-        if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空!`)
+        if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空`)
         else {
           this.$set(item, 'errMsg', '')
           this.$set(item, 'value', v)
         }
       } else if (!v.length) {
-        this.$set(item, 'errMsg', `${item.name}不能为空!`)
+        this.$set(item, 'errMsg', `${item.name}不能为空`)
       } else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v)
