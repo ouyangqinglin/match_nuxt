@@ -10,7 +10,7 @@
         <div class="pages-index-right-float-first-txt">参赛登录</div>
       </a>
       <div style="height: 1px"></div>
-      <a :href="`${$store.state.apiHost}competition/apply?match_code=${$route.query.match_code}`" target="_blank">
+      <a :href="`${$store.state.apiHost}competition/apply?match_code=${$route.query.match_code}&title=报名申请`" target="_blank">
         <div class="pages-index-right-float-first">
           <img :src="require('@img/index/now-apply.png')" alt="">
           <div class="pages-index-right-float-first-txt">立即报名</div>
@@ -45,7 +45,6 @@ export default {
     let config = await app.axios({
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=pc`,
     })
-    console.log('11', config)
     let data = config.data.data
     let themeColor = data.config.theme_color
     store.commit('saveTheme', themeColor)

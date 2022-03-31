@@ -101,10 +101,7 @@ export default {
       type: 'get',
       data: { match_code: query.match_code }
     })
-    console.log(res.data.data)
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
-    console.log('field', fields)
-    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition
@@ -194,7 +191,6 @@ export default {
       this.getDataList()
     },
     changeSub (index, val, props) {
-      console.log(index, val, props)
       if (props === this.fields[0].property) {
         this.curSubStra = index
       }
@@ -204,7 +200,6 @@ export default {
       this.getDataList()
     },
     getDataList () {
-      console.log('获取')
       let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
 
@@ -228,17 +223,13 @@ export default {
           rows: this.pageParam.rows
         },
         success: (res) => {
-          console.log('res', res)
           this.itemList = res.data.title_arr
           this.dataList = res.data.data
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
-          console.log('itemList', this.itemList)
-          console.log('dataList', this.dataList)
         }
       })
     },
     changePage (data) {
-      console.log('当前页码', data)
       this.pageParam.page = data
       this.getDataList()
     }
