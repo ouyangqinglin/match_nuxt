@@ -167,7 +167,7 @@ export default {
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
             if (this.companyFields[i].value.constructor === Array) {
-              this.companyFields[i+1].value = this.companyFields[i].value[1]
+              company_data.recommend_other_name = this.companyFields[i].value[1]
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
             }
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
@@ -193,8 +193,12 @@ export default {
           } else if (this.productFields[k][j].required === '1' && this.productFields[k][j].value) {
             if (this.productFields[k][j].property === 'product_name') {
               product_info[this.productFields[k][j].property] = this.productFields[k][j].value.split(',')[0]
-            }
-            else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
+            } else if (this.productFields[k][j].property === 'product_tactics') {
+              if (this.productFields[k][j].value.constructor === Array) {
+                product_info.product_sub_tactics = this.productFields[k][j].value[1]
+                product_info.product_tactics = this.productFields[k][j].value[0]
+              } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
+            } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
           } else product_info[this.productFields[k][j].property] = this.productFields[k][j].value
           errMsg = errMsg || this.productFields[k][j].errMsg
         }
@@ -388,7 +392,6 @@ export default {
         }
       }, 500)
     },
-    // 111
     selectVerify (item, v, index) {
       let i = 0, j = 0
       if (item.property === 'recommend_name') {
@@ -421,7 +424,7 @@ export default {
       this.selectBlur(item)
     },
     dateVerify (item, v) {
-      if (!v) this.$set(item, 'errMsg', `${item.name}不能为空!`)
+      if (!v) this.$set(item, 'errMsg', `${item.name}不能为空`)
       else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v)
@@ -434,13 +437,13 @@ export default {
         if (item.property === this.companyFields[i].property) break
       }
       if (v.includes('其他') && v.length <= 1) {
-        if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空!`)
+        if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空`)
         else {
           this.$set(item, 'errMsg', '')
           this.$set(item, 'value', v)
         }
       } else if (!v.length) {
-        this.$set(item, 'errMsg', `${item.name}不能为空!`)
+        this.$set(item, 'errMsg', `${item.name}不能为空`)
       } else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v)
