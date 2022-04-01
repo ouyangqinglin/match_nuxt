@@ -138,7 +138,7 @@ export default {
       for (i; i < parentList.length; i++) {
         if (parentList[i].value === val) break
       }
-      if (props === this.fields[0].property) {
+      if (props === 'csearch_strategy') {
         this.curStra = index
         this.curSubStra = 0
         this.subStraList = parentList[i].children || []
@@ -151,7 +151,7 @@ export default {
       this.getDataList()
     },
     changeSub (index, val, props) {
-      if (props === this.fields[0].property) {
+      if (props === 'csearch_strategy') {
         this.curSubStra = index
       }
       else {
