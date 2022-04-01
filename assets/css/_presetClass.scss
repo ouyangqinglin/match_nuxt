@@ -27,7 +27,29 @@
 html {
   font-size: 100 / 750 * 100vw;
   -webkit-text-size-adjust: 100%;
-  @media screen and (min-width: 750 * 1px) {font-size: 100px}
+  @media screen and (min-width: 750 * 1px) {font-size: 100px};
+  /* width */
+  ::-webkit-scrollbar {
+    width: 1px;
+    height: 4px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(201, 201, 202);
+    border-radius: 8px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(162, 162, 163);
+  }
 }
 body {
   font-family: avenir, 'PingFangSC-Regular','PingFang SC','Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
