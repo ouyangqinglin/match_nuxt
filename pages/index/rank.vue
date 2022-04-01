@@ -7,14 +7,14 @@
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
             <common-flex>
-              <div style="margin-bottom: 20px" v-if="key === fields[0].property" class="item"
+              <div style="margin-bottom: 20px" v-if="key === 'csearch_strategy'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
               <div style="margin-bottom: 20px" v-if="key === 'csearch_rank_range'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
             </common-flex>
-            <common-flex class="sub-strategy" v-if="key === fields[0].property">
+            <common-flex class="sub-strategy" v-if="key === 'csearch_strategy'">
               <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">
                 {{ i.label }}</div>
             </common-flex>
@@ -107,6 +107,8 @@ export default {
       data: { match_code: query.match_code }
     })
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
+    console.log('fields', fields)
+    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition

@@ -49,7 +49,6 @@ export default {
   z-index: 5200;
   left: 0;
   top: 0;
-  //@include vueTrans(opacity .3s ease-in-out) {opacity: 0}
   &-mask {
     position: fixed;
     left: 0;
