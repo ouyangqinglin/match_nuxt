@@ -216,8 +216,9 @@ export default {
         success: (res) => {
           this.configFields = res.data.fields
           this.fields = this.configFields.filter((i) => i.name !== '产品组别')
-          this.strategy = res.data.option_definition[this.fields[0].property]
-          this.period = res.data.option_definition[this.fields[1].property]
+          console.log('fields', this.fields)
+          this.strategy = res.data.option_definition['csearch_strategy']
+          this.period = res.data.option_definition['csearch_rank_range']
           if(this.strategy[0].children[0]) {
             this.fields[0].viewValue = `${this.strategy[0].label}>${this.strategy[0].children[0].label}`
           } else {

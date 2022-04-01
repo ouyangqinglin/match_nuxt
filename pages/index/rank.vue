@@ -107,8 +107,6 @@ export default {
       data: { match_code: query.match_code }
     })
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
-    console.log('fields', fields)
-    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition
