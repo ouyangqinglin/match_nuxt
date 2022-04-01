@@ -109,6 +109,7 @@ export default {
   },
   data () {
     return {
+      loading: '',
       logined: false,
       certificated: false,
       subStraList: [],
@@ -199,7 +200,14 @@ export default {
       }
       this.getDataList()
     },
+    openFullLoading (text = '加载中') {
+      this.loading = this.$loading({
+        text: `${text}...`,
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+    },
     getDataList () {
+      this.openFullLoading()
       let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
 
@@ -223,6 +231,7 @@ export default {
           rows: this.pageParam.rows
         },
         success: (res) => {
+          this.loading.close()
           this.itemList = res.data.title_arr
           this.dataList = res.data.data
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10

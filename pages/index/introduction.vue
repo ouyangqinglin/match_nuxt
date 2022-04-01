@@ -22,6 +22,7 @@ export default {
 
 <style lang="scss">
 .pages-introduction {
+  position: relative;
   padding: 60px 0;
   @include cImg();
   img {

@@ -94,6 +94,7 @@ export default {
   },
   data () {
     return {
+      loading: '',
       checkVal: [],
       otherVal: '',
       value: '',
@@ -215,10 +216,12 @@ export default {
     },
     applyMulProduct (data) {
       this.hasApply = true
+      this.openFullLoading('提交中')
       this.axios({
         url: '/competition/activity/backend/api/competition/applyMulProducts',
         data,
         success: (resp) => {
+          this.loading.close()
           if (20000 === +(resp.data.code)) this.$alert('提交申请成功', '提示')
           else this.$alert(resp.msg, '错误')
           this.hasApply = false
@@ -262,7 +265,14 @@ export default {
       }
       this.validateShow = true
     },
+    openFullLoading (text = '加载中') {
+      this.loading = this.$loading({
+        text: `${text}...`,
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+    },
     getPhoneCode (data) {
+      this.openFullLoading('请求中')
       let i = 0
       for (i; i < this.companyFields.length; i++) {
         if (this.companyFields[i].property === 'contacts_phone') break
@@ -280,6 +290,7 @@ export default {
           match_code: this.match_code
         },
         success: ({ data }) => {
+          this.loading.close()
           if (+data.status === 1) {
             this.getCodeShow = false
             this.countDown(i)
@@ -634,6 +645,12 @@ export default {
   span {
     position: relative;
     font-size: 16px;
+  }
+}
+.el-loading-spinner {
+  .circular {
+    width: 12px;
+    height: 12px;
   }
 }
 </style>
