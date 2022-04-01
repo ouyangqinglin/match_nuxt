@@ -1,6 +1,6 @@
 <template>
   <div class="pages-apply">
-    <!--    公司信息-->
+    <!--    机构信息-->
     <div class="ppw-w1200">
       <div class="title" :style="{color: theme}">私募机构信息</div>
       <common-flex class="form" v-for="i of companyFields" :key="i.property">
@@ -42,7 +42,7 @@
     </div>
     <!--    // 产品信息-->
     <div class="ppw-w1200 posi" style="margin-top: 45px" v-for="(product, j) of productFields">
-      <div class="title">参赛产品</div>
+      <div class="title">参赛产品信息<span v-if="productFields.length > 1">({{ j + 1 }})</span></div>
       <span @click="deleteProduct(j)" v-show="productFields.length > 1" class="dele">删除</span>
       <common-flex class="form" v-for="i of product" :key="i.property" align="center">
         <template v-if="i.type === 'text'">
@@ -318,7 +318,7 @@ export default {
         data: { registerNumber: v.replace(/\s*/g, '') },
         success: (res) => {
           if (res.code !== 20000) {
-            this.$set(item, 'errMsg', '公司备案编号有误!')
+            this.$set(item, 'errMsg', '公司备案编号有误')
             return
           }
           let data = res.data
@@ -369,7 +369,10 @@ export default {
       for (i; i < this.companyFields.length; i++) {
         if (item.property === this.companyFields[i].property) break
       }
-      if (!v || !v.replace(/\s*/g, '')) this.$set(item, 'errMsg', `${item.name}不能为空`)
+      if (!v || !v.replace(/\s*/g, '')) {
+        if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
+        else this.$set(item, 'errMsg', '')
+      }
       else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
         if (!(regObj[this.companyFields[i].property].test(v))) this.$set(item, 'errMsg', `${item.name}格式不正确`)
         else {
