@@ -1,66 +1,84 @@
 <template>
   <div class="pc-assign">
-<!--    <common-flex direction="column" align="center" class="ppw-w1200 main">-->
-<!--      <div class="title">获奖名单</div>-->
-<!--      <div class="body">-->
-<!--        <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">-->
-<!--          <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>-->
-<!--          <div>-->
-<!--            <common-flex>-->
-<!--              <div v-if="key === 'csearch_rank_group_id'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">-->
-<!--                {{ i.label }}</div>-->
-<!--              <div v-if="key === 'csearch_rank_range'" class="item" @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">-->
-<!--                {{ i.label }}</div>-->
-<!--            </common-flex>-->
-<!--            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_group_id'">-->
-<!--              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">-->
-<!--                {{ i.label }}</div>-->
-<!--            </common-flex>-->
-<!--            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_range'">-->
-<!--              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">-->
-<!--                {{ i.label }}</div>-->
-<!--            </common-flex>-->
-<!--          </div>-->
-<!--        </common-flex>-->
-<!--      </div>-->
-<!--      <div class="ppw-w1200 table">-->
-<!--        <common-flex class="th">-->
-<!--          <div v-for="i of itemList">{{ i.label }}</div>-->
-<!--        </common-flex>-->
-<!--        <template v-if="dataList.length">-->
-<!--          <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">-->
-<!--            <template v-for="j of itemList">-->
-<!--              <div class="td ellipsis" v-if="j.key === 'ret'" v-profit_handler.percent="i[j.key]" />-->
-<!--              <div class="td ellipsis" v-else-if="j.key === 'score'">{{ (i[j.key] + '').slice(0, 5) }}</div>-->
-<!--              <div class="td ellipsis" style="position: relative; z-index: 1" v-else-if="j.key === 'rank_score'">-->
-<!--                <img class="rank-img" :src="require('@img/rank/rank-1.png')" alt="" v-if="+(i[j.key]) === 1">-->
-<!--                <img class="rank-img" :src="require('@img/rank/rank-2.png')" alt="" v-if="+(i[j.key]) === 2">-->
-<!--                <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.key]) === 3">-->
-<!--                {{ i[j.key] }}-->
-<!--              </div>-->
-<!--              <div class="td ellipsis" v-else>{{ i[j.key]}}</div>-->
-<!--            </template>-->
-<!--          </common-flex>-->
-<!--        </template>-->
-<!--        <template v-else>-->
-<!--          <common-flex class="empty" direction="column" justify="center" align="center">-->
-<!--            <img :src="require('@img/no-data.png')" alt="">-->
-<!--            <p>没有符合条件的产品或产品未上榜</p>-->
-<!--          </common-flex>-->
-<!--        </template>-->
-<!--      </div>-->
-<!--    </common-flex>-->
+    <common-flex direction="column" align="center" class="ppw-w1200 main">
+      <div class="title">获奖名单</div>
+      <div class="body">
+        <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">
+          <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
+          <div>
+            <common-flex>
+              <div style="margin-bottom: 20px" v-if="key === fields[0].property" class="item"
+                   @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
+                {{ i.label }}</div>
+              <div style="margin-bottom: 20px" v-if="key === 'csearch_rank_range'" class="item"
+                   @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
+                {{ i.label }}</div>
+            </common-flex>
+            <common-flex class="sub-strategy" v-if="key === fields[0].property">
+              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">
+                {{ i.label }}</div>
+            </common-flex>
+            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_range'">
+              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">
+                {{ i.label }}</div>
+            </common-flex>
+          </div>
+        </common-flex>
+        <common-flex class="strategy" style="position: relative">
+          <div class="strategy-type" style="padding-left: 16px"><span>*</span>关键字：</div>
+          <input class="strategy-input" type="text" v-model.trim="csearch_fund_name" placeholder="请输入基金名称/所属机构关键字">
+          <img :src="require('@img/rank/search.svg')" class="strategy-svg" alt="">
+        </common-flex>
+      </div>
+      <div class="ppw-w1200 table">
+        <common-flex class="th">
+          <div v-for="i of itemList">{{ i.label }}</div>
+        </common-flex>
+        <template v-if="dataList.length">
+          <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">
+            <template v-for="j of itemList">
+              <template v-if="['ret', 'score'].includes(j.prop)">
+                <div class="td ellipsis" v-if="j.prop === 'ret'" v-profit_handler.percent="i[j.prop]" />
+                <div class="td ellipsis" v-else-if="j.prop === 'score'">{{ (i[j.prop] + '').slice(0, 5) }}</div>
+              </template>
+              <div class="td ellipsis" style="position: relative; z-index: 1" v-else-if="j.prop === 'rank_score'">
+                <img class="rank-img" :src="require('@img/rank/rank-1.png')" alt="" v-if="+(i[j.prop]) === 1">
+                <img class="rank-img" :src="require('@img/rank/rank-2.png')" alt="" v-if="+(i[j.prop]) === 2">
+                <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.prop]) === 3">
+                {{ i[j.prop] }}
+              </div>
+              <div class="td ellipsis" v-else>{{ i[j.prop] || i[j.prop.name]}}</div>
+            </template>
+          </common-flex>
+        </template>
+        <template v-else>
+          <common-flex class="empty" direction="column" justify="center" align="center">
+            <img :src="require('@img/no-data.png')" alt="">
+            <p>没有符合条件的产品或产品未上榜</p>
+          </common-flex>
+        </template>
+      </div>
+      <el-pagination
+        v-if="dataList.length"
+        background
+        layout="prev, pager, next"
+        @current-change="changePage"
+        :total="maxPage">
+      </el-pagination>
+    </common-flex>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 export default {
   name: 'assign',
-  async asyncData ({ app, query }) {
+  async asyncData ({ app, store, query }) {
     let res = await app.axios({
-      url: `/competition/activity/backend/api/competition/xdzq/getXdzqPrizeCycleOption`,
+      url: '/competition/activity/backend/api/competition/getRankSearchFields',
       type: 'get',
-      data: { match_code:  query.match_code }
+      data: { match_code: query.match_code }
     })
     let fields = res.data.data.fields, option_definition = res.data.data.option_definition
     return {
@@ -70,30 +88,40 @@ export default {
   },
   data () {
     return {
-      subStraList: [],
-      subRangList: [],
-      curStra: 0,
-      curSubStra: 0,
-      curRang: 0,
-      curSubRang: 0,
-      itemList: [
-        {
-          label: '排名',
-          key: 'rank_score'
-        },{
-          label: '获奖机构',
-          key: 'company_short_name'
-        },{
-          label: '获奖产品',
-          key: 'fund_short_name'
-        }
-      ],
-      dataList: []
+      loading: '',
+      subStraList: [], // 子策略列表
+      subRangList: [], // 排名周期列表
+      curStra: 0, // 策略索引
+      curSubStra: 0, // 子策略索引
+      curRang: 0,  // 排名种类索引
+      curSubRang: 0, // 排名周期索引
+      csearch_fund_name: '',
+      timer: null,
+      maxPage: 0,
+      itemList: [],
+      dataList: [],
+      pageParam: {
+        page: 1,
+        rows: 10
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      match_code: 'match_code'
+    })
+  },
+  watch: {
+    csearch_fund_name () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.getDataList()
+      }, 500)
     }
   },
   mounted () {
-    this.subStraList = this.option_definition['csearch_strategy'][0].children || []
-    this.subRangList = this.option_definition['csearch_rank_range'][0].children || []
+    this.subStraList = this.option_definition['csearch_strategy'][0].children || [] // 子策略
+    this.subRangList = this.option_definition['csearch_rank_range'][0].children || [] // 榜单下的排名日期
     this.getDataList()
   },
   methods: {
@@ -110,7 +138,7 @@ export default {
       for (i; i < parentList.length; i++) {
         if (parentList[i].value === val) break
       }
-      if (props === 'csearch_rank_group_id') {
+      if (props === this.fields[0].property) {
         this.curStra = index
         this.curSubStra = 0
         this.subStraList = parentList[i].children || []
@@ -123,7 +151,7 @@ export default {
       this.getDataList()
     },
     changeSub (index, val, props) {
-      if (props === 'csearch_rank_group_id') {
+      if (props === this.fields[0].property) {
         this.curSubStra = index
       }
       else {
@@ -131,30 +159,47 @@ export default {
       }
       this.getDataList()
     },
+    openFullLoading (text = '加载中') {
+      this.loading = this.$loading({
+        text: `${text}...`,
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+    },
     getDataList () {
-      let csearch_rank_group_id = this.option_definition['csearch_rank_group_id'][this.curStra].value || '', csearch_strategy,
+      this.openFullLoading()
+      let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
 
-      if (this.subStraList.length) csearch_strategy = this.subStraList[this.curSubStra].value || ''
-      else csearch_strategy = ''
+      if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
+      else csearch_sub_strategy = ''
 
       if (this.subRangList.length) csearch_end_date = this.subRangList[this.curSubRang].value || ''
       else csearch_end_date = ''
 
       this.axios({
-        url: '/activity/backend/api/competition/xdzq/selectPrizeListData',
+        url: '/competition/activity/backend/api/competition/commonRankList',
         type: 'get',
         data: {
-          match_code: 'xdzq',
-          csearch_rank_group_id,
+          match_code: this.match_code,
           csearch_strategy,
+          csearch_sub_strategy,
           csearch_rank_range,
-          csearch_end_date
+          csearch_end_date,
+          csearch_fund_name: this.csearch_fund_name,
+          page: this.pageParam.page,
+          rows: this.pageParam.rows
         },
-        success: ({ data }) => {
-          this.dataList = data.prize_list
+        success: (res) => {
+          this.loading.close()
+          this.itemList = res.data.title_arr
+          this.dataList = res.data.data
+          this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }
       })
+    },
+    changePage (data) {
+      this.pageParam.page = data
+      this.getDataList()
     }
   }
 }
@@ -197,6 +242,25 @@ $borderColor: #DDDDDD;
       padding: 0 30px;
       .strategy, .range, .key {
         margin-top: 30px;
+        &-input {
+          padding-left: 20px;
+          width: 470px;
+          height: 50px;
+          background: #F8F8F8;
+          border-radius: 4px;
+          border: 1px solid #BBBBBB;
+          @include nFont(20 #333 50);
+          &::placeholder {
+            @include nFont(20 #999 50)
+          }
+        }
+        &-svg {
+          position: absolute;
+          right: 550px;
+          top: 7px;
+          @include wh(38);
+          cursor: pointer;
+        }
         &-type {
           margin-top: 10px;
           @include nFont(20 500 #333 28);
@@ -204,9 +268,6 @@ $borderColor: #DDDDDD;
             color: #C00000;
           }
         }
-      }
-      .sub-strategy, .sub-range {
-        margin-top: 20px;
       }
       .item {
         margin-right: 20px;

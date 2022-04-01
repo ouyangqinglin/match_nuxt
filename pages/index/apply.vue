@@ -248,7 +248,7 @@ export default {
       setTimeout(() =>{
         this.validateShow = false
         this.getPhoneCode(data)
-      }, 1000)
+      }, 500)
     },
     sendMsg () {
       if (!this.getCodeShow) {

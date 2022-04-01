@@ -24,6 +24,11 @@
             </common-flex>
           </div>
         </common-flex>
+        <common-flex class="strategy" style="position: relative">
+          <div class="strategy-type" style="padding-left: 16px"><span>*</span>关键字：</div>
+          <input class="strategy-input" type="text" v-model.trim="csearch_fund_name" placeholder="请输入基金名称/所属机构关键字">
+          <img :src="require('@img/rank/search.svg')" class="strategy-svg" alt="">
+        </common-flex>
       </div>
       <div class="ppw-w1200 table">
         <common-flex class="th">
@@ -285,7 +290,7 @@ $borderColor: #DDDDDD;
         margin-top: 30px;
         &-input {
           padding-left: 20px;
-          width: 490px;
+          width: 470px;
           height: 50px;
           background: #F8F8F8;
           border-radius: 4px;
@@ -297,8 +302,8 @@ $borderColor: #DDDDDD;
         }
         &-svg {
           position: absolute;
-          right: 10px;
-          top: 5px;
+          right: 550px;
+          top: 7px;
           @include wh(38);
           cursor: pointer;
         }
