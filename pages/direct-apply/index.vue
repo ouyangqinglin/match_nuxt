@@ -46,8 +46,8 @@
       </div>
     </div>
     <!--    // 产品信息-->
-    <div class="bottom" style="margin-top: 45px" v-for="(product, j) of productFields" :key="j">
-      <div class="title"><div>参赛产品({{ j + 1 }})</div></div>
+    <div class="bottom" style="margin-top: .45rem" v-for="(product, j) of productFields" :key="j">
+      <div class="title"><div>参赛产品<span v-show="productFields.length > 1">({{ j + 1 }})</span></div></div>
       <div class="posi bottom-box">
         <span @click="deleteProduct(j)" :style="{color: themeColor}" v-show="productFields.length > 1" class="dele">删除</span>
         <template v-for="i of product">
@@ -119,7 +119,6 @@ export default {
       detailCount: 0,
       timer: null,
       codeTxt: 60,
-      optionDefinition: {},
     }
   },
   async asyncData ({ app, query, store }) {
@@ -143,7 +142,6 @@ export default {
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    optionDefinition = { ...optionDefinition }
     let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_money_account', 'extend_attributes_recommend_person_name', 'product_code']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
@@ -382,7 +380,7 @@ export default {
         data: { registerNumber: v.replace(/\s*/g, '') },
         success: (res) => {
           if (res.code !== 20000) {
-            this.$set(item, 'errMsg', '公司备案编号有误!')
+            this.$set(item, 'errMsg', '公司备案编号有误')
             return
           }
           let data = res.data
@@ -433,7 +431,10 @@ export default {
       for (i; i < this.companyFields.length; i++) {
         if (item.property === this.companyFields[i].property) break
       }
-      if (!v || !v.replace(/\s*/g, '')) this.$set(item, 'errMsg', `${item.name}不能为空`)
+      if (!v || !v.replace(/\s*/g, '')) {
+        if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
+        else this.$set(item, 'errMsg', '')
+      }
       else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
         if (!(regObj[this.companyFields[i].property].test(v))) this.$set(item, 'errMsg', `${item.name}格式不正确`)
         else {
@@ -664,8 +665,8 @@ export default {
         width: .36rem;
         height: .36rem;
         &:after {
-          width: 6px;
-          height: 10px;
+          width: .12rem;
+          height: .2rem;
         }
       }
       .el-checkbox__label {
