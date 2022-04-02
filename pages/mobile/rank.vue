@@ -4,36 +4,39 @@
     <div style="height: .45rem; background: #f1f1f1" />
     <div class="rank">
       <div class="header"><CommonTitle title="大赛排名"/></div>
-      <div class="fake-input-box" v-for="(item, i) of fields" :key="i" @click="showPopUp(item.property)">
-        <div class="label">
-          <span class="star" v-if="item.required != 0">*</span>
-          <span>{{item.name}}</span>
-        </div>
-        <div class="fake-input">
-          <template v-if="item.type === 'select'">
-            <div class="content">
-              <span>{{item.viewValue}}</span>
-            </div>
+      <template v-for="(val, key) in option_definition">
+        <common-flex class="fake-input-box" align="center">
+          <common-flex class="label" align="flex-start">
+            <span class="star">*</span>
+            <span>{{ getName(key) }}:</span>
+          </common-flex>
+          <common-flex @click.native="openPop(key)" class="fake-input" justify="space-between" align="center">
+            <div class="content"><span>{{ inputContent(key) }}</span></div>
             <div class="tri" />
-          </template>
-          <template v-if="item.type === 'text'">
-            <input v-model="keyword" type="text" :placeholder="item.placeholder">
-            <i class="find" />
-          </template>
-        </div>
-      </div>
+          </common-flex>
+        </common-flex>
+      </template>
+      <common-flex class="fake-input-box" align="center">
+        <common-flex class="label" align="flex-start">
+          <span>关键词:</span>
+        </common-flex>
+        <common-flex class="fake-input" justify="space-between" align="center">
+          <input type="text" v-model.trim="csearch_fund_name" placeholder="请输入基金名称/所属机构关键字">
+          <i class="find" />
+        </common-flex>
+      </common-flex>
       <div class="margin-box" />
-      <div class="rank-form" v-if="trs.length">
+      <div class="rank-form" v-if="dataList.length">
         <div class="rank-form-thred">
-          <div style="background: rgba(225, 137, 72, .12)" v-for="(t, i) in title_arr">
+          <div style="background: rgba(225, 137, 72, .12)" v-for="(t, i) in itemList">
             {{t.label}}
           </div>
         </div>
-        <div class="rank-form-content"  v-for="(item, i) of trs" :key="i">
-          <div class="rank-form-content-item" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in title_arr" :key="i+''+t_i">
-            <template v-if="t.prop==='rank_score'&&+item.rank_score === 1"><img src="./img/rank/no1.png" alt="">1</template>
-            <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 2"><img src="./img/rank/no2.png" alt="">2</template>
-            <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 3"><img src="./img/rank/no3.png" alt="">3</template>
+        <div class="rank-form-content"  v-for="(item, i) of dataList" :key="i">
+          <div class="rank-form-content-item" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in itemList" :key="i+''+t_i">
+            <template v-if="t.prop==='rank_score'&&+item.rank_score === 1"><img :src="require('./img/rank/no1.png')" alt="">1</template>
+            <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 2"><img :src="require('./img/rank/no2.png')" alt="">2</template>
+            <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 3"><img :src="require('./img/rank/no3.png')" alt="">3</template>
             <template v-else-if="t.prop==='rank_score'"> {{item.rank_score}} </template>
             <template v-else-if="t_i===1">{{item[t.prop.name]}}</template>
             <template v-else-if="t_i===2">{{item[t.prop.name]}}</template>
@@ -45,30 +48,22 @@
         </div>
       </div>
       <div class="empty-box" v-else>
-        <img :src="require('./img/rank/empty.png')" alt="">
+        <img src="./img/rank/empty.png" alt="">
         <p>没有符合条件的产品或产品未上榜</p>
       </div>
-      <pop-up :popUpShow="strategyPoPUpShow"
-              @closePopUp="closePopUp"
-              @cleanActive="cleanStrategyActive"
-              @confirmGetTable="confirmGetTable('strategy')">
+
+      <pop-up :show.sync="strategyShow" @sure="getDataList">
         <div class="pop-up-slot">
-          <div class="title">
-          <span v-if="
-            fields[0] && fields[0].required !== '0'
-          ">*</span>{{fields[0] && fields[0].name}}
-          </div>
+          <div class="title"><span>*</span>策略类型</div>
           <div class="pop-up-item-box">
-            <div class="item" @click="strategySelected(i)"
-                 v-for="(item, i) of strategy" :key="item.value"
-                 :style="i === curStrategy && { color: '#470000', border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
+            <div class="item" v-for="(item, i) of option_definition['csearch_strategy']" :key="item.value" @click="curStra = i"
+                 :style="i === curStra && { color: theme, border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
               {{item.label}}
             </div>
-            <template v-if="strategy[curStrategy] && strategy[curStrategy].children">
+            <template v-if="subStraList.length">
               <div class="item-dy">
-                <div class="item-sub" @click="substrategySelected(i)"
-                     v-for="(item, i) of strategy[curStrategy].children" :key="i"
-                     :style="i === subCurStrategy && { color: '#470000',  border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
+                <div class="item-sub" v-for="(item, i) of subStraList" :key="i" @click="curSubStra = i"
+                     :style="i === curSubStra && { color: theme,  border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
                   {{item.label}}
                 </div>
               </div>
@@ -76,27 +71,19 @@
           </div>
         </div>
       </pop-up>
-      <pop-up :popUpShow="periodPopUpShow"
-              @closePopUp="closePopUp"
-              @cleanActive="cleanPeriodActive"
-              @confirmGetTable="confirmGetTable('period')">
+
+      <pop-up :show.sync="rangShow" @sure="getDataList">
         <div class="pop-up-slot">
-          <div class="title">
-          <span v-if="
-            fields[1] && fields[1].required !== '0'
-          ">*</span>{{fields[1] && fields[1].name}}
-          </div>
+          <div class="title"><span>*</span>排名周期</div>
           <div class="pop-up-item-box">
-            <div class="item" @click="periodSelected(i)"
-                 v-for="(item, i) of period" :key="item.value"
-                 :style="i === curPeriod && { color: '#470000',  border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
+            <div class="item" v-for="(item, i) of option_definition['csearch_rank_range']" :key="item.value" @click="curRang = i"
+                 :style="i === curRang && { color: theme, border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
               {{item.label}}
             </div>
-            <template v-if="period[curPeriod]">
-              <div class="item-dy" v-if="period[curPeriod].children" :style="{justifyContent: period[curPeriod].children.length > 2? 'space-between':''}">
-                <div class="item-sub" @click="subPeriodSelected(i)"
-                     v-for="(item, i) of period[curPeriod].children" :key="i"
-                     :style="i === subCurPeriod && { color: '#470000',  border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
+            <template v-if="subRangList.length">
+              <div class="item-dy">
+                <div class="item-sub" v-for="(item, i) of subRangList" :key="i" @click="curSubRang = i"
+                     :style="i === curSubRang && { color: theme,  border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
                   {{item.label}}
                 </div>
               </div>
@@ -104,10 +91,7 @@
           </div>
         </div>
       </pop-up>
-      <!-- <div class="tips">
-        <p>备注说明</p>
-        <span>过了报名有效期参赛的产品除了不参与当月排名，其他榜单均参与数据报送不全的产品不参与排名</span>
-      </div> -->
+
     </div>
   </div>
 </template>
@@ -116,190 +100,128 @@
 import popUp from '@comp/pop-up'
 import CommonTitle from '@comp/mobile-page-title'
 import Header from '@comp/nav-header'
+import {mapState} from "vuex";
 
 export default {
   name: 'rank',
   components: { popUp, CommonTitle, Header },
+  async asyncData ({ app, store, query }) {
+    let res = await app.axios({
+      url: '/competition/activity/backend/api/competition/getRankSearchFields',
+      type: 'get',
+      data: { match_code: query.match_code }
+    })
+    let fields = res.data.data.fields, option_definition = res.data.data.option_definition
+    return {
+      fields,
+      option_definition
+    }
+  },
   data () {
     return {
-      trs: [],
-      fields: [], /* 页面配置 */
-      configFields: [],
-      strategyPoPUpShow: false,
-      strategy: [], /* 策略 */
-      curStrategy: 0,
-      subCurStrategy: 0,
-      periodPopUpShow: false,
-      period: [], /* 周期 */
-      curPeriod: 0,
-      subCurPeriod: 0,
-      scaleGroupPopUpShow: false,
-      csearch_scale_group: 2,
-      curScaleGroup: 0,
-      /* params */
-      csearch_strategy: '1',
-      csearch_sub_strategy: '1',
-      csearch_rank_range: '1m',
-      csearch_end_date: '',
-      keyword: '',
-      page: 1,
-      amountPerPage: '30',
-      total_page: 0,
-      /* 节流(请求充能中) */
-      keywordTimer: null,
-      title_arr: []
+      curStra: 0,
+      curSubStra: 0,
+      curRang: 0,
+      curSubRang: 0,
+      csearch_fund_name: '',
+      timer: null,
+      maxPage: 0,
+      itemList: [], // 表头
+      dataList: [], // 表单
+      pageParam: {
+        page: 1,
+        rows: 10
+      },
+      strategyShow: false,
+      rangShow: false,
     }
   },
   computed: {
+    ...mapState({
+      match_code: 'match_code',
+      theme: 'theme'
+    }),
+    subStraList () {
+      return this.option_definition['csearch_strategy'][this.curStra].children || [] // 子策略
+    },
+    subRangList () {
+      return this.option_definition['csearch_rank_range'][this.curRang].children || [] // 榜单下的排名日期
+    },
+    strategyContent () {
+      let c
+      if (this.subStraList.length) c = `${this.option_definition['csearch_strategy'][this.curStra].label}>${this.subStraList[this.curSubStra].label}`
+      else c = `${this.option_definition['csearch_strategy'][this.curStra].label}`
+      return c
+    },
+    csearchContent () {
+      let c
+      if (this.subRangList.length) c = `${this.option_definition['csearch_rank_range'][this.curRang].label}>${this.subRangList[this.curSubRang].label}`
+      else c = `${this.option_definition['csearch_rank_range'][this.curRang].label}`
+      return c
+    },
     getWidth () {
-      return `width: calc((${document.documentElement.clientWidth}px - 1.8rem)/${(this.title_arr.length-1)})`
-    }
+      return `width: calc((${document.documentElement.clientWidth}px - 1.8rem)/${(this.itemList.length-1)})`
+    },
   },
   watch: {
-    keyword (newValue) {
-      clearTimeout(this.keywordTimer)
-      this.keywordTimer = setTimeout(() => {
-        this.getTable()
-      }, 300);
+    csearch_fund_name () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.getDataList()
+      }, 500)
     }
   },
   mounted () {
-    this.getSetting()
+    this.getDataList()
   },
   methods: {
-    getTable (arg) {
-      if (arg !== 'append') {
-        this.trs = []
-        this.page = 1
-      }
-      let params = {
-        match_code: this.$route.query.match_code,
-        source_type: 'h5',
-        page: this.page,
-        rows: this.amountPerPage
-      }
-      params['csearch_strategy'] = this.csearch_strategy
-      params['csearch_rank_range'] = this.csearch_rank_range
-      params['csearch_end_date'] = this.csearch_end_date
-      params['csearch_fund_name'] = this.keyword
-      this.axios({
-        url: `/competition/activity/backend/api/competition/commonRankList`,
-        type: 'get',
-        data: params,
-        success: (res) => {
-          this.trs = this.trs.concat(res.data.data)
-          this.title_arr = res.data.title_arr
-          this.title_arr.forEach( (i) => {
-            if(i.prop.name) {
-              this.trs.forEach( j => {
-                if(i.type_meta && i.type_meta.precision && 0 < i.type_meta.precision) {
-                  j[i.prop.name] = Number(Number(j[i.prop.name])).toFixed(i.type_meta.precision)
-                }
-              })
-            } else {
-              this.trs.forEach( j => {
-                if(i.type_meta && i.type_meta.precision && 0 < i.type_meta.precision) {
-                  j[i.prop] = Number(Number(j[i.prop])).toFixed(i.type_meta.precision)
-                }
-              })
-            }
-          })
-          this.total_page = +res.data.pager.total_page
-        }
-      })
+    openPop (props) {
+      if (props === 'csearch_strategy') this.strategyShow = true
+      else this.rangShow = true
     },
-    getSetting () {
+    inputContent (props) {
+      if (props === 'csearch_strategy') return this.strategyContent
+      if (props === 'csearch_rank_range') return this.csearchContent
+    },
+    getName (props) {
+      let i = 0
+      for (i; i < this.fields.length; i++) {
+        if (this.fields[i].property === props) break
+      }
+      return this.fields[i].name
+    },
+    getDataList () {
+      let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
+        csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
+
+      if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
+      else csearch_sub_strategy = ''
+
+      if (this.subRangList.length) csearch_end_date = this.subRangList[this.curSubRang].value || ''
+      else csearch_end_date = ''
+
       this.axios({
-        url: `/competition/activity/backend/api/competition/getRankSearchFields`,
+        url: '/competition/activity/backend/api/competition/commonRankList',
         type: 'get',
-        data: { match_code: this.$route.query.match_code },
+        data: {
+          match_code: this.match_code,
+          csearch_strategy,
+          csearch_sub_strategy,
+          csearch_rank_range,
+          csearch_end_date,
+          csearch_fund_name: this.csearch_fund_name,
+          page: this.pageParam.page,
+          rows: this.pageParam.rows
+        },
         success: (res) => {
-          this.configFields = res.data.fields
-          this.fields = this.configFields.filter((i) => i.name !== '产品组别')
-          console.log('fields', this.fields)
-          this.strategy = res.data.option_definition['csearch_strategy']
-          this.period = res.data.option_definition['csearch_rank_range']
-          if(this.strategy[0].children[0]) {
-            this.fields[0].viewValue = `${this.strategy[0].label}>${this.strategy[0].children[0].label}`
-          } else {
-            this.fields[0].viewValue = this.strategy[0].label
-          }
-          this.fields[1].viewValue = this.period[0].label
-          if (this.period[0].children.length) {
-            this.fields[1].viewValue = this.period[0].label + '>' + this.period[0].children[0].label
-            this.csearch_end_date = this.period[0].children[0].value
-          }else {
-            this.fields[1].viewValue = this.period[0].label
-          }
-          this.getTable()
+          console.log(res.data)
+          this.itemList = res.data.title_arr
+          this.dataList = res.data.data
+          this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }
       })
     },
 
-    strategySelected (i) {
-      if (i === this.curStrategy) return
-      this.curStrategy = i
-      this.subCurStrategy = 0
-    },
-    substrategySelected (i) {
-      if (i === this.subCurStrategy) return
-      this.subCurStrategy = i
-    },
-    periodSelected (i) {
-      if ( i === 2) this.period[i].children = []
-      if (i === this.curPeriod) return
-      this.subCurPeriod = 0
-      this.curPeriod = i
-    },
-    subPeriodSelected (i) {
-      if (i === this.subCurPeriod) return
-      this.subCurPeriod = i
-    },
-
-    /* pop up */
-    closePopUp () { /* 取消 */
-      this.strategyPoPUpShow = false
-      this.periodPopUpShow = false
-      this.scaleGroupPopUpShow = false
-    },
-    cleanStrategyActive () { /* 清空筛选 */
-      this.curStrategy = -1
-    },
-    cleanPeriodActive () {
-      this.curPeriod = -1
-      this.subCurPeriod = -1
-    },
-    confirmGetTable (type) { /* 确认 */
-      this.closePopUp()
-      if (type === 'strategy') {
-        // 页面配置{策略}展示值
-        if(this.strategy[this.curStrategy].children && this.strategy[this.curStrategy].children.length) {
-          this.fields[0].viewValue = this.strategy[this.curStrategy].label + '>' + this.strategy[this.curStrategy].children[this.subCurStrategy].label
-          this.csearch_strategy = this.strategy[this.curStrategy].value
-          this.csearch_sub_strategy = this.strategy[this.curStrategy].children[this.subCurStrategy].value
-        } else {
-          this.fields[0].viewValue = this.strategy[this.curStrategy].label
-          // 请求参数变化
-          this.csearch_strategy = this.strategy[this.curStrategy].value
-        }
-      }
-      if (type === 'period') {
-        // 页面配置{周期}展示值
-        this.fields[1].viewValue = this.period[this.curPeriod].label
-        this.csearch_rank_range = this.period[this.curPeriod].value
-        if (this.period[this.curPeriod].children && this.period[this.curPeriod].children.length) {
-          this.fields[1].viewValue = this.period[this.curPeriod].label + '>' + this.period[this.curPeriod].children[this.subCurPeriod].label
-          this.csearch_end_date = this.period[this.curPeriod].children[this.subCurPeriod].value
-        } else this.csearch_end_date = ''
-        // 请求参数变化
-      }
-      this.getTable()
-    },
-
-    showPopUp (prop) {
-      prop === this.fields[0].property && (this.strategyPoPUpShow = true)
-      prop === this.fields[1].property && (this.periodPopUpShow = true)
-    },
   },
 }
 </script>
@@ -376,7 +298,6 @@ export default {
 
 .fake-input-box {
   margin: 0 .4rem .6rem .3rem;
-  display: flex;align-items: center;
   .label {
     display: flex;
     align-items: flex-start;

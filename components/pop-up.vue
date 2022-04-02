@@ -1,10 +1,10 @@
 <template>
   <transition name="pop">
-    <div class="pop-up" v-if="popUpShow">
+    <div class="pop-up" v-if="show">
       <div class="toast">
         <common-flex class="header" align="center" justify="space-between">
-          <div class="left" @click="closePopUp">取消</div>
-          <div class="right" @click="confirmGetTable">确认</div>
+          <div @click="closePopUp(0)">取消</div>
+          <div @click="closePopUp(1)">确认</div>
         </common-flex>
         <div class="content">
           <slot />
@@ -15,30 +15,31 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: 'comp-pop-up',
   props: {
-    popUpShow: {
+    show: {
       type: Boolean
-    }
+    },
   },
   methods: {
-    closePopUp() {
-      this.$emit('closePopUp')
+    closePopUp (flag) {
+      this.$emit('update:show', false)
+      if (flag) this.$emit('sure')
     },
-    confirmGetTable() {
-      this.$emit('confirmGetTable')
-    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .pop-enter-active, .pop-leave-active {
-  transition: all .3s;
+  transition: all .2s;
 }
 .pop-enter, .pop-leave-to {
   opacity: 0;
+  transform: translateY(.8rem);
 }
 .pop-up {
   position: fixed;
@@ -64,69 +65,66 @@ export default {
       font-size: .3rem;
       color: #C00000 !important;
       line-height: 0;
-      .center {
-        width: 1.5rem;
-        height: .6rem;
-        border: 1px solid #666;
-        border-radius: .04rem;
-        font-size: .26rem;
-        color: #333;
+      div {
+        line-height: 1rem;
       }
     }
     .content {
-      padding: .5rem .3rem .3rem;
+      padding: .8rem .3rem .3rem;
       max-height: calc(100% - 1rem);
       overflow-y: auto;
-    }
-  }
-  /deep/ .pop-up-slot {
-    font-size: .26rem;
-    .title{
-      font-weight: bold;
-      line-height: 1;
-      span{
-        color: #FF4455;
-      }
-      margin-bottom: .1rem;
-    }
-    .pop-up-item-box {
-      margin: 0 .1rem;
-      .item {
-        display: inline-block;
-        width: calc((100% - .35rem * 2) / 3);
-        height: .7rem;
-        line-height: .7rem;
-        text-align: center;
-        background: #fbfbfb;
-        border: 1px solid #D7DAE2;
-        border-radius: .1rem;
-        margin-top: .2rem;
-        margin-right: .35rem;
-        &:nth-child(3n) {
-          margin-right: 0;
+      .pop-up-slot {
+        font-size: .26rem;
+        .title {
+          position: relative;
+          z-index: 2;
+          font-weight: bold;
+          line-height: 1;
+          span {
+            color: #FF4455;
+          }
+          margin-bottom: .1rem;
         }
-      }
-      .item-dy {
-        display: flex;
-        flex-wrap: wrap;
-        padding-bottom: .2rem;
-        max-height: 2.8rem;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-      .item-sub {
-        display: inline-block;
-        width: calc((100% - .35rem * 2) / 3);
-        height: .7rem;
-        line-height: .7rem;
-        text-align: center;
-        background: #fbfbfb;
-        border: 1px solid #D7DAE2;
-        border-radius: .1rem;
-        margin-top: .2rem;
-        margin-right: .35rem;
-        &:nth-child(3n) {
-          margin-right: 0;
+        .pop-up-item-box {
+          margin: 0 .1rem;
+          .item {
+            display: inline-block;
+            width: calc((100% - .35rem * 2) / 3);
+            height: .7rem;
+            line-height: .7rem;
+            text-align: center;
+            background: #fbfbfb;
+            border: 1px solid #D7DAE2;
+            border-radius: .1rem;
+            margin-top: .2rem;
+            margin-right: .35rem;
+            &:nth-child(3n) {
+              margin-right: 0;
+            }
+          }
+          .item-dy {
+            display: flex;
+            flex-wrap: wrap;
+            padding-bottom: .2rem;
+            max-height: 2.8rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+          .item-sub {
+            display: inline-block;
+            width: calc((100% - .35rem * 2) / 3);
+            height: .7rem;
+            line-height: .7rem;
+            text-align: center;
+            background: #fbfbfb;
+            border: 1px solid #D7DAE2;
+            border-radius: .1rem;
+            margin-top: .2rem;
+            margin-right: .35rem;
+            &:nth-child(3n) {
+              margin-right: 0;
+            }
+          }
         }
       }
     }
