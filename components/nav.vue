@@ -2,10 +2,10 @@
   <div class="nav">
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
-      <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}&title=${i.title}`" v-for="i of navList" :key="i.route">
-        <div class="comp-nav-item" :style="{color: curNav === i.key ? '#fff': theme}" :class="{active: curNav === i.key}" @click="changeNav(i.key)">
-          <span>{{ i.title }}</span>
-          <img v-if="curNav === i.key" :src="require('@img/item-bg.png')" alt="">
+      <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}&title=${i.title}`" v-for="i of dyNav" :key="i.route">
+        <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="curNav = i.path">
+          <span>{{ i.name }}</span>
+          <img v-if="curNav === i.path" :src="require('@img/item-bg.png')" alt="">
         </div>
       </a>
     </common-flex>
@@ -21,28 +21,6 @@ export default {
       curNav: '',
       fixed: false,
       navScrollTop: '',
-      solidNav: [
-        {
-          title: '报名申请',
-          route: 'apply',
-          key: 'index-apply'
-        },
-        {
-          title: '大赛排名',
-          route: 'rank',
-          key: 'index-rank'
-        },
-        {
-          title: '获奖名单',
-          route: 'assign',
-          key: 'index-assign'
-        },
-        {
-          title: '赛事报道',
-          route: 'report',
-          key: 'index-report'
-        }
-      ]
     }
   },
   computed: {
@@ -50,9 +28,6 @@ export default {
       dyNav: 'dyNav',
       theme: 'theme'
     }),
-    navList () {
-      return [...this.dyNav, ...this.solidNav]
-    },
   },
   mounted () {
     this.$nextTick(() => {
@@ -72,9 +47,6 @@ export default {
       if (scrollTop > this.navScrollTop) this.fixed = true
       if (scrollTop < this.navScrollTop) this.fixed = false
     },
-    changeNav (key) {
-      this.curNav = key
-    }
   }
 }
 </script>
