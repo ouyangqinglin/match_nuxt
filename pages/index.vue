@@ -53,39 +53,59 @@ export default {
     let footerImg = data.section.footer.content.image
     store.commit('savePage', data.page)
     store.commit('saveLetter', data.section.commitment_letter)
+    let menu = JSON.parse(data.config.menu)
     let list = [
       {
-        title: '',
+        props: 'introduction',
         route: 'introduction',
         key: 'index-introduction'
       },
       {
-        title: '',
+        props: 'service',
         route: 'service',
         key: 'index-service'
       },
       {
-        title: '',
+        props: 'reward',
         route: 'award',
         key: 'index-award'
       },
       {
-        title: '',
+        props: 'rule',
         route: 'rule',
         key: 'index-rule'
       },
+      {
+        props: 'apply',
+        route: 'apply',
+        key: 'index-apply'
+      },
+      {
+        props: 'prize',
+        route: 'prize',
+        key: 'index-prize'
+      },
+      {
+        props: 'report',
+        route: 'report',
+        key: 'index-report'
+      },
+      {
+        props: 'rank',
+        route: 'rank',
+        key: 'index-rank'
+      },
     ]
-    if (data.page.length <= 3) list.splice(1, 1)
     let j = 0
-    for (j; j < data.page.length; j++) {
+    for (j; j < menu.length; j++) {
       for (let i = 0; i < list.length; i++) {
-        if (list[i].route.includes('introduction') && data.page[j].title.includes('简介')) list[i].title = data.page[j].title
-        if (list[i].route.includes('rule') && data.page[j].title.includes('规则')) list[i].title = data.page[j].title
-        if (list[i].route.includes('award') && data.page[j].title.includes('奖励')) list[i].title = data.page[j].title
-        if (list[i].route.includes('service') && (!data.page[j].title.includes('规则') && !data.page[j].title.includes('简介') && !data.page[j].title.includes('奖励'))) list[i].title = data.page[j].title
+        if(list[i].props === menu[j].key) {
+          menu[j].route = list[i].route
+          menu[j].path = list[i].key
+        }
       }
     }
-    store.commit('saveNav', list)
+    store.commit('saveNav', menu)
     return {
       themeColor,
       competitionName,

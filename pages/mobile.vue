@@ -24,32 +24,33 @@ export default {
     let menu = JSON.parse(data.config.menu)
     let i = 0, routeList = [
       {
-        name: '规则',
+        key: 'service',
+        route: 'family',
+      },
+      {
+        key: 'rule',
         route: 'rule'
       },
       {
-        name: '奖励',
+        key: 'reward',
         route: 'award'
       },
       {
-        name: '报名',
+        key: 'apply',
         route: 'apply'
       },
       {
-        name: '排名',
+        key: 'rank',
         route: 'rank'
       },
       {
-        name: '名单',
+        key: 'prize',
         route: 'assign'
       },
     ]
     for (i; i < menu.length; i++) {
-      if (!menu[i].name.includes('规则') && !menu[i].name.includes('奖励') && !menu[i].name.includes('报名') && !menu[i].name.includes('名单') && !menu[i].name.includes('排名')) {
-        menu[i].route = 'family'
-      }
       for (let j = 0; j < routeList.length; j++) {
-        if (menu[i].name.includes(routeList[j].name)) menu[i].route = routeList[j].route
+        if (menu[i].key === routeList[j].key) menu[i].route = routeList[j].route
       }
     }
     store.commit('saveMenu', menu)
