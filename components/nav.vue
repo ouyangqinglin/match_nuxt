@@ -2,7 +2,7 @@
   <div class="nav">
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
-      <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}&title=${i.title}`" v-for="i of dyNav" :key="i.route">
+      <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}&title=${i.name}`" v-for="i of dyNav" :key="i.route">
         <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="curNav = i.path">
           <span>{{ i.name }}</span>
           <img v-if="curNav === i.path" :src="require('@img/item-bg.png')" alt="">
