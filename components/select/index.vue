@@ -36,6 +36,7 @@ export default {
   },
   props: {
     placeholder: String,
+    recommend: String,
     selector: {
       type: Array,
       default () {
@@ -54,6 +55,16 @@ export default {
       childList: []
     }
   },
+  watch: {
+    recommend: {
+      immediate: true,
+      handler (v) {
+        setTimeout(() => {
+          if (v === 'recommend_name' && this.urlObj.channel === 'ppw') this.lableVal = '私募排排网'
+        }, 1000)
+      }
+    }
+  },
   computed: {
     parentList () {
       return this.showChild ? this.childList : this.selector
@@ -62,7 +73,8 @@ export default {
       return this.parentList.filter((i) => i.label.indexOf(this.keyword) !== -1)
     },
     ...mapState({
-      themeColor: 'themeColor'
+      themeColor: 'themeColor',
+      urlObj: 'urlObj'
     })
   },
   methods: {

@@ -113,7 +113,26 @@ export default {
       footerImg
     }
   },
+  mounted () {
+    if (location.search) {
+      let searchObj = this.getUrlObj(decodeURIComponent(location.search))
+      if (location.search.includes('channel')) {
+        this.$store.commit('saveUrlObj', searchObj)
+      }
+    }
+  },
   methods: {
+    getUrlObj (url) {
+      const jsonList = {}
+      if(url.indexOf("?") !== -1){
+        let str = url.slice(url.indexOf("?") + 1)
+        let strs = str.split("&")
+        for(let i = 0; i < strs.length; i++) {
+          jsonList[strs[i].split("=")[0]] = strs[i].split("=")[1]
+        }
+      }
+      return jsonList
+    },
     getOffsetTop () {
       this.$nextTick(() => {
         this.offsetTop = document.getElementById('header-banner').clientHeight

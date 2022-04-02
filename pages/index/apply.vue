@@ -143,8 +143,32 @@ export default {
   computed: {
     ...mapState({
       match_code: 'match_code',
-      theme: 'theme'
+      theme: 'theme',
+      urlObj: 'urlObj'
     })
+  },
+  watch: {
+    urlObj: {
+      immediate: true,
+      handler (searchObj) {
+        if (searchObj.register_number) {
+          this.$set(this.companyFields[0], 'value', searchObj.register_number)
+          this.$set(this.companyFields[0], 'disabled', true)
+          let j = 0
+          for (j; j < this.companyFields.length; j++) {
+            if (searchObj.hasOwnProperty(this.companyFields[j].property)) {
+              this.$set(this.companyFields[j], 'value', searchObj[this.companyFields[j].property])
+            }
+          }
+        }
+        if (searchObj.channel === 'ppw') {
+          let i = 0
+          for(i; i < this.companyFields.length; i++) {
+            if (this.companyFields[i].property === 'recommend_name') this.$set(this.companyFields[i], 'value', '私募排排网')
+          }
+        }
+      }
+    }
   },
   methods: {
     deleteProduct (j) {
