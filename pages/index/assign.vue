@@ -7,18 +7,21 @@
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
             <common-flex>
-              <div style="margin-bottom: 20px" v-if="key === 'csearch_strategy'" class="item"
+              <div style="margin-bottom: 20px" v-if="key === 'strategy'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
-              <div style="margin-bottom: 20px" v-if="key === 'csearch_rank_range'" class="item"
+              <div style="margin-bottom: 20px" v-if="key === 'rank_range'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
+              <div style="margin-bottom: 20px" v-if="key === 'scale_group'" class="item"
+                   @click="changeStra(i.value, key, index)" :class="{active: curScale === index}" v-for="(i, index) of val">
+                {{ i.label }}</div>
             </common-flex>
-            <common-flex class="sub-strategy" v-if="key === 'csearch_strategy'">
+            <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'strategy'">
               <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">
                 {{ i.label }}</div>
             </common-flex>
-            <common-flex class="sub-strategy" v-if="key === 'csearch_rank_range'">
+            <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'rank_range'">
               <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">
                 {{ i.label }}</div>
             </common-flex>
@@ -26,7 +29,7 @@
         </common-flex>
         <common-flex class="strategy" style="position: relative">
           <div class="strategy-type" style="padding-left: 16px"><span>*</span>关键字：</div>
-          <input class="strategy-input" type="text" v-model.trim="csearch_fund_name" placeholder="请输入基金名称/所属机构关键字">
+          <input class="strategy-input" type="text" v-model.trim="fund_name" placeholder="请输入基金名称/所属机构关键字">
           <img :src="require('@img/rank/search.svg')" class="strategy-svg" alt="">
         </common-flex>
       </div>
@@ -58,13 +61,13 @@
           </common-flex>
         </template>
       </div>
-      <el-pagination
-        v-if="dataList.length"
-        background
-        layout="prev, pager, next"
-        @current-change="changePage"
-        :total="maxPage">
-      </el-pagination>
+<!--      <el-pagination-->
+<!--        v-if="dataList.length"-->
+<!--        background-->
+<!--        layout="prev, pager, next"-->
+<!--        @current-change="changePage"-->
+<!--        :total="maxPage">-->
+<!--      </el-pagination>-->
     </common-flex>
   </div>
 </template>
@@ -76,11 +79,9 @@ export default {
   name: 'assign',
   async asyncData ({ app, store, query }) {
     let res = await app.axios({
-      url: '/competition/activity/backend/api/competition/getRankSearchFields',
-      type: 'get',
-      data: { match_code: query.match_code }
+      url: `/competition/match/api/match/prize/query_options?match_code=${query.match_code}`,
     })
-    let fields = res.data.data.fields, option_definition = res.data.data.option_definition
+    let fields = res.data.data.fields, option_definition = res.data.data.optionDefinition
     return {
       fields,
       option_definition
@@ -89,16 +90,28 @@ export default {
   data () {
     return {
       loading: '',
-      subStraList: [], // 子策略列表
-      subRangList: [], // 排名周期列表
       curStra: 0, // 策略索引
       curSubStra: 0, // 子策略索引
       curRang: 0,  // 排名种类索引
       curSubRang: 0, // 排名周期索引
-      csearch_fund_name: '',
+      curScale: 0, // 分组
+      curSubScale: 0, // 子分组
+      fund_name: '',
       timer: null,
-      maxPage: 0,
-      itemList: [],
+      itemList: [
+        {
+          prop: 'rank_score',
+          label: '排名'
+        },
+        {
+          prop: 'fund_short_name',
+          label: '基金名称'
+        },
+        {
+          prop: 'company_short_name',
+          label: '所属机构'
+        },
+      ], // 表头
       dataList: [],
       pageParam: {
         page: 1,
@@ -109,10 +122,19 @@ export default {
   computed: {
     ...mapState({
       match_code: 'match_code'
-    })
+    }),
+    subStraList () {
+      return this.option_definition['strategy'][this.curStra].children || [] // 子策略
+    },
+    subRangList () {
+      return this.option_definition['rank_range'][this.curRang].children || [] // 榜单下的排名日期
+    },
+    subScaleList () {
+      return this.option_definition['scale_group'][this.curScale].children || [] // 榜单下的排名日期
+    },
   },
   watch: {
-    csearch_fund_name () {
+    fund_name () {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.getDataList()
@@ -120,8 +142,6 @@ export default {
     }
   },
   mounted () {
-    this.subStraList = this.option_definition['csearch_strategy'][0].children || [] // 子策略
-    this.subRangList = this.option_definition['csearch_rank_range'][0].children || [] // 榜单下的排名日期
     this.getDataList()
   },
   methods: {
@@ -133,30 +153,24 @@ export default {
       return this.fields[i].name
     },
     changeStra (val, props, index) {
-      let parentList = this.option_definition[props]
-      let i = 0
-      for (i; i < parentList.length; i++) {
-        if (parentList[i].value === val) break
-      }
-      if (props === 'csearch_strategy') {
+      if (props === 'strategy') {
         this.curStra = index
         this.curSubStra = 0
-        this.subStraList = parentList[i].children || []
       }
-      else {
+      if (props === 'rank_range') {
         this.curRang = index
         this.curSubRang = 0
-        this.subRangList = parentList[i].children || []
+      }
+      if (props === 'scale_group') {
+        this.curScale = index
+        this.curSubScale = 0
       }
       this.getDataList()
     },
     changeSub (index, val, props) {
-      if (props === 'csearch_strategy') {
-        this.curSubStra = index
-      }
-      else {
-        this.curSubRang = index
-      }
+      if (props === 'strategy') this.curSubStra = index
+      if (props === 'rank_range') this.curSubRang = index
+      if (props === 'scale_group') this.curSubScale = index
       this.getDataList()
     },
     openFullLoading (text = '加载中') {
@@ -167,33 +181,33 @@ export default {
     },
     getDataList () {
       this.openFullLoading()
-      let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
-        csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
+      let strategy = this.option_definition['strategy'][this.curStra].value || '', sub_strategy,
+        rank_range = this.option_definition['rank_range'][this.curRang].value || '', end_date,
+        scale_group = this.option_definition['scale_group'][this.curScale].value || ''
 
-      if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
-      else csearch_sub_strategy = ''
 
-      if (this.subRangList.length) csearch_end_date = this.subRangList[this.curSubRang].value || ''
-      else csearch_end_date = ''
+      if (this.subStraList.length) sub_strategy = this.subStraList[this.curSubStra].value || ''
+      else sub_strategy = ''
+
+      if (this.subRangList.length) end_date = this.subRangList[this.curSubRang].value || ''
+      else end_date = ''
 
       this.axios({
-        url: '/competition/activity/backend/api/competition/commonRankList',
+        url: `/competition/match/api/match/prize/common_list`,
         type: 'get',
         data: {
           match_code: this.match_code,
-          csearch_strategy,
-          csearch_sub_strategy,
-          csearch_rank_range,
-          csearch_end_date,
-          csearch_fund_name: this.csearch_fund_name,
+          strategy,
+          sub_strategy,
+          rank_range,
+          end_date,
+          fund_name: this.fund_name,
           page: this.pageParam.page,
           rows: this.pageParam.rows
         },
         success: (res) => {
           this.loading.close()
-          this.itemList = res.data.title_arr
-          this.dataList = res.data.data
-          this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
+          this.dataList = res.data.list
         }
       })
     },
@@ -262,6 +276,7 @@ $borderColor: #DDDDDD;
           cursor: pointer;
         }
         &-type {
+          flex-shrink: 0;
           margin-top: 10px;
           @include nFont(20 500 #333 28);
           span {
@@ -270,7 +285,7 @@ $borderColor: #DDDDDD;
         }
       }
       .item {
-        margin-right: 20px;
+        margin: 0 20px 20px 0;
         width: 150px;
         height: 50px;
         @include nFont(20 #333 50);
