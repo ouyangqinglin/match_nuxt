@@ -82,8 +82,8 @@ export default {
       },
       {
         props: 'prize',
-        route: 'prize',
-        key: 'index-prize'
+        route: 'assign',
+        key: 'index-assign'
       },
       {
         props: 'report',
