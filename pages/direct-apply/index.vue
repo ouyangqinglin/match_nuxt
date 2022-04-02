@@ -27,7 +27,7 @@
           </common-flex>
           <common-flex class="form" align="center" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <common-flex direction="column" class="form" v-else-if="i.type === 'checkbox'">
@@ -164,7 +164,45 @@ export default {
       optionDefinition
     }
   },
+  mounted () {
+    this.getChannelData()
+  },
   methods: {
+    getChannelData () {
+      if (location.search.includes('channel')) {
+        let searchObj = this.getUrlObj(decodeURIComponent(location.search))
+        this.$store.commit('saveUrlObj', searchObj)
+        if (searchObj.register_number) {
+          this.$set(this.companyFields[0], 'value', searchObj.register_number)
+          this.$set(this.companyFields[0], 'disabled', true)
+          let j = 0
+          for (j; j < this.companyFields.length; j++) {
+            if (searchObj.hasOwnProperty(this.companyFields[j].property)) {
+              this.$set(this.companyFields[j], 'value', searchObj[this.companyFields[j].property])
+            }
+          }
+        }
+        if (searchObj.channel === 'ppw') {
+          let i = 0
+          for(i; i < this.companyFields.length; i++) {
+            if (this.companyFields[i].property === 'recommend_name') {
+              this.$set(this.companyFields[i], 'value', '私募排排网')
+            }
+          }
+        }
+      }
+    },
+    getUrlObj (url) {
+      const jsonList = {}
+      if(url.indexOf("?") !== -1){
+        let str = url.slice(url.indexOf("?") + 1)
+        let strs = str.split("&")
+        for(let i = 0; i < strs.length; i++) {
+          jsonList[strs[i].split("=")[0]] = strs[i].split("=")[1]
+        }
+      }
+      return jsonList
+    },
     getSelectVal (data, item, index) {
       this.$set(item, 'errMsg', '')
       if (item.property === 'recommend_name') {
@@ -274,7 +312,6 @@ export default {
         }
         product_list.push(product_info)
       }
-      console.log('company_data', company_data)
       let data = {
         sms_code,
         company_data,

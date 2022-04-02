@@ -11,7 +11,8 @@ export const state = () => {
     theme: '',
     menu: [],
     mobile_config: {},
-    mobile_page: []
+    mobile_page: [],
+    urlObj: {}
   }
 }
 
@@ -46,5 +47,8 @@ export const mutations = {
   },
   saveMobilePage (state, data) {
     Vue.set(state, 'mobile_page', data)
+  },
+  saveUrlObj (state, data) {
+    Vue.set(state, 'urlObj', data)
   },
 }

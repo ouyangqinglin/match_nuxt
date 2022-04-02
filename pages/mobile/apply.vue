@@ -29,7 +29,7 @@
           </common-flex>
           <common-flex class="form" align="center" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <common-flex direction="column" class="form" v-else-if="i.type === 'checkbox'">
@@ -97,6 +97,7 @@ import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
 import CompSelect from '@comp/select'
 import Header from '@comp/nav-header'
+import {mapState} from "vuex";
 export default {
   name: 'mobile-apply',
   components: {
@@ -160,6 +161,34 @@ export default {
       companyFields,
       productFields,
       optionDefinition
+    }
+  },
+  computed: {
+    ...mapState({
+      urlObj: 'urlObj'
+    })
+  },
+  watch: {
+    urlObj: {
+      immediate: true,
+      handler (searchObj) {
+        if (searchObj.register_number) {
+          this.$set(this.companyFields[0], 'value', searchObj.register_number)
+          this.$set(this.companyFields[0], 'disabled', true)
+          let j = 0
+          for (j; j < this.companyFields.length; j++) {
+            if (searchObj.hasOwnProperty(this.companyFields[j].property)) {
+              this.$set(this.companyFields[j], 'value', searchObj[this.companyFields[j].property])
+            }
+          }
+        }
+        if (searchObj.channel === 'ppw') {
+          let i = 0
+          for(i; i < this.companyFields.length; i++) {
+            if (this.companyFields[i].property === 'recommend_name') this.$set(this.companyFields[i], 'value', '私募排排网')
+          }
+        }
+      }
     }
   },
   methods: {
