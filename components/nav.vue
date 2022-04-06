@@ -48,7 +48,7 @@ export default {
         let temp
         for (let key in this.$route.query) {
           temp = `${key}=${this.$route.query[key]}`
-          query.push(temp)
+          if (this.$route.query[key]) query.push(temp)
         }
         let urlParams = query.join('&')
         location.href = `${this.$store.state.apiHost}competition/${i.route}?${urlParams}`
