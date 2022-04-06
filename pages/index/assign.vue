@@ -25,6 +25,10 @@
               <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">
                 {{ i.label }}</div>
             </common-flex>
+            <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'scale_group'">
+              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubScale === index}" v-for="(i, index) of subScaleList">
+                {{ i.label }}</div>
+            </common-flex>
           </div>
         </common-flex>
         <common-flex class="strategy" style="position: relative">
@@ -183,11 +187,14 @@ export default {
       this.openFullLoading()
       let strategy = this.option_definition['strategy'][this.curStra].value || '', sub_strategy,
         rank_range = this.option_definition['rank_range'][this.curRang].value || '', end_date,
-        scale_group = this.option_definition['scale_group'][this.curScale].value || ''
+        scale_group = this.option_definition['scale_group'][this.curScale].value || '', sub_scale_group
 
 
       if (this.subStraList.length) sub_strategy = this.subStraList[this.curSubStra].value || ''
       else sub_strategy = ''
+
+      if (this.subScaleList.length) sub_scale_group = this.subScaleList[this.curSubScale].value || ''
+      else sub_scale_group = ''
 
       if (this.subRangList.length) end_date = this.subRangList[this.curSubRang].value || ''
       else end_date = ''
@@ -201,6 +208,8 @@ export default {
           sub_strategy,
           rank_range,
           end_date,
+          scale_group,
+          sub_scale_group,
           fund_name: this.fund_name,
           page: this.pageParam.page,
           rows: this.pageParam.rows
