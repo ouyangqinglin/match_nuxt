@@ -51,7 +51,7 @@ export default {
           if (this.$route.query[key]) query.push(temp)
         }
         let urlParams = query.join('&')
-        location.href = `${this.$store.state.apiHost}competition/${i.route}?${urlParams}`
+        location.href = `${this.$store.state.apiHost}competition/${i.route}?${urlParams}&title=${i.name}`
       } else location.href = `${this.$store.state.apiHost}competition/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}`
 
     },
