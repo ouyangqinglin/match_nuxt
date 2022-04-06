@@ -49,8 +49,6 @@ export const mutations = {
     Vue.set(state, 'mobile_page', data)
   },
   saveUrlObj (state, data) {
-    localStorage.setItem('url', JSON.stringify(data))
-    let url = JSON.parse(localStorage.getItem('url'))
-    Vue.set(state, 'urlObj', url)
+    Vue.set(state, 'urlObj', data)
   },
 }

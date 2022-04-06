@@ -2,7 +2,7 @@
   <div class="nav">
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
-      <a :href="`${$store.state.apiHost}competition/${i.route}?match_code=${$route.query.match_code}&title=${i.name}`" v-for="i of dyNav" :key="i.route">
+      <a @click="navChange(i)" v-for="i of dyNav" :key="i.route">
         <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="curNav = i.path">
           <span>{{ i.name }}</span>
           <img v-if="curNav === i.path" :src="require('@img/item-bg.png')" alt="">
@@ -42,6 +42,19 @@ export default {
     window.document.removeEventListener('scroll', this.scrolling)
   },
   methods: {
+    navChange (i) {
+      if (this.$route.query.channel) {
+        let query = []
+        let temp
+        for (let key in this.$route.query) {
+          temp = `${key}=${this.$route.query[key]}`
+          query.push(temp)
+        }
+        let urlParams = query.join('&')
+        location.href = `${this.$store.state.apiHost}competition/${i.route}?${urlParams}`
+      } else location.href = `${this.$store.state.apiHost}competition/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}`
+
+    },
     scrolling () {
       let scrollTop = document.documentElement.scrollTop
       if (scrollTop > this.navScrollTop) this.fixed = true

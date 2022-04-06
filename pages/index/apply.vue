@@ -144,13 +144,16 @@ export default {
     ...mapState({
       match_code: 'match_code',
       theme: 'theme',
-      urlObj: 'urlObj'
     })
   },
-  watch: {
-    urlObj: {
-      immediate: true,
-      handler (searchObj) {
+  mounted () {
+    this.getChannelData()
+  },
+  methods: {
+    getChannelData () {
+      if (location.search.includes('channel')) {
+        let searchObj = this.getUrlObj(decodeURIComponent(location.search))
+        this.$store.commit('saveUrlObj', searchObj)
         if (searchObj.register_number) {
           this.$set(this.companyFields[0], 'value', searchObj.register_number)
           this.$set(this.companyFields[0], 'disabled', true)
@@ -164,13 +167,24 @@ export default {
         if (searchObj.channel === 'ppw') {
           let i = 0
           for(i; i < this.companyFields.length; i++) {
-            if (this.companyFields[i].property === 'recommend_name') this.$set(this.companyFields[i], 'value', '私募排排网')
+            if (this.companyFields[i].property === 'recommend_name') {
+              this.$set(this.companyFields[i], 'value', '私募排排网')
+            }
           }
         }
       }
-    }
-  },
-  methods: {
+    },
+    getUrlObj (url) {
+      const jsonList = {}
+      if(url.indexOf("?") !== -1){
+        let str = url.slice(url.indexOf("?") + 1)
+        let strs = str.split("&")
+        for(let i = 0; i < strs.length; i++) {
+          jsonList[strs[i].split("=")[0]] = strs[i].split("=")[1]
+        }
+      }
+      return jsonList
+    },
     deleteProduct (j) {
       this.productFields.splice(j, 1)
     },
