@@ -362,6 +362,7 @@ export default {
           let data = res.data
           if (data.companyId) this.getProductList(data.companyId)
           let i = 0
+          console.log('data', data)
           for (i; i < this.companyFields.length; i++) {
             if (this.companyFields[i].property === 'company_name') {
               this.$set(this.companyFields[i], 'value', data.companyName)
@@ -373,6 +374,15 @@ export default {
             }
             if (this.companyFields[i].property === 'register_date') {
               this.$set(this.companyFields[i], 'value', data.registerDate)
+              this.$set(this.companyFields[i], 'errMsg', '')
+            }
+            if (this.companyFields[i].property === 'company_asset_size' && this.companyFields[i].type === 'select') {
+              this.optionDefinition['company_asset_size'].forEach(item => {
+                if (+item.value === +data.companyAssetSize) {
+                  this.$set(this.companyFields[i], 'placeholder', item.label)
+                }
+              })
+              this.$set(this.companyFields[i], 'value', data.companyAssetSize)
               this.$set(this.companyFields[i], 'errMsg', '')
             }
           }
@@ -537,7 +547,7 @@ export default {
     padding-bottom: 25px;
   }
   .form {
-    width: 990px;
+    width: 1120px;
   }
   .title {
     margin: 0 auto;
