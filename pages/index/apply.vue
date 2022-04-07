@@ -121,7 +121,7 @@ export default {
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code']
+    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
       if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
@@ -473,6 +473,29 @@ export default {
           }
         }
       }
+      if (['open_account', 'open_account2'].includes(item.property)) {
+        let k = 0, p = 0
+        for (k; k < this.companyFields.length; k++) {
+          if (item.property === 'open_account' && this.companyFields[k].property === 'extend_attributes_money_account') {
+            if (+item.value === 1) this.companyFields[k].type = 'text'
+            else this.companyFields[k].type = 'hidden'
+          }
+          if (item.property === 'open_account2' && this.companyFields[k].property === 'extend_attributes_money_account2') {
+            if (+item.value === 1) this.companyFields[k].type = 'text'
+            else this.companyFields[k].type = 'hidden'
+          }
+        }
+        for (p; p < this.productFields[index].length; p++) {
+          if (item.property === 'open_account' && this.productFields[index][p].property === 'extend_attributes_money_account') {
+            if (+item.value === 1) this.productFields[index][p].type = 'text'
+            else this.productFields[index][p].type = 'hidden'
+          }
+          if (item.property === 'open_account2' && this.productFields[index][p].property === 'extend_attributes_money_account2') {
+            if (+item.value === 1) this.productFields[index][p].type = 'text'
+            else this.productFields[index][p].type = 'hidden'
+          }
+        }
+      }
       this.selectBlur(item)
     },
     dateVerify (item, v) {
@@ -514,7 +537,6 @@ export default {
     padding-bottom: 25px;
   }
   .form {
-    margin: 0 auto;
     width: 990px;
   }
   .title {
@@ -543,7 +565,7 @@ export default {
     margin-top: 12px;
     flex-shrink: 0;
     padding-right: 20px;
-    width: 300px;
+    width: 437px;
     font-size: 20px;
     font-weight: 600;
     color: #333;
@@ -639,6 +661,7 @@ export default {
   .checkbox-container {
     margin-top: 24px;
     .el-checkbox {
+      margin-right: 12px;
       position: relative;
       margin-bottom: 12px;
       width: 160px;
