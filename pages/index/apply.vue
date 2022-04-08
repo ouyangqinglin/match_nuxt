@@ -208,7 +208,7 @@ export default {
             if (this.companyFields[i].value.constructor === Array) {
               company_data.recommend_other_name = this.companyFields[i].value[1]
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
-            }
+            } else company_data[this.companyFields[i].property] = this.companyFields[i].value
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
             if (this.companyFields[i].value.includes('其他')) {
               let p = 0;
@@ -260,8 +260,7 @@ export default {
         data,
         success: (resp) => {
           this.loading.close()
-          if (20000 === +(resp.data.code)) this.$alert('提交申请成功', '提示')
-          else this.$alert(resp.msg, '错误')
+          this.$alert(resp.msg, '提示')
           this.hasApply = false
         }
       })
@@ -362,7 +361,6 @@ export default {
           let data = res.data
           if (data.companyId) this.getProductList(data.companyId)
           let i = 0
-          console.log('data', data)
           for (i; i < this.companyFields.length; i++) {
             if (this.companyFields[i].property === 'company_name') {
               this.$set(this.companyFields[i], 'value', data.companyName)
@@ -437,7 +435,10 @@ export default {
       for (i; i < this.productFields[index].length; i++) {
         if (item.property === this.productFields[index][i].property) break
       }
-      if (!v || !v.replace(/\s*/g, '')) this.$set(item, 'errMsg', `${item.name}不能为空`)
+      if (!v || !v.replace(/\s*/g, '')) {
+        if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
+        else this.$set(item, 'errMsg', '')
+      }
       else {
         this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v.replace(/\s*/g, ''))
