@@ -7,7 +7,8 @@ export const state = () => {
     match_code: '',
     page: [],
     dyNav: [],
-    commitment_letter: {},
+    commitment_letter: null,
+    disclaimer: null,
     theme: '',
     menu: [],
     mobile_config: {},
@@ -35,6 +36,9 @@ export const mutations = {
   },
   saveLetter (state, data) {
     Vue.set(state, 'commitment_letter', data)
+  },
+  saveDisclaimer (state, data) {
+    Vue.set(state, 'disclaimer', data)
   },
   saveTheme (state, data) {
     Vue.set(state,'theme', data)
