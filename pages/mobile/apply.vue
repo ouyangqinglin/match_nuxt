@@ -267,7 +267,7 @@ export default {
             if (this.companyFields[i].value.constructor === Array) {
               company_data.recommend_other_name = this.companyFields[i].value[1]
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
-            }
+            } else company_data[this.companyFields[i].property] = this.companyFields[i].value
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
             if (this.companyFields[i].value.includes('其他')) {
               let p = 0;
