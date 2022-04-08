@@ -3,21 +3,25 @@
     <nuxt-child></nuxt-child>
     <div class="footer"><Footer :showCall.sync="showCall" /></div>
     <Call :showCall.sync="showCall"/>
+    <Disclaimer :show.sync="show" />
   </div>
 </template>
 
 <script>
 import Footer from '@comp/join-in'
 import Call from '@comp/call'
+import Disclaimer from '@comp/disclaimer'
 export default {
   name: "mobile",
-  components: { Footer },
+  components: { Footer, Call, Disclaimer },
   async asyncData ({ app, store, query }) {
     if (query.match_code) store.commit('saveCode', query.match_code)
     let config = await app.axios({
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
     })
     let data = config.data.data
+    if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
+    if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
     let competitonName = data.info.competition_name
     store.commit('saveConfig', data.config)
     store.commit('saveMobilePage', data.page)
@@ -65,10 +69,21 @@ export default {
   },
   data () {
     return {
-      show: true,
+      show: false,
       showCall: false,
       title: ''
     }
+  },
+  beforeRouteEnter (to, form, next) {
+    next((vm) => {
+      if (vm.$store.state.disclaimer) {
+        if (to.path.includes('rank') || to.path.includes('assign')) {
+          if (sessionStorage.getItem('disclaimer')) return
+          vm.show = true
+          sessionStorage.setItem('disclaimer', '1')
+        }
+      }
+    })
   },
   mounted () {
     if (location.search) {
