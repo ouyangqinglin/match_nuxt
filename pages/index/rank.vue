@@ -243,6 +243,8 @@ export default {
       else csearch_end_date = ''
 
       if (this.subScaleList.length) csearch_sub_scale_group = this.subScaleList[this.curSubScale].value || ''
+      else csearch_sub_scale_group = ''
+
       this.axios({
         url: '/competition/activity/backend/api/competition/commonRankList',
         type: 'get',

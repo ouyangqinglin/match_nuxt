@@ -488,22 +488,42 @@ export default {
         let k = 0, p = 0
         for (k; k < this.companyFields.length; k++) {
           if (item.property === 'open_account' && this.companyFields[k].property === 'extend_attributes_money_account') {
-            if (+item.value === 1) this.companyFields[k].type = 'text'
-            else this.companyFields[k].type = 'hidden'
+            if (+item.value === 1) {
+              this.companyFields[k].type = 'text'
+              this.companyFields[k].required = '1'
+            } else {
+              this.companyFields[k].type = 'hidden'
+              this.companyFields[k].required = '0'
+            }
           }
           if (item.property === 'open_account2' && this.companyFields[k].property === 'extend_attributes_money_account2') {
-            if (+item.value === 1) this.companyFields[k].type = 'text'
-            else this.companyFields[k].type = 'hidden'
+            if (+item.value === 1) {
+              this.companyFields[k].type = 'text'
+              this.companyFields[k].required = '1'
+            } else {
+              this.companyFields[k].type = 'hidden'
+              this.companyFields[k].required = '0'
+            }
           }
         }
         for (p; p < this.productFields[index].length; p++) {
           if (item.property === 'open_account' && this.productFields[index][p].property === 'extend_attributes_money_account') {
-            if (+item.value === 1) this.productFields[index][p].type = 'text'
-            else this.productFields[index][p].type = 'hidden'
+            if (+item.value === 1) {
+              this.productFields[index][p].type = 'text'
+              this.productFields[index][p].required = '1'
+            } else {
+              this.productFields[index][p].type = 'hidden'
+              this.productFields[index][p].required = '0'
+            }
           }
           if (item.property === 'open_account2' && this.productFields[index][p].property === 'extend_attributes_money_account2') {
-            if (+item.value === 1) this.productFields[index][p].type = 'text'
-            else this.productFields[index][p].type = 'hidden'
+            if (+item.value === 1) {
+              this.productFields[index][p].type = 'text'
+              this.productFields[index][p].required = '1'
+            } else {
+              this.productFields[index][p].type = 'hidden'
+              this.productFields[index][p].required = '0'
+            }
           }
         }
       }
