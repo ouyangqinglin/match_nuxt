@@ -25,16 +25,18 @@
     <common-flex justify="center" class="pages-index-footer">
       <img class="pages-index-banner footer-banner" :src="footerImg" alt="">
     </common-flex>
+    <Disclaimer :show.sync="show" />
   </div>
 </template>
 
 <script>
 import $ from 'jquery'
 import Nav from '@comp/nav'
+import Disclaimer from '@comp/disclaimer'
 
 export default {
   name: 'index',
-  components: { Nav },
+  components: { Nav, Disclaimer },
   head () {
     return {
       title: this.competitionName
@@ -52,7 +54,8 @@ export default {
     let headerImg = data.section.header.content.image
     let footerImg = data.section.footer.content.image
     store.commit('savePage', data.page)
-    store.commit('saveLetter', data.section.commitment_letter)
+    if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
+    if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
     let menu = JSON.parse(data.config.menu)
     let list = [
       {
@@ -112,6 +115,22 @@ export default {
       headerImg,
       footerImg
     }
+  },
+  data () {
+    return {
+      show: false
+    }
+  },
+  beforeRouteEnter (to, form, next) {
+    next((vm) => {
+      if (vm.$store.state.disclaimer) {
+        if (to.path.includes('rank') || to.path.includes('assign')) {
+          if (sessionStorage.getItem('disclaimer')) return
+          vm.show = true
+          sessionStorage.setItem('disclaimer', '1')
+        }
+      }
+    })
   },
   mounted () {
     if (location.search) {

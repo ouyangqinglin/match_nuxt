@@ -165,7 +165,8 @@ export default {
   },
   computed: {
     ...mapState({
-      urlObj: 'urlObj'
+      urlObj: 'urlObj',
+
     })
   },
   watch: {

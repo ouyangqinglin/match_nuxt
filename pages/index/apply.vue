@@ -72,25 +72,29 @@
         <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail()">
           <img v-if="agreeFlag" style="margin: 1px 0 0 2px; width: 18px; height: 18px" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
-        <div>我已阅读并同意</div>
-        <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
+        <div>我已阅读</div>
+        <div class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
+        <div v-if="disclaimer" @click="disclaimerShow = true" class="book">《免责声明》</div>
       </common-flex>
       <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
     <validation-toast :show.sync="validateShow" v-if="validateShow" @validation="getValidation" />
     <promise-book :show.sync="promiseShow" v-if="promiseShow" />
+    <Disclaimer :show.sync="disclaimerShow"/>
   </div>
 </template>
 
 <script>
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
+import Disclaimer from '@comp/disclaimer'
 import { mapState } from 'vuex'
 export default {
   name: 'apply',
   components: {
     ValidationToast,
-    PromiseBook
+    PromiseBook,
+    Disclaimer
   },
   data () {
     return {
@@ -102,6 +106,7 @@ export default {
       validateShow: false,
       hasApply: false,
       promiseShow: false,
+      disclaimerShow: false,
       agreeFlag: false,
       getCodeShow: true,
       detailCount: 0,
@@ -144,6 +149,7 @@ export default {
     ...mapState({
       match_code: 'match_code',
       theme: 'theme',
+      disclaimer: 'disclaimer'
     })
   },
   mounted () {
@@ -193,7 +199,7 @@ export default {
     },
     submit () {
       if (!this.agreeFlag) {
-        this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
+        this.$alert(`请勾选我同意《参赛承诺书》`, '提示')
         return
       }
       const company_data = {}, product_list = []
@@ -648,7 +654,7 @@ export default {
       div {
         color: #fff;
       }
-      :nth-child(3) {
+      .book {
         color: #FFEB8A;
         cursor: pointer;
       }

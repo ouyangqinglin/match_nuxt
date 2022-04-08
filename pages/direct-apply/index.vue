@@ -129,7 +129,8 @@ export default {
     let themeColor = init.config.theme_color
     let competitionName = init.info.competition_name
     let headerBanner = init.config.apply_banner
-    store.commit('saveLetter', init.section.commitment_letter)
+    if (init.section.commitment_letter) store.commit('saveLetter', init.section.commitment_letter)
+    if (init.section.disclaimer) store.commit('saveDisclaimer', init.section.disclaimer)
     store.commit('saveTheme', themeColor)
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
