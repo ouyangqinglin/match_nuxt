@@ -6,7 +6,7 @@
       <common-flex justify="center" align="center" class="toast" v-if="toastShow">
         <div class="toast-body">
           <common-flex class="toast-body-title" justify="space-between" align="center">
-            <div>{{ placeholder }}</div>
+            <div class="ellipsis txt">{{ placeholder }}</div>
             <img src="./close.png" alt="" @click="close">
           </common-flex>
           <div class="toast-body-search" v-if="parentList.length > 7">
@@ -15,7 +15,7 @@
           </div>
           <div class="toast-body-list">
             <common-flex justify="space-between" @click.native="choose(i)" :key="i.label" align="center" class="item" v-for="i of filterList">
-              <span v-html="toMark(i.label)"></span>
+              <span class="ellipsis li" v-html="toMark(i.label)"></span>
               <img v-if="i.children" src="./right.png" alt="">
             </common-flex>
           </div>
@@ -200,6 +200,9 @@ export default {
         background: linear-gradient(90deg, #FFBD61, #FFF8A7, #FFBD61);
         box-shadow: 0 .03rem .04rem 0 rgba(255, 255, 255, 0.5);
         border-radius: .2rem .2rem 0 0;
+        .txt {
+          max-width: 4.5rem;
+        }
         img {
           width: .27rem;
           height: .27rem;
@@ -239,6 +242,9 @@ export default {
           height: .8rem;
           font-size: .3rem;
           color: #333;
+          .li {
+            max-width: 5rem;
+          }
           img {
             width: .26rem;
             height: .2rem;

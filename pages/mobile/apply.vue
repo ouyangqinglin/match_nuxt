@@ -142,7 +142,7 @@ export default {
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_money_account', 'extend_attributes_recommend_person_name', 'product_code']
+    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_money_account', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account2']
     for (i; i < companyFields.length; i++) {
       if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
       if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
@@ -207,16 +207,45 @@ export default {
           }
         }
       }
-      if (item.property === 'open_account') {
-        for (let j = 0; j < this.companyFields.length; j++) {
-          if (this.companyFields[j].property === 'extend_attributes_money_account') {
-            if (+data === 1) {
-              this.$set(this.companyFields[j], 'type', 'text')
-              this.$set(this.companyFields[j], 'required', '1')
+      if (['open_account', 'open_account2'].includes(item.property)) {
+        let k = 0, p = 0
+        for (k; k < this.companyFields.length; k++) {
+          if (item.property === 'open_account' && this.companyFields[k].property === 'extend_attributes_money_account') {
+            if (+item.value === 1) {
+              this.companyFields[k].type = 'text'
+              this.companyFields[k].required = '1'
+            } else {
+              this.companyFields[k].type = 'hidden'
+              this.companyFields[k].required = '0'
             }
-            else {
-              this.$set(this.companyFields[j], 'type', 'hidden')
-              this.$set(this.companyFields[j], 'required', '0')
+          }
+          if (item.property === 'open_account2' && this.companyFields[k].property === 'extend_attributes_money_account2') {
+            if (+item.value === 1) {
+              this.companyFields[k].type = 'text'
+              this.companyFields[k].required = '1'
+            } else {
+              this.companyFields[k].type = 'hidden'
+              this.companyFields[k].required = '0'
+            }
+          }
+        }
+        for (p; p < this.productFields[index].length; p++) {
+          if (item.property === 'open_account' && this.productFields[index][p].property === 'extend_attributes_money_account') {
+            if (+item.value === 1) {
+              this.productFields[index][p].type = 'text'
+              this.productFields[index][p].required = '1'
+            } else {
+              this.productFields[index][p].type = 'hidden'
+              this.productFields[index][p].required = '0'
+            }
+          }
+          if (item.property === 'open_account2' && this.productFields[index][p].property === 'extend_attributes_money_account2') {
+            if (+item.value === 1) {
+              this.productFields[index][p].type = 'text'
+              this.productFields[index][p].required = '1'
+            } else {
+              this.productFields[index][p].type = 'hidden'
+              this.productFields[index][p].required = '0'
             }
           }
         }
@@ -423,6 +452,15 @@ export default {
             }
             if (this.companyFields[i].property === 'register_date') {
               this.$set(this.companyFields[i], 'value', data.registerDate)
+              this.$set(this.companyFields[i], 'errMsg', '')
+            }
+            if (this.companyFields[i].property === 'company_asset_size' && this.companyFields[i].type === 'select') {
+              this.optionDefinition['company_asset_size'].forEach(item => {
+                if (+item.value === +data.companyAssetSize) {
+                  this.$set(this.companyFields[i], 'placeholder', item.label)
+                }
+              })
+              this.$set(this.companyFields[i], 'value', data.companyAssetSize)
               this.$set(this.companyFields[i], 'errMsg', '')
             }
           }
