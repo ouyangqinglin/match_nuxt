@@ -116,7 +116,7 @@
 import popUp from '@comp/pop-up'
 import CommonTitle from '@comp/mobile-page-title'
 import Header from '@comp/nav-header'
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: 'mobile-assign',
@@ -233,7 +233,7 @@ export default {
     getDataList () {
       let strategy = this.option_definition['strategy'][this.curStra].value || '', sub_strategy,
         rank_range = this.option_definition['rank_range'][this.curRang].value || '', end_date,
-        scale_group = this.option_definition['scale_group'][this.curScale].value || ''
+        scale_group = this.option_definition['scale_group'][this.curScale].value || '', sub_scale_group
 
 
       if (this.subStraList.length) sub_strategy = this.subStraList[this.curSubStra].value || ''
@@ -241,6 +241,9 @@ export default {
 
       if (this.subRangList.length) end_date = this.subRangList[this.curSubRang].value || ''
       else end_date = ''
+
+      if (this.subScaleList.length) sub_scale_group = this.subScaleList[this.curSubScale].value || ''
+      else sub_scale_group = ''
 
       this.axios({
         url: `/competition/match/api/match/prize/common_list`,
@@ -251,12 +254,13 @@ export default {
           sub_strategy,
           rank_range,
           end_date,
+          scale_group,
+          sub_scale_group,
           fund_name: this.fund_name,
           page: this.pageParam.page,
           rows: this.pageParam.rows
         },
         success: (res) => {
-          console.log('res', res)
           this.dataList = res.data.list
         }
       })

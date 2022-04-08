@@ -92,6 +92,26 @@
         </div>
       </pop-up>
 
+      <pop-up :show.sync="scaleShow" @sure="getDataList">
+        <div class="pop-up-slot">
+          <div class="title"><span>*</span>产品分组</div>
+          <div class="pop-up-item-box">
+            <div class="item" v-for="(item, i) of option_definition['csearch_scale_group']" :key="item.value" @click="curScale = i"
+                 :style="i === curScale && { color: theme, border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
+              {{item.label}}
+            </div>
+            <template v-if="subScaleList.length">
+              <div class="item-dy">
+                <div class="item-sub" v-for="(item, i) of subScaleList" :key="i" @click="curSubScale = i"
+                     :style="i === curSubScale && { color: theme,  border: 'none', background: 'linear-gradient(#FFD585,#FFEECD,#FFD585)'}">
+                  {{item.label}}
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </pop-up>
+
     </div>
   </div>
 </template>
@@ -123,6 +143,8 @@ export default {
       curSubStra: 0,
       curRang: 0,
       curSubRang: 0,
+      curScale: 0,
+      curSubScale: 0,
       csearch_fund_name: '',
       timer: null,
       maxPage: 0,
@@ -134,6 +156,7 @@ export default {
       },
       strategyShow: false,
       rangShow: false,
+      scaleShow: false,
     }
   },
   computed: {
@@ -147,6 +170,9 @@ export default {
     subRangList () {
       return this.option_definition['csearch_rank_range'][this.curRang].children || [] // 榜单下的排名日期
     },
+    subScaleList () {
+      return this.option_definition['csearch_scale_group'][this.curScale].children || [] // 榜单下的排名日期
+    },
     strategyContent () {
       let c
       if (this.subStraList.length) c = `${this.option_definition['csearch_strategy'][this.curStra].label}>${this.subStraList[this.curSubStra].label}`
@@ -157,6 +183,12 @@ export default {
       let c
       if (this.subRangList.length) c = `${this.option_definition['csearch_rank_range'][this.curRang].label}>${this.subRangList[this.curSubRang].label}`
       else c = `${this.option_definition['csearch_rank_range'][this.curRang].label}`
+      return c
+    },
+    scaleContent () {
+      let c
+      if (this.subScaleList.length) c = `${this.option_definition['csearch_scale_group'][this.curScale].label}>${this.subScaleList[this.curSubScale].label}`
+      else c = `${this.option_definition['csearch_scale_group'][this.curScale].label}`
       return c
     },
     getWidth () {
@@ -177,11 +209,13 @@ export default {
   methods: {
     openPop (props) {
       if (props === 'csearch_strategy') this.strategyShow = true
-      else this.rangShow = true
+      if (props === 'csearch_rank_range') this.rangShow = true
+      if (props === 'csearch_scale_group') this.scaleShow = true
     },
     inputContent (props) {
       if (props === 'csearch_strategy') return this.strategyContent
       if (props === 'csearch_rank_range') return this.csearchContent
+      if (props === 'csearch_scale_group') return this.scaleContent
     },
     getName (props) {
       let i = 0
@@ -192,13 +226,17 @@ export default {
     },
     getDataList () {
       let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
-        csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date
+        csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date,
+        csearch_scale_group = this.option_definition['csearch_scale_group'][this.curScale].value || '',csearch_sub_scale_group
 
       if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
       else csearch_sub_strategy = ''
 
       if (this.subRangList.length) csearch_end_date = this.subRangList[this.curSubRang].value || ''
       else csearch_end_date = ''
+
+      if (this.subScaleList.length) csearch_sub_scale_group = this.subScaleList[this.curSubScale].value || ''
+      else csearch_sub_scale_group = ''
 
       this.axios({
         url: '/competition/activity/backend/api/competition/commonRankList',
@@ -209,12 +247,13 @@ export default {
           csearch_sub_strategy,
           csearch_rank_range,
           csearch_end_date,
+          csearch_scale_group,
+          csearch_sub_scale_group,
           csearch_fund_name: this.csearch_fund_name,
           page: this.pageParam.page,
           rows: this.pageParam.rows
         },
         success: (res) => {
-          console.log(res.data)
           this.itemList = res.data.title_arr
           this.dataList = res.data.data
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
