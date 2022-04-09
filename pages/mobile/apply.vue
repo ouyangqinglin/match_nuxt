@@ -82,19 +82,22 @@
         <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail()">
           <img v-if="agreeFlag" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
-        <div>我已阅读并同意</div>
-        <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
+        <div>我已阅读</div>
+        <div class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
+        <div class="book" v-if="disclaimer" @click="disclaimerShow = true">《免责声明》</div>
       </common-flex>
       <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
     <validation-toast :show.sync="validateShow" @validation="getValidation" />
     <promise-book :show.sync="promiseShow" v-if="promiseShow" />
+    <Disclaimer :show.sync="disclaimerShow"/>
   </div>
 </template>
 
 <script>
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
+import Disclaimer from '@comp/disclaimer'
 import CompSelect from '@comp/select'
 import Header from '@comp/nav-header'
 import {mapState} from "vuex";
@@ -104,7 +107,8 @@ export default {
     ValidationToast,
     PromiseBook,
     CompSelect,
-    Header
+    Header,
+    Disclaimer
   },
   data () {
     return {
@@ -115,6 +119,7 @@ export default {
       hasApply: false,
       validateShow: false,
       promiseShow: false,
+      disclaimerShow: false,
       agreeFlag: false,
       getCodeShow: true,
       detailCount: 0,
@@ -166,7 +171,7 @@ export default {
   computed: {
     ...mapState({
       urlObj: 'urlObj',
-
+      disclaimer: 'disclaimer'
     })
   },
   watch: {
@@ -677,7 +682,7 @@ export default {
           height: .17rem;
         }
       }
-      :nth-child(3) {
+      .book {
         color: #565656;
         cursor: pointer;
       }

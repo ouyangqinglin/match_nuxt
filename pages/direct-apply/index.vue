@@ -80,12 +80,14 @@
           <img v-if="agreeFlag" style="margin: .01rem 0 0 .02rem" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
         <div>我已阅读并同意</div>
-        <div @click="agreeDetail(1)">《参赛机构承诺书》</div>
+        <div class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
+        <div class="book" v-if="disclaimer" @click="disclaimerShow = true">《免责声明》</div>
       </common-flex>
       <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
     <validation-toast :show.sync="validateShow" @validation="getValidation" />
     <promise-book :show.sync="promiseShow" v-if="promiseShow" />
+    <Disclaimer :show.sync="disclaimerShow"/>
   </div>
 </template>
 
@@ -93,12 +95,14 @@
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
 import CompSelect from '@comp/select'
+import Disclaimer from "@comp/disclaimer";
 export default {
   name: 'apply',
   components: {
     ValidationToast,
     PromiseBook,
     CompSelect,
+    Disclaimer
   },
   head () {
     return {
@@ -114,6 +118,7 @@ export default {
       hasApply: false,
       validateShow: false,
       promiseShow: false,
+      disclaimerShow: false,
       agreeFlag: false,
       getCodeShow: true,
       detailCount: 0,
@@ -670,7 +675,7 @@ export default {
       div {
         color: #fff;
       }
-      :nth-child(3) {
+      .book {
         color: #FFEB8A;
         cursor: pointer;
       }
