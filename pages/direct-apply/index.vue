@@ -96,6 +96,7 @@ import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
 import CompSelect from '@comp/select'
 import Disclaimer from "@comp/disclaimer";
+import { mapState } from "vuex";
 export default {
   name: 'apply',
   components: {
@@ -169,6 +170,11 @@ export default {
       productFields,
       optionDefinition
     }
+  },
+  computed: {
+    ...mapState({
+      disclaimer: 'disclaimer'
+    })
   },
   mounted () {
     this.getChannelData()
