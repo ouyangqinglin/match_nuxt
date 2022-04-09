@@ -351,8 +351,7 @@ export default {
         url: '/competition/activity/backend/api/competition/applyMulProducts',
         data,
         success: (resp) => {
-          if (20000 === +(resp.data.code)) this.$alert('提交申请成功', '提示')
-          else this.$alert(resp.msg, '错误')
+          this.$alert(resp.msg, '提示')
           this.hasApply = false
         }
       })
