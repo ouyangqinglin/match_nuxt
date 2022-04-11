@@ -243,7 +243,7 @@ export default {
           font-size: .3rem;
           color: #333;
           .li {
-            max-width: 5rem;
+            max-width: 5.5rem;
           }
           img {
             width: .26rem;
