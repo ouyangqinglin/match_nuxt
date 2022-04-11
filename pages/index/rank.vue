@@ -217,7 +217,7 @@ export default {
         this.curSubStra = index
       }
       if (props === 'csearch_rank_range') {
-        this.curSubStra = index
+        this.curSubRang = index
       }
       if (props === 'csearch_scale_group') {
         this.curSubScale = index
