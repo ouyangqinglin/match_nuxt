@@ -131,10 +131,10 @@ export default {
       return this.option_definition['strategy'][this.curStra].children || [] // 子策略
     },
     subRangList () {
-      return this.option_definition['rank_range'][this.curRang].children || [] // 榜单下的排名日期
+      return this.option_definition['rank_range'] ? this.option_definition['rank_range'][this.curRang].children || [] : [] // 榜单下的排名日期
     },
     subScaleList () {
-      return this.option_definition['scale_group'][this.curScale].children || [] // 榜单下的排名日期
+      return this.option_definition['scale_group'] ? this.option_definition['scale_group'][this.curScale].children || [] : '' // 榜单下的排名日期
     },
   },
   watch: {
@@ -186,8 +186,8 @@ export default {
     getDataList () {
       this.openFullLoading()
       let strategy = this.option_definition['strategy'][this.curStra].value || '', sub_strategy,
-        rank_range = this.option_definition['rank_range'][this.curRang].value || '', end_date,
-        scale_group = this.option_definition['scale_group'][this.curScale].value || '', sub_scale_group
+        rank_range = this.option_definition['rank_range'] ? this.option_definition['rank_range'][this.curRang].value || '' : '', end_date,
+        scale_group = this.option_definition['scale_group'] ? this.option_definition['scale_group'][this.curScale].value || '' : '', sub_scale_group
 
 
       if (this.subStraList.length) sub_strategy = this.subStraList[this.curSubStra].value || ''

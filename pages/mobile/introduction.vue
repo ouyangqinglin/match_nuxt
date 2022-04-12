@@ -21,7 +21,7 @@
           <a class="img-link img-zsqh" href="https://qh.newone.com.cn/" target="_blank"></a>
         </div>
         <div class="item">
-          <a class="img-link img-ppw" href="https://www.simuwang.com/" target="_blank"></a>
+          <a class="img-link img-ppw" href="https://mobile.simuwang.com/" target="_blank"></a>
         </div>
       </common-flex>
     </div>
