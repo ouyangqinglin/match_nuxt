@@ -3,7 +3,7 @@
     <Header label="获奖名单" />
     <div style="height: .45rem; background: #f1f1f1" />
     <div class="mobile-assign">
-      <div class="header"><CommonTitle title="获奖名单"/></div>
+      <common-flex justify="center" class="header"><CommonTitle title="获奖名单"/></common-flex>
       <template v-for="(val, key) in option_definition">
         <common-flex class="fake-input-box" align="center">
           <common-flex class="label" align="flex-start">
@@ -378,13 +378,9 @@ export default {
 }
 .mobile-assign {
   position: relative;
-  padding-top: 1rem;
   height: 100%;
   .header {
-    position: absolute;
-    left: 50%;
-    top: -.15rem;
-    transform: translateX(-50%);
+    margin: -.2rem 0 .6rem 0;
   }
   .empty-box {
     width: 100%;
