@@ -11,7 +11,20 @@
         </a>
       </template>
     </common-flex>
-    <img class="mobile-introduction-content" :src="i.image" alt="" v-for="i of currPage.content">
+    <div class="mobile-introduction-blank"  v-for="(i, j) of currPage.content">
+      <img class="mobile-introduction-content" :src="i.image" alt="">
+      <common-flex direction="column" class="route-link" v-if="j === 3 && match_code === 'zszq'">
+        <div class="item">
+          <a class="img-link img-zszq" href="http://www.cmschina.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="img-link img-zsqh" href="https://qh.newone.com.cn/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="img-link img-ppw" href="https://www.simuwang.com/" target="_blank"></a>
+        </div>
+      </common-flex>
+    </div>
   </div>
 </template>
 
@@ -22,11 +35,13 @@ export default {
   name: "mobile-introduction",
   computed: {
     ...mapState({
+      match_code: 'match_code',
       menu: 'menu',
       mobileConfig: 'mobile_config',
       mobilePage: 'mobile_page'
     }),
     currPage () {
+      console.log('mobilePage', this.mobilePage)
       return this.mobilePage.find(i => i.title.includes('简介'))
     }
   }
@@ -56,6 +71,35 @@ export default {
         margin-bottom: .14rem;
         width: .93rem;
         height: .93rem;
+      }
+    }
+  }
+  &-blank {
+    position: relative;
+    .route-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 18rem;
+      .item {
+        position: relative;
+        width: 100%;
+        flex-grow: 1;
+        .img-link {
+          position: absolute;
+          top: 1.7rem;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 2.6rem;
+          height: 1.8rem;
+        }
+        .img-zsqh {
+          top: .7rem;
+        }
+        .img-ppw {
+          top: .09rem;
+        }
       }
     }
   }
