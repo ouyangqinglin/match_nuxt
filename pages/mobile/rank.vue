@@ -168,10 +168,10 @@ export default {
       return this.option_definition['csearch_strategy'][this.curStra].children || [] // 子策略
     },
     subRangList () {
-      return this.option_definition['csearch_rank_range'][this.curRang].children || [] // 榜单下的排名日期
+      return this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].children || [] : [] // 榜单下的排名日期
     },
     subScaleList () {
-      return this.option_definition['csearch_scale_group'][this.curScale].children || [] // 榜单下的排名日期
+      return this.option_definition['csearch_scale_group'] ? this.option_definition['csearch_scale_group'][this.curScale].children || [] : [] // 榜单下的排名日期
     },
     strategyContent () {
       let c
@@ -226,8 +226,9 @@ export default {
     },
     getDataList () {
       let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
-        csearch_rank_range = this.option_definition['csearch_rank_range'][this.curRang].value || '', csearch_end_date,
-        csearch_scale_group = this.option_definition['csearch_scale_group'][this.curScale].value || '',csearch_sub_scale_group
+        csearch_rank_range = this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].value || '' : '', csearch_end_date,
+        csearch_scale_group = this.option_definition['csearch_scale_group'] ? this.option_definition['csearch_scale_group'][this.curScale].value || '' : '',
+        csearch_sub_scale_group
 
       if (this.subStraList.length) csearch_sub_strategy = this.subStraList[this.curSubStra].value || ''
       else csearch_sub_strategy = ''
