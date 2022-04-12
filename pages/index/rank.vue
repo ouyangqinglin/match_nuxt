@@ -164,7 +164,7 @@ export default {
     this.subRangList = this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].children || [] : [] // 榜单下的排名日期
     this.subScaleList = this.option_definition['csearch_scale_group'] ? this.option_definition['csearch_scale_group'][this.curScale].children || [] : []
     this.getDataList()
-    if (loginScriptLoaded) this.start()
+    this.start()
   },
   methods: {
     start () {
