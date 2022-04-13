@@ -291,10 +291,12 @@ export default {
     >:nth-child(2) {
       flex: 1;
       padding-left: 0.2rem;
+      text-align: center;
     }
     >:nth-child(3) {
       flex: 1;
       padding-left: 0.2rem;
+      text-align: center;
     }
   }
   &-content {
@@ -329,6 +331,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      text-align: center;
     }
     >:nth-child(3) {
       flex: 1;
@@ -336,6 +339,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      text-align: center;
     }
   }
 }
