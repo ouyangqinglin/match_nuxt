@@ -577,7 +577,7 @@ export default {
     width: 1120px;
   }
   .title {
-    margin: 0 auto;
+    margin: 0 auto 30px;
     width: 359px;
     height: 60px;
     text-align: center;
@@ -599,7 +599,7 @@ export default {
     }
   }
   .form-name {
-    margin-top: 12px;
+    margin-top: 20px;
     flex-shrink: 0;
     padding-right: 20px;
     width: 437px;
@@ -673,7 +673,7 @@ export default {
     flex-shrink: 0;
     width: 400px;
     height: 50px;
-    margin-top: 12px;
+    margin-top: 20px;
     font-size: 18px;
     background: #F8F8F8;
     input {
@@ -734,7 +734,7 @@ export default {
   }
 }
 .my-cascader .el-cascader-node {
-  width: 340px;
+  width: 405px;
   height: 40px;
   font-size: 16px;
 }
