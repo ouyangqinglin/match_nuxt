@@ -28,13 +28,13 @@
       <div class="margin-box" />
 
       <div class="mobile-assign-form" v-if="dataList.length">
-        <div class="rank-form-thred">
+        <div class="mobile-assign-form-thred">
           <div style="background: rgba(225, 137, 72, .12)" v-for="(t, i) in itemList">
             {{t.label}}
           </div>
         </div>
-        <div class="rank-form-content"  v-for="(item, i) of dataList" :key="i">
-          <div class="rank-form-content-item" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in itemList" :key="i+''+t_i">
+        <div class="mobile-assign-form-content"  v-for="(item, i) of dataList" :key="i">
+          <div class="mobile-assign-form-content-item" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in itemList" :key="i+''+t_i">
             <template v-if="t.prop==='rank_score'&&+item.rank_score === 1"><img :src="require('./img/rank/no1.png')" alt="">1</template>
             <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 2"><img :src="require('./img/rank/no2.png')" alt="">2</template>
             <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 3"><img :src="require('./img/rank/no3.png')" alt="">3</template>
