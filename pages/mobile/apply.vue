@@ -421,7 +421,7 @@ export default {
         }
       })
     },
-    countDown(j) {
+    countDown (j) {
       clearInterval(this.timer)
       let time = 60
       this.timer = setInterval( () => {
