@@ -414,4 +414,7 @@ $borderColor: #DDDDDD;
     }
   }
 }
+.ppw-login-btn {
+  top: -65px;
+}
 </style>
