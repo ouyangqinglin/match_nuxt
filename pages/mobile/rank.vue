@@ -243,6 +243,7 @@ export default {
         url: '/competition/activity/backend/api/competition/commonRankList',
         type: 'get',
         data: {
+          source_type: 'h5',
           match_code: this.match_code,
           csearch_strategy,
           csearch_sub_strategy,
