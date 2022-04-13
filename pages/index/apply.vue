@@ -614,7 +614,7 @@ export default {
     }
   }
   .msg-btn {
-    margin: 12px 0 0 10px;
+    margin: 20px 0 0 10px;
     width: 130px;
     height: 50px;
     text-align: center;
