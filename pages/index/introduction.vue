@@ -46,7 +46,6 @@ export default {
   &-blank {
     position: relative;
     img {
-      margin-bottom: 55px;
       width: 1200px;
     }
     .route-link {
