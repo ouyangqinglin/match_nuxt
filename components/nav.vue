@@ -5,7 +5,6 @@
       <a @click="navChange(i)" v-for="i of dyNav" :key="i.route">
         <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="curNav = i.path">
           <span>{{ i.name }}</span>
-          <img v-if="curNav === i.path" :src="require('@img/item-bg.png')" alt="">
         </div>
       </a>
     </common-flex>
@@ -69,22 +68,23 @@ export default {
   .comp-nav {
     margin-top: -30px;
     width: 100%;
-    height: 60px;
+    height: 81px;
     background: url("~@img/container-bg.jpg") center/100% 100%;
     &-item {
       position: relative;
-      width: 161px;
+      width: 170px;
+      height: 81px;
       text-align: center;
-      @include nFont(24 400);
+      @include nFont(24 400 81);
       z-index: 2;
       cursor: pointer;
       border-right: solid 1px #7C5053;
       img {
         position: absolute;
-        top: -8px;
-        left: -2px;
-        width: 163px;
-        height: 79px;
+        top: -24px;
+        left: -4px;
+        width: 170px;
+        height: 81px;
         z-index: -1;
       }
     }
@@ -92,7 +92,8 @@ export default {
       border-right: none;
     }
     .active {
-      @include nFont(28 500 #FFFFFF)
+      @include nFont(24 500 #FFFFFF);
+      background: url("~@img/menu-bg.svg") center/100% 100%;
     }
   }
   .fixed {

@@ -86,7 +86,7 @@ export default {
       text-align: center;
       background-color: #dddddd;
       border-radius: .15rem .15rem 0 0;
-      font-size: .3rem;
+      font-size: .28rem;
       color: rgb(51, 51, 51);
       font-weight: 600;
       &-close {
@@ -101,8 +101,6 @@ export default {
         position: absolute;
         bottom: -1rem;
         right: .2rem;
-        width: 1rem;
-        height: 1rem;
         @include bg(url('~@img/countdown-bg.png'));
         :nth-child(1) {
           font-size: .14rem;
@@ -115,8 +113,10 @@ export default {
       }
     }
     .body {
-      padding: .75rem .3rem .3rem .3rem;
-      max-height: 6rem;
+      padding-left: .3rem;
+      padding-right: .3rem;
+      padding-bottom: .3rem;
+      max-height: 6.2rem;
       overflow-y: scroll;
       &::-webkit-scrollbar {
         width: 5px;
@@ -132,11 +132,43 @@ export default {
       }
       p {
         margin-top: .15rem;
-        font-size: .26rem;
         color: #333;
         line-height: .45rem;
         word-break: break-all;
       }
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .content {
+      width: 1000px;
+      height: 710px;
+      .header-countdown {
+        bottom: -80px;
+        width: 80px;
+        height: 80px;
+      }
+      p {
+        font-size: 20px;
+      }
+    }
+    .body {
+      padding-top: .55rem;
+    }
+  }
+  @media screen and (max-width: 750px) {
+    .content {
+      width: 6.3rem;
+      height: 7.5rem;
+      .header-countdown {
+        width: 1rem;
+        height: 1rem;
+      }
+      p {
+        font-size: .26rem;
+      }
+    }
+    .body {
+      padding-top: .75rem;
     }
   }
 }
