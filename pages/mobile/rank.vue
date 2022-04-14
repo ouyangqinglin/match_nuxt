@@ -165,7 +165,7 @@ export default {
       theme: 'theme'
     }),
     subStraList () {
-      return this.option_definition['csearch_strategy'][this.curStra].children || [] // 子策略
+      return this.option_definition['csearch_strategy'] ? this.option_definition['csearch_strategy'][this.curStra].children || []: '' // 子策略
     },
     subRangList () {
       return this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].children || [] : [] // 榜单下的排名日期
@@ -225,7 +225,7 @@ export default {
       return this.fields[i].name
     },
     getDataList () {
-      let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
+      let csearch_strategy = this.option_definition['csearch_strategy'] ? this.option_definition['csearch_strategy'][this.curStra].value || '': '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].value || '' : '', csearch_end_date,
         csearch_scale_group = this.option_definition['csearch_scale_group'] ? this.option_definition['csearch_scale_group'][this.curScale].value || '' : '',
         csearch_sub_scale_group

@@ -31,11 +31,6 @@
             </common-flex>
           </div>
         </common-flex>
-        <common-flex class="strategy" style="position: relative; margin-top: 10px">
-          <div class="strategy-type" style="padding-left: 16px"><span>*</span>关键字：</div>
-          <input class="strategy-input" type="text" v-model.trim="fund_name" placeholder="请输入基金名称/所属机构关键字">
-          <img :src="require('@img/rank/search.svg')" class="strategy-svg" alt="">
-        </common-flex>
       </div>
       <div class="ppw-w1200 table">
         <common-flex class="th">

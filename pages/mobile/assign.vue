@@ -16,15 +16,6 @@
           </common-flex>
         </common-flex>
       </template>
-      <common-flex class="fake-input-box" align="center">
-        <common-flex class="label" align="flex-start">
-          <span>关键词:</span>
-        </common-flex>
-        <common-flex class="fake-input" justify="space-between" align="center">
-          <input type="text" v-model.trim="fund_name" placeholder="请输入基金名称/所属机构关键字">
-          <i class="find" />
-        </common-flex>
-      </common-flex>
       <div class="margin-box" />
 
       <div class="mobile-assign-form" v-if="dataList.length">
@@ -171,7 +162,7 @@ export default {
       theme: 'theme'
     }),
     subStraList () {
-      return this.option_definition['strategy'][this.curStra].children || [] // 子策略
+      return this.option_definition['strategy'] ? this.option_definition['strategy'][this.curStra].children || [] : '' // 子策略
     },
     subRangList () {
       return this.option_definition['rank_range'] ? this.option_definition['rank_range'][this.curRang].children || [] : [] // 榜单下的排名日期
@@ -231,7 +222,7 @@ export default {
       return this.fields[i].name
     },
     getDataList () {
-      let strategy = this.option_definition['strategy'][this.curStra].value || '', sub_strategy,
+      let strategy = this.option_definition['strategy'] ? this.option_definition['strategy'][this.curStra].value || '': '', sub_strategy,
         rank_range = this.option_definition['rank_range'] ? this.option_definition['rank_range'][this.curRang].value || '' : '', end_date,
         scale_group = this.option_definition['scale_group'] ? this.option_definition['scale_group'][this.curScale].value || '' : '', sub_scale_group
 
