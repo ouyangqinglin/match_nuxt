@@ -60,6 +60,7 @@ export default {
     store.commit('savePage', data.page)
     if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
     if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
+    if (data.section.apply_disclaimer) store.commit('saveApplyDisclaimer', data.section.apply_disclaimer)
     const menuActiveBg = data.config.menu_background
     store.commit('saveMenuBg', menuActiveBg)
     let menu = JSON.parse(data.config.menu)

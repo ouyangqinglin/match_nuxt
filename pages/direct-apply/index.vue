@@ -95,7 +95,7 @@
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
 import CompSelect from '@comp/select'
-import Disclaimer from "@comp/disclaimer";
+import Disclaimer from "@comp/apply-disclaimer";
 import { mapState } from "vuex";
 export default {
   name: 'apply',
@@ -138,7 +138,7 @@ export default {
     const endTime = init.info.apply_end_time
     let headerBanner = init.config.apply_banner
     if (init.section.commitment_letter) store.commit('saveLetter', init.section.commitment_letter)
-    if (init.section.disclaimer) store.commit('saveDisclaimer', init.section.disclaimer)
+    if (init.section.apply_disclaimer) store.commit('saveApplyDisclaimer', init.section.apply_disclaimer)
     store.commit('saveTheme', themeColor)
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
@@ -177,7 +177,7 @@ export default {
   },
   computed: {
     ...mapState({
-      disclaimer: 'disclaimer'
+      disclaimer: 'apply_disclaimer'
     })
   },
   mounted () {

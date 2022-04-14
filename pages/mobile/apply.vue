@@ -97,7 +97,7 @@
 <script>
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
-import Disclaimer from '@comp/disclaimer'
+import Disclaimer from '@comp/apply-disclaimer'
 import CompSelect from '@comp/select'
 import Header from '@comp/nav-header'
 import {mapState} from "vuex";
@@ -171,7 +171,7 @@ export default {
   computed: {
     ...mapState({
       urlObj: 'urlObj',
-      disclaimer: 'disclaimer',
+      disclaimer: 'apply_disclaimer',
       time: 'time'
     }),
     startTime () {
