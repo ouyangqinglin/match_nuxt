@@ -7,13 +7,13 @@
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
             <common-flex>
-              <div style="margin-bottom: 20px" v-if="key === 'strategy'" class="item"
+              <div style="margin-bottom: 30px" v-if="key === 'strategy'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
-              <div style="margin-bottom: 20px" v-if="key === 'rank_range'" class="item"
+              <div style="margin-bottom: 30px" v-if="key === 'rank_range'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
-              <div style="margin-bottom: 20px" v-if="key === 'scale_group'" class="item"
+              <div style="margin-bottom: 30px" v-if="key === 'scale_group'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curScale === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
             </common-flex>
@@ -31,7 +31,7 @@
             </common-flex>
           </div>
         </common-flex>
-        <common-flex class="strategy" style="position: relative">
+        <common-flex class="strategy" style="position: relative; margin-top: 10px">
           <div class="strategy-type" style="padding-left: 16px"><span>*</span>关键字：</div>
           <input class="strategy-input" type="text" v-model.trim="fund_name" placeholder="请输入基金名称/所属机构关键字">
           <img :src="require('@img/rank/search.svg')" class="strategy-svg" alt="">
@@ -264,7 +264,6 @@ $borderColor: #DDDDDD;
       width: 100%;
       padding: 0 30px;
       .strategy, .range, .key {
-        margin-top: 30px;
         &-input {
           padding-left: 20px;
           width: 470px;
