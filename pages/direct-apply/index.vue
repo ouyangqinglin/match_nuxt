@@ -134,6 +134,8 @@ export default {
     let init = initData.data.data
     let themeColor = init.config.theme_color
     let competitionName = init.info.competition_name
+    const startTime = init.info.apply_start_time
+    const endTime = init.info.apply_end_time
     let headerBanner = init.config.apply_banner
     if (init.section.commitment_letter) store.commit('saveLetter', init.section.commitment_letter)
     if (init.section.disclaimer) store.commit('saveDisclaimer', init.section.disclaimer)
@@ -168,7 +170,9 @@ export default {
       singleProduct,
       companyFields,
       productFields,
-      optionDefinition
+      optionDefinition,
+      startTime,
+      endTime
     }
   },
   computed: {
@@ -177,6 +181,16 @@ export default {
     })
   },
   mounted () {
+    let current = (new Date().getTime())
+    const curDate = this.DATE_FORMAT('yyyy-MM-dd', current)
+    if (curDate < this.startTime.split(' ')[0]) {
+      this.$alert(`报名未开始`, '提示')
+      this.hasApply = true
+    }
+    if (curDate > this.endTime.split(' ')[0]) {
+      this.$alert(`报名已结束`, '提示')
+      this.hasApply = true
+    }
     this.getChannelData()
   },
   methods: {

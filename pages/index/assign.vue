@@ -119,7 +119,7 @@ export default {
       dataList: [],
       pageParam: {
         page: 1,
-        rows: 10
+        rows: 30
       }
     }
   },
