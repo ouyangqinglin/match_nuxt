@@ -87,7 +87,7 @@
     </common-flex>
     <validation-toast :show.sync="validateShow" @validation="getValidation" />
     <promise-book :show.sync="promiseShow" v-if="promiseShow" />
-    <Disclaimer :show.sync="disclaimerShow"/>
+    <Disclaimer :show.sync="disclaimerShow" v-if="disclaimerShow" />
   </div>
 </template>
 
