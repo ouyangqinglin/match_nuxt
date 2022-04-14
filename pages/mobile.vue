@@ -1,6 +1,7 @@
 <template>
   <div class="pages-mobile">
     <nuxt-child></nuxt-child>
+    <div class="disclaimer-text" v-if="$route.query.match_code === 'zszq'">- 请详细阅读大赛相关免责声明 -</div>
     <div class="footer"><Footer :showCall.sync="showCall" /></div>
     <Call :showCall.sync="showCall"/>
     <Disclaimer :show.sync="show" />
@@ -117,6 +118,13 @@ export default {
 .pages-mobile {
   padding-bottom: 1rem;
   background-color: #F1F1F1;
+  .disclaimer-text {
+    height: 1rem;
+    font-size: .24rem;
+    color: #656565;
+    text-align: center;
+    line-height: .8rem;
+  }
   .footer {
     position: fixed;
     bottom: 0;
