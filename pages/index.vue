@@ -131,10 +131,15 @@ export default {
   beforeRouteEnter (to, form, next) {
     next((vm) => {
       if (vm.$store.state.disclaimer) {
-        if (to.path.includes('rank') || to.path.includes('assign')) {
-          if (sessionStorage.getItem('disclaimer')) return
+        if (to.path.includes('rank')) {
+          if (sessionStorage.getItem('disclaimer-rank')) return
           vm.show = true
-          sessionStorage.setItem('disclaimer', '1')
+          sessionStorage.setItem('disclaimer-rank', '1')
+        }
+        if (to.path.includes('assign')) {
+          if (sessionStorage.getItem('disclaimer-assign')) return
+          vm.show = true
+          sessionStorage.setItem('disclaimer-assign', '1')
         }
       }
     })
