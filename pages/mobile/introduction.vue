@@ -41,7 +41,6 @@ export default {
       mobilePage: 'mobile_page'
     }),
     currPage () {
-      console.log('mobilePage', this.mobilePage)
       return this.mobilePage.find(i => i.title.includes('简介'))
     }
   }

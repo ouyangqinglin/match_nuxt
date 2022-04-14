@@ -23,7 +23,8 @@ export default {
 
 <style lang="scss">
 .pages-rule {
-  padding: 60px 0;
+  padding: 60px 0 30px 0;
+
   @include cImg();
   img {
     margin-bottom: 55px;

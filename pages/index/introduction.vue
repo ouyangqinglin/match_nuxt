@@ -31,7 +31,6 @@ export default {
       page: 'page'
     }),
     currPage () {
-      console.log('page', this.page)
       return this.page.find(i => i.title.includes('简介'))
     }
   },
@@ -41,7 +40,7 @@ export default {
 <style lang="scss">
 .pages-introduction {
   position: relative;
-  padding: 60px 0;
+  padding: 60px 0 30px 0;
   @include cImg();
   &-blank {
     position: relative;
