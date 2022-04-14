@@ -15,7 +15,7 @@
           </div>
           <div class="toast-body-list">
             <common-flex justify="space-between" @click.native="choose(i)" :key="i.label" align="center" class="item" v-for="i of filterList">
-              <span class="ellipsis li" v-html="toMark(i.label)"></span>
+              <span class="li" v-html="toMark(i.label)"></span>
               <img v-if="i.children" src="./right.png" alt="">
             </common-flex>
           </div>
@@ -243,7 +243,7 @@ export default {
           font-size: .3rem;
           color: #333;
           .li {
-            max-width: 5.5rem;
+            //max-width: 5.5rem;
           }
           img {
             width: .26rem;
