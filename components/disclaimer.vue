@@ -5,6 +5,10 @@
         <common-flex class="header" align="center" justify="center">
           <div>{{ letter.content.title }}</div>
           <img class="header-close" @click="close" :src="require('@img/close.png')" alt="">
+          <common-flex class="header-countdown" direction="column" justify="space-around" align="center">
+            <div>倒计时</div>
+            <div>{{ countDown }}s</div>
+          </common-flex>
         </common-flex>
         <div class="body">
           <div v-html="letter.content.content"></div>
@@ -25,9 +29,24 @@ export default {
       letter: 'disclaimer'
     })
   },
+  data () {
+    return {
+      countDown: 5,
+      timer: null,
+    }
+  },
+  mounted () {
+    this.timer = setInterval(() => {
+      this.countDown--
+      if (this.countDown < 1) clearInterval(this.timer)
+    }, 1000)
+  },
   methods: {
     close () {
-      this.$emit('update:show', false)
+      if (this.countDown <= 0) this.$emit('update:show', false)
+      else this.$comp.toast.show({
+        content: '阅读5秒以上才能关闭！'
+      })
     }
   }
 }
@@ -74,6 +93,20 @@ export default {
         height: .32rem;
         cursor: pointer;
       }
+      &-countdown {
+        position: absolute;
+        bottom: -1rem;
+        right: .2rem;
+        @include bg(url('~@img/countdown-bg.png'));
+        :nth-child(1) {
+          font-size: .14rem;
+          color: #fff;
+        }
+        :nth-child(2) {
+          font-size: .16rem;
+          color: #333;
+        }
+      }
     }
     .body {
       padding-left: .3rem;
@@ -115,7 +148,7 @@ export default {
       }
     }
     .body {
-      padding-top: .25rem;
+      padding-top: .55rem;
     }
   }
   @media screen and (max-width: 750px) {
@@ -131,7 +164,7 @@ export default {
       }
     }
     .body {
-      padding-top: .25rem;
+      padding-top: .75rem;
     }
   }
 }
