@@ -9,6 +9,7 @@ export const state = () => {
     dyNav: [],
     commitment_letter: null,
     disclaimer: null,
+    apply_disclaimer: null,
     theme: '',
     menu: [],
     mobile_config: {},
@@ -47,6 +48,9 @@ export const mutations = {
   },
   saveDisclaimer (state, data) {
     Vue.set(state, 'disclaimer', data)
+  },
+  saveApplyDisclaimer (state, data) {
+    Vue.set(state, 'apply_disclaimer', data)
   },
   saveTheme (state, data) {
     Vue.set(state,'theme', data)

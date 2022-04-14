@@ -1,0 +1,171 @@
+<template>
+    <transition name="regular">
+        <common-flex v-if="show" :key="`regular`" class="comp-disclaimer" justify="center" align="center">
+            <div class="content">
+                <common-flex class="header" align="center" justify="center">
+                    <div>{{ letter.content.title }}</div>
+                    <img class="header-close" @click="close" :src="require('@img/close.png')" alt="">
+                    <common-flex class="header-countdown" direction="column" justify="space-around" align="center">
+                        <div>倒计时</div>
+                        <div>{{ countDown }}s</div>
+                    </common-flex>
+                </common-flex>
+                <div class="body">
+                    <div v-html="letter.content.content"></div>
+                </div>
+            </div>
+        </common-flex>
+    </transition>
+</template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+    name: 'disclaimer',
+    props: ['show'],
+    computed: {
+        ...mapState({
+            letter: 'apply_disclaimer'
+        })
+    },
+    data () {
+        return {
+            countDown: 5,
+            timer: null,
+        }
+    },
+    mounted () {
+        this.timer = setInterval(() => {
+            this.countDown--
+            if (this.countDown < 1) clearInterval(this.timer)
+        }, 1000)
+    },
+    methods: {
+        close () {
+            if (this.countDown <= 0) this.$emit('update:show', false)
+            else this.$comp.toast.show({
+                content: '阅读5秒以上才能关闭！'
+            })
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+.regular-enter, .regular-leave-to {
+  opacity: 0;
+  transform: translateY(-.1rem);
+}
+.regular-enter-active, .regular-leave-active {
+  transition: all .3s;
+}
+.comp-disclaimer {
+  z-index: 521;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  overflow: hidden;
+  .content {
+    width: 80%;
+    height: 7.5rem;
+    border-radius: .12rem;
+    background-color: #fff;
+    .header {
+      position: relative;
+      height: .8rem;
+      text-align: center;
+      background-color: #dddddd;
+      border-radius: .15rem .15rem 0 0;
+      font-size: .28rem;
+      color: rgb(51, 51, 51);
+      font-weight: 600;
+      &-close {
+        position: absolute;
+        right: .3rem;
+        top: .3rem;
+        width: .32rem;
+        height: .32rem;
+        cursor: pointer;
+      }
+      &-countdown {
+        position: absolute;
+        bottom: -1rem;
+        right: .2rem;
+        @include bg(url('~@img/countdown-bg.png'));
+        :nth-child(1) {
+          font-size: .14rem;
+          color: #fff;
+        }
+        :nth-child(2) {
+          font-size: .16rem;
+          color: #333;
+        }
+      }
+    }
+    .body {
+      padding-left: .3rem;
+      padding-right: .3rem;
+      padding-bottom: .3rem;
+      max-height: 6rem;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 35px;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background: #999999;
+      }
+      &::-webkit-scrollbar-track {
+        border-radius: 3px;
+        background: #EDEDED;
+      }
+      p {
+        margin-top: .15rem;
+        color: #333;
+        line-height: .45rem;
+        word-break: break-all;
+      }
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .content {
+      width: 1000px;
+      height: 710px;
+      .header-countdown {
+        bottom: -80px;
+        width: 80px;
+        height: 80px;
+      }
+      p {
+        font-size: 20px;
+      }
+    }
+    .body {
+      padding-top: .55rem;
+    }
+  }
+  @media screen and (max-width: 750px) {
+    .content {
+      width: 6.3rem;
+      height: 7.5rem;
+      .header-countdown {
+        width: 1rem;
+        height: 1rem;
+      }
+      p {
+        font-size: .26rem;
+      }
+    }
+    .body {
+      padding-top: .75rem;
+    }
+  }
+}
+</style>

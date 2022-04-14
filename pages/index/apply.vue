@@ -87,7 +87,7 @@
 <script>
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
-import Disclaimer from '@comp/disclaimer'
+import Disclaimer from '@comp/apply-disclaimer'
 import { mapState } from 'vuex'
 export default {
   name: 'apply',
