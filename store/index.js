@@ -14,7 +14,8 @@ export const state = () => {
     mobile_config: {},
     mobile_page: [],
     urlObj: {},
-    time: {}
+    time: {},
+    menu_bg: ''
   }
 }
 
@@ -31,6 +32,9 @@ export const mutations = {
   },
   savePage (state, data) {
     Vue.set(state, 'page', data)
+  },
+  saveMenuBg (state, data) {
+    Vue.set(state, 'menu_bg', data)
   },
   saveTime (state, data) {
     Vue.set(state, 'time', data)

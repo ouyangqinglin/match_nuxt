@@ -48,7 +48,6 @@ export default {
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=pc`,
     })
     let data = config.data.data
-    console.log('data', data)
     let themeColor = data.config.theme_color
     store.commit('saveTheme', themeColor)
     let competitionName = data.info.competition_name
@@ -61,6 +60,8 @@ export default {
     store.commit('savePage', data.page)
     if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
     if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
+    const menuActiveBg = data.config.menu_background
+    store.commit('saveMenuBg', menuActiveBg)
     let menu = JSON.parse(data.config.menu)
     let list = [
       {
