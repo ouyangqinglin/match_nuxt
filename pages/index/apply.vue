@@ -713,7 +713,7 @@ export default {
     -moz-appearance: textfield !important;
   }
   .checkbox-container {
-    margin-top: 24px;
+    margin-top: 36px;
     .el-checkbox {
       margin-right: 12px;
       position: relative;
