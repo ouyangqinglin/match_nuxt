@@ -6,7 +6,7 @@
       <common-flex justify="center" align="center" class="toast" v-if="toastShow">
         <div class="toast-body">
           <common-flex class="toast-body-title" justify="space-between" align="center">
-            <div class="ellipsis txt">{{ placeholder }}</div>
+            <div class="txt">{{ placeholder }}</div>
             <img src="./close.png" alt="" @click="close">
           </common-flex>
           <div class="toast-body-search" v-if="parentList.length > 7">

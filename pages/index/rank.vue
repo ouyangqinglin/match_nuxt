@@ -237,7 +237,7 @@ export default {
       if (data) this.pageParam.page = data
       else this.pageParam.page = 1
       this.openFullLoading()
-      let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
+      let csearch_strategy = this.option_definition['csearch_strategy'] ? this.option_definition['csearch_strategy'][this.curStra].value || '': '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].value || '' : '', csearch_end_date,
         csearch_scale_group = this.option_definition['csearch_scale_group'] ? this.option_definition['csearch_scale_group'][this.curScale].value || '': '',csearch_sub_scale_group
 
