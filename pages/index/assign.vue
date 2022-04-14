@@ -128,7 +128,7 @@ export default {
       match_code: 'match_code'
     }),
     subStraList () {
-      return this.option_definition['strategy'][this.curStra].children || [] // 子策略
+      return this.option_definition['strategy']? this.option_definition['strategy'][this.curStra].children || [] : [] // 子策略
     },
     subRangList () {
       return this.option_definition['rank_range'] ? this.option_definition['rank_range'][this.curRang].children || [] : [] // 榜单下的排名日期
@@ -185,7 +185,8 @@ export default {
     },
     getDataList () {
       this.openFullLoading()
-      let strategy = this.option_definition['strategy'][this.curStra].value || '', sub_strategy,
+      console.log(this.option_definition)
+      let strategy = this.option_definition['strategy'] ? this.option_definition['strategy'][this.curStra].value || '': '', sub_strategy,
         rank_range = this.option_definition['rank_range'] ? this.option_definition['rank_range'][this.curRang].value || '' : '', end_date,
         scale_group = this.option_definition['scale_group'] ? this.option_definition['scale_group'][this.curScale].value || '' : '', sub_scale_group
 
