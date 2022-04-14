@@ -5,6 +5,7 @@
       <a @click="navChange(i)" v-for="i of dyNav" :key="i.route">
         <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="curNav = i.path">
           <span>{{ i.name }}</span>
+          <img v-show="curNav === i.path" :src="menuBg" alt="">
         </div>
       </a>
     </common-flex>
@@ -25,7 +26,8 @@ export default {
   computed: {
     ...mapState({
       dyNav: 'dyNav',
-      theme: 'theme'
+      theme: 'theme',
+      menuBg: 'menu_bg'
     }),
   },
   mounted () {
@@ -82,8 +84,8 @@ export default {
       border-right: solid 1px #7C5053;
       img {
         position: absolute;
-        top: -24px;
-        left: -4px;
+        top: 0;
+        left: 0;
         width: 170px;
         height: 81px;
         z-index: -1;
@@ -94,7 +96,6 @@ export default {
     }
     .active {
       @include nFont(24 500 #FFFFFF);
-      background: url("~@img/menu-bg.svg") center/100% 100%;
     }
   }
   .fixed {

@@ -70,7 +70,7 @@ export default {
       }
     }
     .content {
-      padding: .8rem .3rem .3rem;
+      padding: .4rem .3rem .3rem;
       max-height: calc(100% - 1rem);
       overflow-y: auto;
       .pop-up-slot {

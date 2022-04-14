@@ -3,7 +3,7 @@
     <Header label="大赛排名" />
     <div style="height: .45rem; background: #f1f1f1" />
     <div class="rank">
-      <div class="header"><CommonTitle title="大赛排名"/></div>
+      <div class="common-header"><CommonTitle title="大赛排名"/></div>
       <template v-for="(val, key) in option_definition">
         <common-flex class="fake-input-box" align="center">
           <common-flex class="label" align="flex-start">
@@ -377,7 +377,7 @@ export default {
   position: relative;
   padding-top: 1rem;
   height: 100%;
-  .header {
+  .common-header {
     position: absolute;
     left: 50%;
     top: -.15rem;

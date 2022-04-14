@@ -83,6 +83,7 @@
         v-if="dataList.length"
         background
         layout="prev, pager, next"
+        :current-page.sync="pageParam.page"
         @current-change="changePage"
         :total="maxPage">
       </el-pagination>
@@ -365,7 +366,7 @@ $borderColor: #DDDDDD;
       .th, .tr {
         height: 60px;
         @include nFont(20 500 #333 60);
-        background-color: #F4F4F4;
+        background-color: #e8e8e8;
         div  {
           padding-right: 20px;
           flex: .5;

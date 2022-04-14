@@ -196,12 +196,12 @@ export default {
       &-title {
         padding: 0 .3rem;
         height: .8rem;
-        font-size: .3rem;
+        font-size: .28rem;
         background: linear-gradient(90deg, #FFBD61, #FFF8A7, #FFBD61);
         box-shadow: 0 .03rem .04rem 0 rgba(255, 255, 255, 0.5);
         border-radius: .2rem .2rem 0 0;
         .txt {
-          max-width: 4.5rem;
+          max-width: 5.5rem;
         }
         img {
           width: .27rem;
