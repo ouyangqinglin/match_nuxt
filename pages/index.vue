@@ -5,7 +5,7 @@
     <nuxt-child />
     <div class="pages-index-ps">投资有风险，选择需谨慎</div>
     <div class="pages-index-right-float">
-      <a class="pages-index-right-float-first" style="text-decoration: none" target="_blank" :href="`${$store.state.apiHost}single?code=${$route.query.match_code}`">
+      <a class="pages-index-right-float-first" style="text-decoration: none" target="_blank" :href="`${$store.state.apiHost}single?code=${applyCode}`">
         <img :src="require('@img/index/float-login.png')" alt="">
         <div class="pages-index-right-float-first-txt">参赛登录</div>
       </a>
@@ -119,7 +119,8 @@ export default {
   },
   data () {
     return {
-      show: false
+      show: false,
+      applyCode: ''
     }
   },
   beforeRouteEnter (to, form, next) {
@@ -140,8 +141,18 @@ export default {
         this.$store.commit('saveUrlObj', searchObj)
       }
     }
+    this.getMatchCode()
   },
   methods: {
+    getMatchCode () {
+      this.axios({
+        url: '/competition/activity/backend/api/competition/getMatchLoginCode',
+        data: { match_code: this.$route.query.match_code },
+        success: ({ data }) => {
+          this.applyCode = data.match_code
+        }
+      })
+    },
     getUrlObj (url) {
       const jsonList = {}
       if(url.indexOf("?") !== -1){
