@@ -65,8 +65,9 @@ export default {
 
 <style lang="scss">
 .nav {
+  margin-top: -30px;
+  height: 81px;
   .comp-nav {
-    margin-top: -30px;
     width: 100%;
     height: 81px;
     background: url("~@img/container-bg.jpg") center/100% 100%;
