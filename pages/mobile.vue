@@ -23,6 +23,10 @@ export default {
     if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
     if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
     let competitonName = data.info.competition_name
+    let time = {}
+    time.start = data.info.apply_start_time
+    time.end = data.info.apply_end_time
+    store.commit('saveTime', time)
     store.commit('saveConfig', data.config)
     store.commit('saveMobilePage', data.page)
     let menu = JSON.parse(data.config.menu)

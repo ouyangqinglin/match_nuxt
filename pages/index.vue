@@ -52,6 +52,10 @@ export default {
     let themeColor = data.config.theme_color
     store.commit('saveTheme', themeColor)
     let competitionName = data.info.competition_name
+    let time = {}
+    time.start = data.info.apply_start_time
+    time.end = data.info.apply_end_time
+    store.commit('saveTime', time)
     let headerImg = data.section.header.content.image
     let footerImg = data.section.footer.content.image
     store.commit('savePage', data.page)

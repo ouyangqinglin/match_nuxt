@@ -232,7 +232,9 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
     },
-    getDataList () {
+    getDataList (data) {
+      if (data) this.pageParam.page = data
+      else this.pageParam.page = 1
       this.openFullLoading()
       let csearch_strategy = this.option_definition['csearch_strategy'][this.curStra].value || '', csearch_sub_strategy,
         csearch_rank_range = this.option_definition['csearch_rank_range'] ? this.option_definition['csearch_rank_range'][this.curRang].value || '' : '', csearch_end_date,
@@ -271,8 +273,7 @@ export default {
       })
     },
     changePage (data) {
-      this.pageParam.page = data
-      this.getDataList()
+      this.getDataList(data)
     }
   }
 }

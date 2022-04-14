@@ -149,11 +149,28 @@ export default {
     ...mapState({
       match_code: 'match_code',
       theme: 'theme',
-      disclaimer: 'disclaimer'
-    })
+      disclaimer: 'disclaimer',
+      time: 'time'
+    }),
+    startTime () {
+      return this.time.start
+    },
+    endTime () {
+      return this.time.end
+    }
   },
   mounted () {
     this.getChannelData()
+    let current = (new Date().getTime())
+    const curDate = this.DATE_FORMAT('yyyy-MM-dd', current)
+    if (curDate < this.startTime.split(' ')[0]) {
+      this.$alert(`报名未开始`, '提示')
+      this.hasApply = true
+    }
+    if (curDate > this.endTime.split(' ')[0]) {
+      this.$alert(`报名已结束`, '提示')
+      this.hasApply = true
+    }
   },
   methods: {
     getChannelData () {

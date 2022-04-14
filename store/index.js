@@ -13,7 +13,8 @@ export const state = () => {
     menu: [],
     mobile_config: {},
     mobile_page: [],
-    urlObj: {}
+    urlObj: {},
+    time: {}
   }
 }
 
@@ -30,6 +31,9 @@ export const mutations = {
   },
   savePage (state, data) {
     Vue.set(state, 'page', data)
+  },
+  saveTime (state, data) {
+    Vue.set(state, 'time', data)
   },
   saveNav (state, data) {
     Vue.set(state, 'dyNav', data)

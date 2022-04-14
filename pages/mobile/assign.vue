@@ -158,7 +158,7 @@ export default {
       dataList: [], // 表单
       pageParam: {
         page: 1,
-        rows: 10
+        rows: 30
       },
       strategyShow: false,
       rangShow: false,
