@@ -48,6 +48,7 @@ export default {
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=pc`,
     })
     let data = config.data.data
+    console.log('data', data)
     let themeColor = data.config.theme_color
     store.commit('saveTheme', themeColor)
     let competitionName = data.info.competition_name
@@ -219,10 +220,8 @@ export default {
     }
   }
   &-footer {
-    padding: 30px 0;
-    background: rgba(255, 255, 255, .2);
     .footer-banner {
-      width: 1200px;
+      width: 100%;
     }
   }
 }
