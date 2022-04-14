@@ -517,6 +517,7 @@ export default {
             } else {
               this.companyFields[k].type = 'hidden'
               this.companyFields[k].required = '0'
+              this.$set(this.companyFields[k], 'errMsg', '')
             }
           }
           if (item.property === 'open_account2' && this.companyFields[k].property === 'extend_attributes_money_account2') {
@@ -526,6 +527,7 @@ export default {
             } else {
               this.companyFields[k].type = 'hidden'
               this.companyFields[k].required = '0'
+              this.$set(this.companyFields[k], 'errMsg', '')
             }
           }
         }
@@ -537,6 +539,7 @@ export default {
             } else {
               this.productFields[index][p].type = 'hidden'
               this.productFields[index][p].required = '0'
+              this.$set(this.productFields[index][p], 'errMsg', '')
             }
           }
           if (item.property === 'open_account2' && this.productFields[index][p].property === 'extend_attributes_money_account2') {
@@ -546,6 +549,7 @@ export default {
             } else {
               this.productFields[index][p].type = 'hidden'
               this.productFields[index][p].required = '0'
+              this.$set(this.productFields[index][p], 'errMsg', '')
             }
           }
         }
