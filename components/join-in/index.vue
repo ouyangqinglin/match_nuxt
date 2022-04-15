@@ -4,7 +4,7 @@
       <img :src="require('./img/contact.svg')" alt="" class="or">
       <span>联系我们</span>
     </div>
-    <a :href="`${$store.state.apiHost}competition/mobile/apply?match_code=${$route.query.match_code}`" :style="{borderColor: theme, color: theme}" class="btn or apply">
+    <a @click="routeLink" :style="{borderColor: theme, color: theme}" class="btn or apply">
       <img :src="require('./img/apply.svg')" alt="" class="or">
       <span>立即报名</span>
     </a>
@@ -25,6 +25,12 @@ export default {
     }
   },
   methods: {
+    routeLink (i) {
+      let url
+      if (this.$route.query.channel) url = `${this.$store.state.apiHost}competition/mobile/apply?match_code=${this.$route.query.match_code}&channel=${this.$route.query.channel}`
+      else url = `${this.$store.state.apiHost}competition/mobile/apply?match_code=${this.$route.query.match_code}`
+      location.href = url
+    },
     showToast () {
       this.$emit('update:showCall', true)
     }
