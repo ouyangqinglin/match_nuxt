@@ -722,6 +722,7 @@ export default {
       height: 1rem;
       background: #fff;
       border: .02rem solid #D7DAE2;
+      color: #000;
       &:disabled {
         background: #F5F5F5;
         color: #999;
