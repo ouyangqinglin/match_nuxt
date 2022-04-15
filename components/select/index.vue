@@ -158,6 +158,7 @@ export default {
       flex-shrink: 0;
       width: 100%;
       font-size: .3rem;
+      color: #000;
       input {
         height: 1rem;
         background: #fff;
@@ -170,6 +171,7 @@ export default {
         &::placeholder {
           font-size: .3rem;
           color: #666;
+          font-weight: 500;
         }
       }
     }
