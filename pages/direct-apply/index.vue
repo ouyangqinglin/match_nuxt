@@ -717,7 +717,6 @@ export default {
     flex-shrink: 0;
     width: 100%;
     font-size: .3rem;
-    color: #000;
     input {
       height: 1rem;
       background: #fff;
@@ -725,11 +724,11 @@ export default {
       color: #000;
       &:disabled {
         background: #F5F5F5;
-        color: #999;
+        color: #333;
       }
       &::placeholder {
         font-size: .3rem;
-        color: #999;
+        color: #666;
       }
     }
   }
