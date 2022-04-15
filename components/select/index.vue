@@ -1,6 +1,6 @@
 <template>
   <div class="comp-select" :style="{color: themeColor}">
-    <el-select style="color: #000" disabled class="comp-select-form" type="text" :placeholder="placeholder"  :value="lableVal"/>
+    <el-select disabled class="comp-select-form" type="text" :placeholder="placeholder"  :value="lableVal"/>
     <div class="open" @click="openSelect"></div>
     <transition name="toast">
       <common-flex justify="center" align="center" class="toast" v-if="toastShow">
@@ -146,8 +146,11 @@ export default {
     height: 1rem;
     border-radius: .08rem;
     font-size: .3rem;
-    color: #333;
+    color: #000;
     background-color: #fff;
+    &::placeholder {
+      color: #333;
+    }
   }
   .el-select {
     position: absolute;
@@ -155,11 +158,10 @@ export default {
       flex-shrink: 0;
       width: 100%;
       font-size: .3rem;
-      color: #333;
       input {
         height: 1rem;
         background: #fff;
-        color: #333;
+        color: #000;
         border: .02rem solid #D7DAE2;
         &:disabled {
           background: #fff;
@@ -167,7 +169,7 @@ export default {
         }
         &::placeholder {
           font-size: .3rem;
-          color: #999;
+          color: #666;
         }
       }
     }

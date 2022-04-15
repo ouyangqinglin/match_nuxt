@@ -730,11 +730,11 @@ export default {
       color: #000;
       &:disabled {
         background: #F5F5F5;
-        color: #999;
+        color: #333;
       }
       &::placeholder {
         font-size: .3rem;
-        color: #999;
+        color: #666;
       }
     }
   }
