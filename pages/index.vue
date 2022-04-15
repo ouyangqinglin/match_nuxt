@@ -10,7 +10,7 @@
         <div class="pages-index-right-float-first-txt">参赛登录</div>
       </a>
       <div style="height: 1px"></div>
-      <a :href="`${$store.state.apiHost}competition/apply?match_code=${$route.query.match_code}&title=报名申请${$route.query}&channel=${applyChannel}`" target="_blank">
+      <a :href="`${$store.state.apiHost}competition/apply?match_code=${$route.query.match_code}&title=报名申请&channel=${applyChannel}`" target="_blank">
         <div class="pages-index-right-float-first">
           <img :src="require('@img/index/now-apply.png')" alt="">
           <div class="pages-index-right-float-first-txt">立即报名</div>
