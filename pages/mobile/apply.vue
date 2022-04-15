@@ -723,7 +723,7 @@ export default {
     flex-shrink: 0;
     width: 100%;
     font-size: .3rem;
-    color: #333;
+    color: #000;
     input {
       height: 1rem;
       background: #fff;
