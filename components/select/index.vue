@@ -171,7 +171,6 @@ export default {
         &::placeholder {
           font-size: .3rem;
           color: #666;
-          font-weight: 500;
         }
       }
     }
