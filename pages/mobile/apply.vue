@@ -195,7 +195,7 @@ export default {
             }
           }
         }
-        if (searchObj.channel === 'ppw') {
+        if (searchObj.channel === 'ppw' || searchObj.channel === 'fm') {
           let i = 0
           for(i; i < this.companyFields.length; i++) {
             if (this.companyFields[i].property === 'recommend_name') this.$set(this.companyFields[i], 'value', '私募排排网')

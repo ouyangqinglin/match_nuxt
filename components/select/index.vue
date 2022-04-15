@@ -60,7 +60,7 @@ export default {
       immediate: true,
       handler (v) {
         setTimeout(() => {
-          if (v === 'recommend_name' && this.urlObj.channel === 'ppw') this.lableVal = '私募排排网'
+          if (v === 'recommend_name' && ['ppw', 'fm'].includes(this.urlObj.channel)) this.lableVal = '私募排排网'
         }, 1000)
       }
     }
