@@ -3,7 +3,7 @@
     <img :src="mobileConfig.index_banner" alt="">
     <common-flex justify="space-between" align="center" class="mobile-introduction-nav">
       <template v-for="(i, j) of menu">
-        <a :href="`${$store.state.apiHost}competition/mobile/${i.route}?match_code=${$route.query.match_code}&title=${i.name}`">
+        <a @click="routeLink(i)">
           <common-flex direction="column" align="center" justify="center" class="mobile-introduction-nav-item">
             <img :src="i.icon" alt="">
             <div>{{ i.name }}</div>
@@ -42,6 +42,14 @@ export default {
     }),
     currPage () {
       return this.mobilePage.find(i => i.title.includes('简介'))
+    }
+  },
+  methods: {
+    routeLink (i) {
+      let url
+      if (this.$route.query.channel) url = `${this.$store.state.apiHost}competition/mobile/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}&channel=${this.$route.query.channel}`
+      else url = `${this.$store.state.apiHost}competition/mobile/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}`
+      location.href = url
     }
   }
 }
