@@ -7,18 +7,11 @@
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
             <common-flex>
-              <div style="margin-bottom: 30px" v-if="key === 'strategy'" class="item"
-                   @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
-                {{ i.label }}</div>
               <div style="margin-bottom: 30px" v-if="key === 'rank_range'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
               <div style="margin-bottom: 30px" v-if="key === 'scale_group'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curScale === index}" v-for="(i, index) of val">
-                {{ i.label }}</div>
-            </common-flex>
-            <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'strategy'">
-              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubStra === index}" v-for="(i, index) of subStraList">
                 {{ i.label }}</div>
             </common-flex>
             <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'rank_range'">
@@ -36,37 +29,25 @@
         <common-flex class="th">
           <div v-for="i of itemList">{{ i.label }}</div>
         </common-flex>
-        <template v-if="dataList.length">
-          <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">
-            <template v-for="j of itemList">
-              <template v-if="['ret', 'score'].includes(j.prop)">
-                <div class="td ellipsis" v-if="j.prop === 'ret'" v-profit_handler.percent="i[j.prop]" />
-                <div class="td ellipsis" v-else-if="j.prop === 'score'">{{ (i[j.prop] + '').slice(0, 5) }}</div>
-              </template>
-              <div class="td ellipsis" style="position: relative; z-index: 1" v-else-if="j.prop === 'rank_score'">
-                <img class="rank-img" :src="require('@img/rank/rank-1.png')" alt="" v-if="+(i[j.prop]) === 1">
-                <img class="rank-img" :src="require('@img/rank/rank-2.png')" alt="" v-if="+(i[j.prop]) === 2">
-                <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.prop]) === 3">
-                {{ i[j.prop] }}
-              </div>
-              <div class="td ellipsis" v-else>{{ i[j.prop] || i[j.prop.name]}}</div>
-            </template>
+        <common-flex class="tr" v-for="(i, index) of 5" :style="{background: index % 2 === 0 ? '#fff' : '#FFFBF0'}">
+          <common-flex class="strategy" justify="center" align="center">
+            <img :src="require('@img/assign-strategy.png')" alt="">
           </common-flex>
-        </template>
-        <template v-else>
-          <common-flex class="empty" direction="column" justify="center" align="center">
-            <img :src="require('@img/no-data.png')" alt="">
-            <p>没有符合条件的产品或产品未上榜</p>
+          <common-flex justify="center" style="flex: 1" direction="column">
+            <common-flex class="tr-item" style="flex-grow: 1; min-height: 60px" v-for="i of 5">
+              <common-flex align="center" justify="center" class="rank">1</common-flex>
+              <common-flex align="center" class="fund">参赛产品</common-flex>
+              <common-flex align="center" class="company">所属机构</common-flex>
+            </common-flex>
           </common-flex>
-        </template>
+        </common-flex>
+<!--        <template v-else>-->
+<!--          <common-flex class="empty" direction="column" justify="center" align="center">-->
+<!--            <img :src="require('@img/no-data.png')" alt="">-->
+<!--            <p>没有符合条件的产品或产品未上榜</p>-->
+<!--          </common-flex>-->
+<!--        </template>-->
       </div>
-<!--      <el-pagination-->
-<!--        v-if="dataList.length"-->
-<!--        background-->
-<!--        layout="prev, pager, next"-->
-<!--        @current-change="changePage"-->
-<!--        :total="maxPage">-->
-<!--      </el-pagination>-->
     </common-flex>
   </div>
 </template>
@@ -99,12 +80,16 @@ export default {
       timer: null,
       itemList: [
         {
+          prop: 'strategy_type',
+          label: '策略类型'
+        },
+        {
           prop: 'rank_score',
           label: '排名'
         },
         {
           prop: 'fund_short_name',
-          label: '基金名称'
+          label: '参赛产品'
         },
         {
           prop: 'company_short_name',
@@ -306,41 +291,66 @@ $borderColor: #DDDDDD;
     .table {
       margin-top: 40px;
       border-top: 1px solid $borderColor;
-      border-bottom: 1px solid $borderColor;
-      .th, .tr {
+      .th {
         height: 60px;
         @include nFont(20 500 #333 60);
         background-color: #e8e8e8;
         div  {
           padding-right: 20px;
-          flex: .5;
           flex-shrink: 0;
           text-align: right;
           border-right: 1px solid $borderColor;
         }
         :first-child {
-          padding-right: 0;
-          flex: .3;
+          width: 277px;
+          padding: 0;
           text-align: center;
         }
-        :nth-child(2), :nth-child(3) {
-          flex: 1;
+        :nth-child(2) {
+          padding-right: 0;
+          width: 80px;
+          text-align: center;
+        }
+        :nth-child(3) {
+          width: 300px;
           text-indent: 20px;
           text-align: left;
         }
-        :last-child {
+        :nth-child(4) {
+          text-indent: 20px;
+          text-align: left;
+          flex-grow: 1;
           border-right: none;
         }
       }
       .tr {
-        font-weight: 400;
-        .rank-img {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          @include wh(34);
-          z-index: -1;
+        @include nFont(20 #333 28);
+        .strategy {
+          width: 277px;
+          border-right: 1px solid $borderColor;
+          border-bottom: 1px solid $borderColor;
+          img {
+            @include wh(153 153)
+          }
+        }
+        &-item {
+          border-bottom: 1px solid $borderColor;
+        }
+        .rank {
+          padding-right: 0;
+          width: 80px;
+          border-right: 1px solid $borderColor;
+        }
+        .fund {
+          width: 300px;
+          text-indent: 20px;
+          text-align: left;
+          border-right: 1px solid $borderColor;
+        }
+        .company {
+          text-indent: 20px;
+          text-align: left;
+          border-right: none;
         }
       }
     }
