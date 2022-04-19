@@ -50,9 +50,9 @@
             <img src="./img/rank/empty.png" alt="">
             <p>没有符合条件的产品或产品未上榜</p>
           </div>
-          <p class="assign-ps" v-html="note"></p>
         </div>
       </div>
+      <p class="assign-ps" v-html="note"></p>
 
       <div class="margin-box" style="background-color: #fff" />
 
