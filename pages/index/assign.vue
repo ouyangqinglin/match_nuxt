@@ -74,8 +74,6 @@ export default {
       url: `/competition/match/api/match/prize/query_options?match_code=${query.match_code}`,
     })
     let fields = res.data.data.fields, option_definition = res.data.data.optionDefinition
-    console.log('fields', fields)
-    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition
@@ -192,7 +190,6 @@ export default {
           this.dataList = res.data.list
           this.strategyType = res.data.strategy_data
           this.itemList = res.data.title
-          console.log(res.data)
         }
       })
     },
