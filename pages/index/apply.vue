@@ -27,6 +27,13 @@
           <el-cascader @change="selectVerify(i, i.value)" @blur="selectBlur(i)" popper-class="my-cascader" :options="optionDefinition[i.property]" v-model="i.value" :placeholder="i.placeholder" filterable />
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
+        <template v-else-if="i.type === 'radio'">
+          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
+          <template v-for="k of optionDefinition[i.property]">
+            <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+          </template>
+          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+        </template>
         <template v-else-if="i.type === 'checkbox'">
           <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
           <div class="checkbox-container">
@@ -53,6 +60,13 @@
         <template v-else-if="i.type === 'select'">
           <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
           <el-cascader @blur="selectBlur(i)" @change="selectVerify(i, i.value, j)" popper-class="my-cascader" :options="optionDefinition[i.property]" v-model="i.value" :placeholder="i.placeholder" filterable />
+          <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+        </template>
+        <template v-else-if="i.type === 'radio'">
+          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
+          <template v-for="k of optionDefinition[i.property]">
+            <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+          </template>
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
         <template v-else-if="i.type === 'number'">
@@ -467,46 +481,9 @@ export default {
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },
-    selectBlur (item) {
-      setTimeout(() => {
-        let v = item.value
-        if (!v || !v.length) this.$set(item, 'errMsg', `${item.name}不能为空`)
-        else {
-          this.$set(item, 'errMsg', '')
-          if (v.length > 1) this.$set(item, 'value', v)
-          else if (v.constructor === Array) this.$set(item, 'value', v.join(''))
-        }
-      }, 500)
-    },
-    selectVerify (item, v, index) {
-      let i = 0, j = 0
-      if (item.property === 'recommend_name') {
-        for (i; i < this.companyFields.length; i++) {
-          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
-            if (v && v.length > 1) {
-              this.$set(this.companyFields[i], 'type', 'text')
-            } else {
-              this.$set(this.companyFields[i], 'type', 'hidden')
-            }
-          }
-        }
-      }
-      if (item.property === 'product_name') {
-        for (j; j < this.productFields[index].length; j++) {
-          if (this.productFields[index][j].property === 'product_register_number') if (v) {
-            this.$set(this.productFields[index][j], 'value', item.value[0][1])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-          if (this.productFields[index][j].property === 'product_code') if (v) {
-            this.$set(this.productFields[index][j], 'value', item.value[0][2])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-          if (this.productFields[index][j].property === 'product_manager') if (v) {
-            this.$set(this.productFields[index][j], 'value', item.value[0][3])
-            this.$set(this.productFields[index][j], 'errMsg', '')
-          }
-        }
-      }
+    radioChange (data, item, index) {
+      // console.log(data, item)
+      this.$set(item, 'errMsg', '')
       if (['open_account', 'open_account2'].includes(item.property)) {
         let k = 0, p = 0
         for (k; k < this.companyFields.length; k++) {
@@ -551,6 +528,47 @@ export default {
               this.productFields[index][p].required = '0'
               this.$set(this.productFields[index][p], 'errMsg', '')
             }
+          }
+        }
+      }
+    },
+    selectBlur (item) {
+      setTimeout(() => {
+        let v = item.value
+        if (!v || !v.length) this.$set(item, 'errMsg', `${item.name}不能为空`)
+        else {
+          this.$set(item, 'errMsg', '')
+          if (v.length > 1) this.$set(item, 'value', v)
+          else if (v.constructor === Array) this.$set(item, 'value', v.join(''))
+        }
+      }, 500)
+    },
+    selectVerify (item, v, index) {
+      let i = 0, j = 0
+      if (item.property === 'recommend_name') {
+        for (i; i < this.companyFields.length; i++) {
+          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
+            if (v && v.length > 1) {
+              this.$set(this.companyFields[i], 'type', 'text')
+            } else {
+              this.$set(this.companyFields[i], 'type', 'hidden')
+            }
+          }
+        }
+      }
+      if (item.property === 'product_name') {
+        for (j; j < this.productFields[index].length; j++) {
+          if (this.productFields[index][j].property === 'product_register_number') if (v) {
+            this.$set(this.productFields[index][j], 'value', item.value[0][1])
+            this.$set(this.productFields[index][j], 'errMsg', '')
+          }
+          if (this.productFields[index][j].property === 'product_code') if (v) {
+            this.$set(this.productFields[index][j], 'value', item.value[0][2])
+            this.$set(this.productFields[index][j], 'errMsg', '')
+          }
+          if (this.productFields[index][j].property === 'product_manager') if (v) {
+            this.$set(this.productFields[index][j], 'value', item.value[0][3])
+            this.$set(this.productFields[index][j], 'errMsg', '')
           }
         }
       }
@@ -710,55 +728,95 @@ export default {
       }
     }
   }
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-  }
-  input[type='number'] {
-    -moz-appearance: textfield !important;
-  }
-  .checkbox-container {
-    margin-top: 36px;
-    .el-checkbox {
-      margin-right: 12px;
-      position: relative;
-      margin-bottom: 12px;
-      width: 160px;
-      .el-input, .el-input__inner {
-        position: absolute;
-        width: 220px;
-        height: 40px;
-        top: -7px;
-        left: 15px;
-        z-index: -1;
-      }
-      .el-input {
-        top: -7px;
-        left: 40px;
-        background: #fff;
-      }
-      .el-checkbox__inner {
-        position: relative;
-        z-index: 1;
-        width: 18px;
-        height: 18px;
-        &:after {
-          width: 6px;
-          height: 10px;
-        }
-      }
-      .el-checkbox__label {
-        position: relative;
-        z-index: 1;
-        font-size: 18px;
+  .el-radio {
+    margin: 20px 160px 0 0;
+    display: flex;
+    align-items: center;
+    .el-radio__original, .el-radio__inner {
+      width: 20px;
+      height: 20px;
+    }
+    .el-radio__inner {
+      &::after {
+        width: 9px;
+        height: 9px;
+        background-color: #990000;
       }
     }
+    .is-checked {
+      border-color: #990000;
+      background-color: #fff;
+    }
+    .el-radio__label {
+      font-size: 20px;
+    }
   }
+  .el-radio__input.is-checked .el-radio__inner {
+    background: #fff;
+    border-color: #990000;
+    border-width: 2px;
+  }
+  .el-radio__inner {
+    &:hover {
+      border-color: #990000;
+    }
+  }
+  .el-radio__input.is-checked + .el-radio__label {
+    color: #990000;
+  }
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+input[type='number'] {
+  -moz-appearance: textfield !important;
+}
+.checkbox-container {
+  margin-top: 36px;
+.el-checkbox {
+  margin-right: 12px;
+  position: relative;
+  margin-bottom: 12px;
+  width: 160px;
+  .el-input, .el-input__inner {
+    position: absolute;
+    width: 220px;
+    height: 40px;
+    top: -7px;
+    left: 15px;
+    z-index: -1;
+  }
+  .el-input {
+    top: -7px;
+    left: 40px;
+    background: #fff;
+  }
+  .el-checkbox__inner {
+    position: relative;
+    z-index: 1;
+    width: 18px;
+    height: 18px;
+    &:after {
+      width: 6px;
+      height: 10px;
+    }
+  }
+  .el-checkbox__label {
+    position: relative;
+    z-index: 1;
+    font-size: 18px;
+  }
+}
+}
 }
 .my-cascader .el-cascader-node {
   width: 405px;
   height: 40px;
   font-size: 16px;
 }
+.el-cascader-menu__wrap {
+  max-height: 250px;
+}
+
 
 .el-picker-panel {
   th {

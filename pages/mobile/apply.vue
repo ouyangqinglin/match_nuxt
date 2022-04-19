@@ -32,6 +32,16 @@
             <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
+          <div class="form" v-else-if="i.type === 'radio'">
+            <div class="star" style="top: -.6rem" v-if="+i.required === 1" />
+            <div class="form-name" style="margin-top: .25rem">{{ i.name }}</div>
+            <common-flex>
+              <template v-for="k of optionDefinition[i.property]">
+                <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+              </template>
+            </common-flex>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </div>
           <common-flex direction="column" class="form" v-else-if="i.type === 'checkbox'">
             <div class="star" v-if="+i.required === 1" />
             <span class="form-name" style="margin-top: .25rem">{{ i.name }}</span>
@@ -64,6 +74,16 @@
             <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
+          <div class="form" v-else-if="i.type === 'radio'">
+            <div class="star" style="top: -.6rem" v-if="+i.required === 1" />
+            <div class="form-name" style="margin-top: .25rem">{{ i.name }}</div>
+            <common-flex>
+              <template v-for="k of optionDefinition[i.property]">
+                <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+              </template>
+            </common-flex>
+            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+          </div>
           <common-flex class="form" v-else-if="i.type === 'number'">
             <div class="star" v-if="+i.required === 1" />
             <el-input :disabled="!!+(i.disabled)" @blur="inputProVerify(i, j, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
@@ -217,21 +237,9 @@ export default {
     }
   },
   methods: {
-    getSelectVal (data, item, index) {
+    radioChange (data, item, index) {
+      // console.log(data, item)
       this.$set(item, 'errMsg', '')
-      if (item.property === 'recommend_name') {
-        for (let i = 0; i < this.companyFields.length; i++) {
-          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
-            if (data.indexOf('>') !== -1) {
-              this.$set(item, 'value', data.split('>'))
-              this.$set(this.companyFields[i], 'type', 'text')
-            } else {
-              this.$set(item, 'value', data)
-              this.$set(this.companyFields[i], 'type', 'hidden')
-            }
-          }
-        }
-      }
       if (['open_account', 'open_account2'].includes(item.property)) {
         let k = 0, p = 0
         for (k; k < this.companyFields.length; k++) {
@@ -275,6 +283,22 @@ export default {
               this.productFields[index][p].type = 'hidden'
               this.productFields[index][p].required = '0'
               this.$set(this.productFields[index][p], 'errMsg', '')
+            }
+          }
+        }
+      }
+    },
+    getSelectVal (data, item, index) {
+      this.$set(item, 'errMsg', '')
+      if (item.property === 'recommend_name') {
+        for (let i = 0; i < this.companyFields.length; i++) {
+          if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
+            if (data.indexOf('>') !== -1) {
+              this.$set(item, 'value', data.split('>'))
+              this.$set(this.companyFields[i], 'type', 'text')
+            } else {
+              this.$set(item, 'value', data)
+              this.$set(this.companyFields[i], 'type', 'hidden')
             }
           }
         }
@@ -737,6 +761,42 @@ export default {
         color: #666;
       }
     }
+  }
+  .el-radio {
+    margin: .34rem 2rem 0 0;
+    display: flex;
+    align-items: center;
+    .el-radio__original, .el-radio__inner {
+      width: .26rem;
+      height: .26rem;
+    }
+    .el-radio__inner {
+      &::after {
+        width: .12rem;
+        height: .12rem;
+        background-color: #990000;
+      }
+    }
+    .is-checked {
+      border-color: #990000;
+      background-color: #fff;
+    }
+    .el-radio__label {
+      font-size: .3rem;
+    }
+  }
+  .el-radio__input.is-checked .el-radio__inner {
+    background: #fff;
+    border-color: #990000;
+    border-width: 1px;
+  }
+  .el-radio__inner {
+    &:hover {
+      border-color: #990000;
+    }
+  }
+  .el-radio__input.is-checked + .el-radio__label {
+    color: #990000;
   }
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;

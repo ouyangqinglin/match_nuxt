@@ -29,24 +29,36 @@
         <common-flex class="th">
           <div v-for="i of itemList">{{ i.label }}</div>
         </common-flex>
-        <common-flex class="tr" v-for="(i, index) of 5" :style="{background: index % 2 === 0 ? '#fff' : '#FFFBF0'}">
-          <common-flex class="strategy" justify="center" align="center">
-            <img :src="require('@img/assign-strategy.png')" alt="">
-          </common-flex>
-          <common-flex justify="center" style="flex: 1" direction="column">
-            <common-flex class="tr-item" style="flex-grow: 1; min-height: 60px" v-for="i of 5">
-              <common-flex align="center" justify="center" class="rank">1</common-flex>
-              <common-flex align="center" class="fund">参赛产品</common-flex>
-              <common-flex align="center" class="company">所属机构</common-flex>
+        <template v-if="Object.keys(dataList).length">
+          <template v-for="(s, index) of strategyType">
+            <common-flex class="tr" :style="{background: index % 2 === 0 ? '#fff' : '#FFFBF0'}" v-if="dataList[s.value] ? dataList[s.value].length : false">
+              <common-flex class="strategy" justify="center" align="center">
+                <img :src="award_strategy_icon[s.value]" alt="">
+              </common-flex>
+              <common-flex justify="center" style="flex: 1" direction="column">
+                <common-flex class="tr-item" style="flex-grow: 1; min-height: 60px" :key="k" v-for="(i, k) of dataList[s.value]">
+                  <template v-for="prop of itemList.slice(1)">
+                    <common-flex align="center" :class="`${prop.prop}`">
+                      <span class="ellipsis">{{ i[prop.prop] }}</span>
+                      <template v-if="prop.prop === 'rank_score'">
+                        <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
+                        <img v-show="+i[prop.prop] === 2" :src="require('@img/rank/rank-2.png')" alt="">
+                        <img v-show="+i[prop.prop] ===3" :src="require('@img/rank/rank-3.png')" alt="">
+                      </template>
+                    </common-flex>
+                  </template>
+                </common-flex>
+              </common-flex>
             </common-flex>
+          </template>
+        </template>
+        <template v-else>
+          <common-flex class="empty" direction="column" justify="center" align="center">
+            <img :src="require('@img/no-data.png')" alt="">
+            <p>没有符合条件的产品或产品未上榜</p>
           </common-flex>
-        </common-flex>
-<!--        <template v-else>-->
-<!--          <common-flex class="empty" direction="column" justify="center" align="center">-->
-<!--            <img :src="require('@img/no-data.png')" alt="">-->
-<!--            <p>没有符合条件的产品或产品未上榜</p>-->
-<!--          </common-flex>-->
-<!--        </template>-->
+        </template>
+        <p class="assign-ps" v-html="note" />
       </div>
     </common-flex>
   </div>
@@ -62,6 +74,8 @@ export default {
       url: `/competition/match/api/match/prize/query_options?match_code=${query.match_code}`,
     })
     let fields = res.data.data.fields, option_definition = res.data.data.optionDefinition
+    console.log('fields', fields)
+    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition
@@ -76,27 +90,10 @@ export default {
       curSubRang: 0, // 排名周期索引
       curScale: 0, // 分组
       curSubScale: 0, // 子分组
-      fund_name: '',
       timer: null,
-      itemList: [
-        {
-          prop: 'strategy_type',
-          label: '策略类型'
-        },
-        {
-          prop: 'rank_score',
-          label: '排名'
-        },
-        {
-          prop: 'fund_short_name',
-          label: '参赛产品'
-        },
-        {
-          prop: 'company_short_name',
-          label: '所属机构'
-        },
-      ], // 表头
+      itemList: [], // 表头
       dataList: [],
+      strategyType: [], // 策略类型
       pageParam: {
         page: 1,
         rows: 30
@@ -105,7 +102,8 @@ export default {
   },
   computed: {
     ...mapState({
-      match_code: 'match_code'
+      match_code: 'match_code',
+      award_strategy_icon: 'award_strategy_icon'
     }),
     subStraList () {
       return this.option_definition['strategy']? this.option_definition['strategy'][this.curStra].children || [] : [] // 子策略
@@ -116,13 +114,9 @@ export default {
     subScaleList () {
       return this.option_definition['scale_group'] ? this.option_definition['scale_group'][this.curScale].children || [] : '' // 榜单下的排名日期
     },
-  },
-  watch: {
-    fund_name () {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.getDataList()
-      }, 500)
+    note () {
+      const note = this.option_definition['rank_range'][this.curRang].note
+      return note
     }
   },
   mounted () {
@@ -190,13 +184,15 @@ export default {
           end_date,
           scale_group,
           sub_scale_group,
-          fund_name: this.fund_name,
           page: this.pageParam.page,
           rows: this.pageParam.rows
         },
         success: (res) => {
           this.loading.close()
           this.dataList = res.data.list
+          this.strategyType = res.data.strategy_data
+          this.itemList = res.data.title
+          console.log(res.data)
         }
       })
     },
@@ -312,7 +308,7 @@ $borderColor: #DDDDDD;
           text-align: center;
         }
         :nth-child(3) {
-          width: 300px;
+          width: 500px;
           text-indent: 20px;
           text-align: left;
         }
@@ -336,18 +332,33 @@ $borderColor: #DDDDDD;
         &-item {
           border-bottom: 1px solid $borderColor;
         }
-        .rank {
+        .rank_score {
+          position: relative;
           padding-right: 0;
           width: 80px;
+          justify-content: center;
           border-right: 1px solid $borderColor;
+          span {
+            position: relative;
+            z-index: 1;
+          }
+          img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35px;
+            height: 35px;
+            z-index: 0;
+          }
         }
-        .fund {
-          width: 300px;
+        .product_register_number {
+          width: 500px;
           text-indent: 20px;
           text-align: left;
           border-right: 1px solid $borderColor;
         }
-        .company {
+        .company_name {
           text-indent: 20px;
           text-align: left;
           border-right: none;
@@ -367,6 +378,10 @@ $borderColor: #DDDDDD;
       font-size: 18px;
       color: #666666;
     }
+  }
+  .assign-ps {
+    margin: 45px 0 0 30px;
+    @include nFont(20 36 #333 500)
   }
 }
 </style>

@@ -16,7 +16,8 @@ export const state = () => {
     mobile_page: [],
     urlObj: {},
     time: {},
-    menu_bg: ''
+    menu_bg: '',
+    award_strategy_icon: null
   }
 }
 
@@ -36,6 +37,9 @@ export const mutations = {
   },
   saveMenuBg (state, data) {
     Vue.set(state, 'menu_bg', data)
+  },
+  saveAwardIcon (state, data) {
+    Vue.set(state, 'award_strategy_icon', data)
   },
   saveTime (state, data) {
     Vue.set(state, 'time', data)

@@ -18,26 +18,43 @@
       </template>
       <div class="margin-box" />
 
-      <div class="mobile-assign-form" v-if="dataList.length">
+      <div class="mobile-assign-form">
         <div class="mobile-assign-form-thred">
-          <div style="background: rgba(225, 137, 72, .12)" v-for="(t, i) in itemList">
+          <div v-for="(t, i) in itemList">
             {{t.label}}
           </div>
         </div>
-        <div class="mobile-assign-form-content"  v-for="(item, i) of dataList" :key="i">
-          <div class="mobile-assign-form-content-item" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in itemList" :key="i+''+t_i">
-            <template v-if="t.prop==='rank_score'&&+item.rank_score === 1"><img :src="require('./img/rank/no1.png')" alt="">1</template>
-            <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 2"><img :src="require('./img/rank/no2.png')" alt="">2</template>
-            <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 3"><img :src="require('./img/rank/no3.png')" alt="">3</template>
-            <template v-else-if="t.prop==='rank_score'"> {{item.rank_score}} </template>
-            <template v-else>{{item[t.prop]}}</template>
+        <div class="mobile-assign-form-content">
+          <template v-if="Object.keys(dataList).length">
+            <template v-for="s of strategyType">
+              <common-flex class="item" v-if="dataList[s.value] ? dataList[s.value].length : false">
+                <common-flex justify="center" align="center" class="strategy">{{ s.label }}</common-flex>
+                <common-flex justify="center" style="flex: 1" direction="column">
+                  <common-flex class="item-v" :key="k" v-for="(i, k) of dataList[s.value]">
+                    <template v-for="prop of itemList.slice(1)">
+                      <common-flex align="center" justify="center" :class="`${prop.prop}`">
+                        <span class="ellipsis">{{ i[prop.prop] }}</span>
+                        <template v-if="prop.prop === 'rank_score'">
+                          <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
+                          <img v-show="+i[prop.prop] === 2" :src="require('@img/rank/rank-2.png')" alt="">
+                          <img v-show="+i[prop.prop] ===3" :src="require('@img/rank/rank-3.png')" alt="">
+                        </template>
+                      </common-flex>
+                    </template>
+                  </common-flex>
+                </common-flex>
+              </common-flex>
+            </template>
+          </template>
+          <div class="empty-box" v-else>
+            <img src="./img/rank/empty.png" alt="">
+            <p>没有符合条件的产品或产品未上榜</p>
           </div>
+          <p class="assign-ps" v-html="note"></p>
         </div>
       </div>
-      <div class="empty-box" v-else>
-        <img src="./img/rank/empty.png" alt="">
-        <p>没有符合条件的产品或产品未上榜</p>
-      </div>
+
+      <div class="margin-box" style="background-color: #fff" />
 
       <pop-up :show.sync="strategyShow" @sure="getDataList">
         <div class="pop-up-slot">
@@ -117,6 +134,8 @@ export default {
       url: `/competition/match/api/match/prize/query_options?match_code=${query.match_code}`,
     })
     let fields = res.data.data.fields, option_definition = res.data.data.optionDefinition
+    console.log('fields', fields)
+    console.log('option_definition', option_definition)
     return {
       fields,
       option_definition
@@ -130,23 +149,10 @@ export default {
       curSubRang: 0,
       curScale: 0,
       curSubScale: 0,
-      fund_name: '',
       timer: null,
-      itemList: [
-        {
-          prop: 'rank_score',
-          label: '排名'
-        },
-        {
-          prop: 'fund_short_name',
-          label: '基金名称'
-        },
-        {
-          prop: 'company_short_name',
-          label: '所属机构'
-        },
-      ], // 表头
-      dataList: [], // 表单
+      itemList: [], // 表头
+      dataList: [], // 表单列表
+      strategyType: [], // 策略分组
       pageParam: {
         page: 1,
         rows: 30
@@ -188,16 +194,9 @@ export default {
       else c = `${this.option_definition['scale_group'][this.curScale].label}`
       return c
     },
-    getWidth () {
-      return `width: calc((${document.documentElement.clientWidth}px - 1.8rem)/${(this.itemList.length-1)})`
-    },
-  },
-  watch: {
-    fund_name () {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.getDataList()
-      }, 500)
+    note () {
+      const note = this.option_definition['rank_range'][this.curRang].note
+      return note
     }
   },
   mounted () {
@@ -247,12 +246,14 @@ export default {
           end_date,
           scale_group,
           sub_scale_group,
-          fund_name: this.fund_name,
           page: this.pageParam.page,
           rows: this.pageParam.rows
         },
         success: (res) => {
           this.dataList = res.data.list
+          this.strategyType = res.data.strategy_data
+          this.itemList = res.data.title
+          console.log(res.data)
         }
       })
     },
@@ -266,34 +267,43 @@ export default {
   margin: .5rem .3rem;
   display: flex;
   flex-direction: column;
+  border: 1px solid #D7DAE2;
+  background-color: #fff;
   &-thred {
     display: flex;
     align-items: center;
+    background-color: #E8E8E8;
     >div {
-      flex: 0 0 auto;
+      flex-shrink: 0;
       font-weight: 500;
       line-height: .6rem;
       font-size: .24rem;
     }
     >:nth-child(1) {
-      width: .8rem;
+      width: 1.5rem;
       text-align: center;
+      border-right: 1px solid #D7DAE2;
     }
     >:nth-child(2) {
-      flex: 1;
-      padding-left: 0.2rem;
+      width: .6rem;
       text-align: center;
     }
     >:nth-child(3) {
-      flex: 1;
+      flex: .7;
+      max-width: 2rem;
+      padding-left: 0.2rem;
+      text-align: center;
+      border-right: 1px solid #D7DAE2;
+    }
+    >:nth-child(4) {
+      flex: .8;
+      max-width: 2.7rem;
       padding-left: 0.2rem;
       text-align: center;
     }
   }
   &-content {
-    display: flex;
-    align-items: center;
-    &-item {
+    .item {
       position: relative;
       >img {
         position: absolute;
@@ -303,34 +313,56 @@ export default {
         height: .5rem;
         z-index: -1;
       }
+      .strategy {
+        width: 1.5rem;
+        text-align: center;
+        writing-mode: vertical-rl;
+        letter-spacing: .06rem;
+        border-bottom: 1px solid #D7DAE2;
+        border-right: 1px solid #D7DAE2;
+      }
+      &-v {
+        flex-grow: 1;
+        min-height: .8rem;
+        border-bottom: 1px solid #D7DAE2;
+        .rank_score {
+          position: relative;
+          width: .6rem;
+          text-align: center;
+          span {
+            position: relative;
+            z-index: 1;
+          }
+          img {
+            position: absolute;
+            left: 50%;
+            top: 45%;
+            transform: translate(-50%, -50%);
+            width: .45rem;
+            height: .45rem;
+            z-index: 0;
+          }
+        }
+        .product_register_number {
+          flex: .7;
+          max-width: 2rem;
+          padding-left: 0.2rem;
+          text-align: center;
+          border-right: 1px solid #D7DAE2;
+        }
+        .company_name {
+          flex: .8;
+          max-width: 2.7rem;
+          padding-left: 0.2rem;
+          text-align: center;
+        }
+      }
     }
-    >div {
-      flex: 0 0 auto;
-      height: .8rem;
+    div {
+      flex-shrink: 0;
       font-weight: 400;
       line-height: .8rem;
       font-size: .24rem;
-    }
-    >:nth-child(1) {
-      z-index: 1;
-      width: .8rem;
-      text-align: center;
-    }
-    >:nth-child(2) {
-      flex: 1;
-      padding-left: 0.2rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-align: center;
-    }
-    >:nth-child(3) {
-      flex: 1;
-      padding-left: 0.2rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-align: center;
     }
   }
 }
@@ -453,6 +485,13 @@ export default {
     p {
       font-weight: bold;
     }
+  }
+  .assign-ps {
+    margin: .45rem 0 0 .4rem;
+    font-size: .26rem;
+    color: #333;
+    font-weight: 500;
+    line-height: .44rem;
   }
 }
 </style>
