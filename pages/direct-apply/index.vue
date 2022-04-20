@@ -33,7 +33,7 @@
           <div class="form" v-else-if="i.type === 'radio'">
             <div class="star" style="top: -.6rem" v-if="+i.required === 1" />
             <div class="form-name" style="margin-top: .25rem">{{ i.name }}</div>
-            <common-flex>
+            <common-flex wrap="wrap">
               <template v-for="k of optionDefinition[i.property]">
                 <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
@@ -74,7 +74,7 @@
           <div class="form" v-else-if="i.type === 'radio'">
             <div class="star" style="top: -.6rem" v-if="+i.required === 1" />
             <div class="form-name" style="margin-top: .25rem">{{ i.name }}</div>
-            <common-flex>
+            <common-flex wrap="wrap">
               <template v-for="k of optionDefinition[i.property]">
                 <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
@@ -802,9 +802,11 @@ export default {
     }
   }
   .el-radio {
-    margin: .34rem 2rem 0 0;
+    margin-top: .34rem;
+    flex-grow: 1;
+    flex-shrink: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     .el-radio__original, .el-radio__inner {
       width: .26rem;
       height: .26rem;
@@ -821,6 +823,8 @@ export default {
       background-color: #fff;
     }
     .el-radio__label {
+      max-width: 5.5rem;
+      white-space: pre-wrap;
       font-size: .3rem;
     }
   }

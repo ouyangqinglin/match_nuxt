@@ -29,9 +29,11 @@
         </template>
         <template v-else-if="i.type === 'radio'">
           <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <template v-for="k of optionDefinition[i.property]">
-            <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
-          </template>
+          <common-flex wrap="wrap" style="margin-top: 20px">
+            <template v-for="k of optionDefinition[i.property]">
+              <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+            </template>
+          </common-flex>
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
         <template v-else-if="i.type === 'checkbox'">
@@ -63,10 +65,12 @@
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
         <template v-else-if="i.type === 'radio'">
-          <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <template v-for="k of optionDefinition[i.property]">
-            <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
-          </template>
+          <span class="form-name" style="margin-top: 0" :class="{star: i.required === '1'}">{{ i.name }}:</span>
+          <common-flex wrap="wrap" style="height: 85px" align="center">
+            <template v-for="k of optionDefinition[i.property]">
+              <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+            </template>
+          </common-flex>
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
         <template v-else-if="i.type === 'number'">
@@ -776,7 +780,7 @@ export default {
     }
   }
   .el-radio {
-    margin: 20px 160px 0 0;
+    margin-right: 160px;
     display: flex;
     align-items: center;
     .el-radio__original, .el-radio__inner {
