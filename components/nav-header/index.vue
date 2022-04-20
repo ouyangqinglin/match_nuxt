@@ -1,7 +1,9 @@
 <template>
-  <div class="nav-header">
-    <img src="./img/back.png" alt="" @click="goBack">
-    {{label}}
+  <div style="position: sticky; top: 0; z-index: 521">
+    <div class="nav-header">
+      <img src="./img/back.png" alt="" @click="goBack">
+      {{ label }}
+    </div>
   </div>
 </template>
 
