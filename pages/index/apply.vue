@@ -814,7 +814,11 @@ input[type='number'] {
   font-size: 16px;
 }
 .el-cascader-menu__wrap {
+  height: auto;
   max-height: 250px;
+}
+.el-cascader-menu__list {
+  //height: 250px;
 }
 
 
