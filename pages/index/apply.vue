@@ -535,7 +535,7 @@ export default {
     selectBlur (item) {
       setTimeout(() => {
         let v = item.value
-        if (!v || !v.length) this.$set(item, 'errMsg', `${item.name}不能为空`)
+        if (!v || (v.constructor === Array && !v.length)) this.$set(item, 'errMsg', `${item.name}不能为空`)
         else {
           this.$set(item, 'errMsg', '')
           if (v.length > 1) this.$set(item, 'value', v)
