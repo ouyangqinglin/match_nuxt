@@ -3,7 +3,7 @@
     <div class="call" v-if="showCall">
       <div class="toast">
         <div class="title">拨打大赛组委会电话</div>
-        <a href="tel:18221186388" v-for="i of phone">
+        <a :href="`tel:${i.phone}`" v-for="i of phone">
           <div class="contact">
             <div><span v-if="i.name">{{ i.name }}：</span>{{ i.phone }}</div>
             <img :src="require('./contact-icon.svg')" alt="">
