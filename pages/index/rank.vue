@@ -111,7 +111,7 @@ export default {
   },
   async asyncData ({ app, store, query }) {
     let res = await app.axios({
-      url: '/competition/activity/backend/api/competition/getRankSearchFields',
+      url: '/competition/match/api/match/rank/query_options',
       type: 'get',
       data: { match_code: query.match_code }
     })
@@ -251,7 +251,7 @@ export default {
       else csearch_sub_scale_group = ''
 
       this.axios({
-        url: '/competition/activity/backend/api/competition/commonRankList',
+        url: '/competition/match/api/match/rank/common_list',
         type: 'get',
         data: {
           match_code: this.match_code,
@@ -268,7 +268,7 @@ export default {
         success: (res) => {
           this.loading.close()
           this.itemList = res.data.title_arr
-          this.dataList = res.data.data
+          this.dataList = res.data.list
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }
       })
