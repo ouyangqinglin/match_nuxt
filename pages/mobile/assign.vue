@@ -18,39 +18,37 @@
       </template>
       <div class="margin-box" />
 
-      <div class="mobile-assign-form">
+      <div class="mobile-assign-form" v-if="Object.keys(dataList).length">
         <div class="mobile-assign-form-thred">
           <div v-for="(t, i) in itemList">
             {{t.label}}
           </div>
         </div>
         <div class="mobile-assign-form-content">
-          <template v-if="Object.keys(dataList).length">
-            <template v-for="s of strategyType">
-              <common-flex class="item" v-if="dataList[s.value] ? dataList[s.value].length : false">
-                <common-flex justify="center" align="center" class="strategy">{{ s.label }}</common-flex>
-                <common-flex justify="center" style="flex: 1" direction="column">
-                  <common-flex class="item-v" :key="k" v-for="(i, k) of dataList[s.value]">
-                    <template v-for="prop of itemList.slice(1)">
-                      <common-flex align="center" justify="center" :class="`${prop.prop}`">
-                        <span class="ellipsis">{{ i[prop.prop] }}</span>
-                        <template v-if="prop.prop === 'rank_score'">
-                          <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
-                          <img v-show="+i[prop.prop] === 2" :src="require('@img/rank/rank-2.png')" alt="">
-                          <img v-show="+i[prop.prop] ===3" :src="require('@img/rank/rank-3.png')" alt="">
-                        </template>
-                      </common-flex>
-                    </template>
-                  </common-flex>
+          <template v-for="s of strategyType">
+            <common-flex class="item" v-if="dataList[s.value] ? dataList[s.value].length : false">
+              <common-flex justify="center" align="center" class="strategy">{{ s.label }}</common-flex>
+              <common-flex justify="center" style="flex: 1" direction="column">
+                <common-flex class="item-v" :key="k" v-for="(i, k) of dataList[s.value]">
+                  <template v-for="prop of itemList.slice(1)">
+                    <common-flex align="center" justify="center" :class="`${prop.prop}`">
+                      <span class="ellipsis">{{ i[prop.prop] }}</span>
+                      <template v-if="prop.prop === 'rank_score'">
+                        <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
+                        <img v-show="+i[prop.prop] === 2" :src="require('@img/rank/rank-2.png')" alt="">
+                        <img v-show="+i[prop.prop] ===3" :src="require('@img/rank/rank-3.png')" alt="">
+                      </template>
+                    </common-flex>
+                  </template>
                 </common-flex>
               </common-flex>
-            </template>
+            </common-flex>
           </template>
-          <div class="empty-box" v-else>
-            <img src="./img/rank/empty.png" alt="">
-            <p>没有符合条件的产品或产品未上榜</p>
-          </div>
         </div>
+      </div>
+      <div class="empty-box" v-else>
+        <img src="./img/rank/empty.png" alt="">
+        <p>没有符合条件的产品或产品未上榜</p>
       </div>
       <p class="assign-ps" v-html="note"></p>
 
@@ -265,6 +263,7 @@ export default {
   display: flex;
   flex-direction: column;
   border: 1px solid #D7DAE2;
+  border-bottom: none;
   background-color: #fff;
   &-thred {
     display: flex;
