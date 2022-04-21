@@ -29,10 +29,12 @@
         </template>
         <template v-else-if="i.type === 'radio'">
           <span class="form-name" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <common-flex wrap="wrap" style="margin-top: 20px">
-            <template v-for="k of optionDefinition[i.property]">
-              <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
-            </template>
+          <common-flex align="center" style="flex-shrink: 0; max-width: 490px">
+            <common-flex wrap="wrap" align="center" style="margin-top: 20px">
+              <template v-for="k of optionDefinition[i.property]">
+                <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+              </template>
+            </common-flex>
           </common-flex>
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
@@ -66,11 +68,13 @@
         </template>
         <template v-else-if="i.type === 'radio'">
           <span class="form-name" style="margin-top: 0" :class="{star: i.required === '1'}">{{ i.name }}:</span>
-          <common-flex wrap="wrap" style="height: 85px" align="center">
-            <template v-for="k of optionDefinition[i.property]">
-              <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
-            </template>
-          </common-flex>
+          <div style="flex-shrink: 0; max-width: 490px">
+            <common-flex wrap="wrap" style="height: 85px" align="center">
+              <template v-for="k of optionDefinition[i.property]">
+                <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
+              </template>
+            </common-flex>
+          </div>
           <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
         </template>
         <template v-else-if="i.type === 'number'">
@@ -246,8 +250,11 @@ export default {
           this.$set(this.companyFields[i], 'errMsg', `${this.companyFields[i].name}不能为空`)
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
+            console.log('11', this.companyFields[i].value)
             if (this.companyFields[i].value.constructor === Array) {
-              company_data.recommend_other_name = this.companyFields[i].value[1]
+              for (let m = 0; m < this.companyFields.length; m++) {
+                if (this.companyFields[m].property === 'recommend_other_name') this.$set(this.companyFields[m], 'value', this.companyFields[i].value[1])
+              }
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
             } else company_data[this.companyFields[i].property] = this.companyFields[i].value
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
@@ -265,6 +272,7 @@ export default {
         } else company_data[this.companyFields[i].property] = this.companyFields[i].value
         errMsg = errMsg || this.companyFields[i].errMsg
       }
+      // console.log('company_data', company_data)
       for(k; k < this.productFields.length; k++) {
         let product_info = {}
         for (let j = 0; j < this.productFields[k].length; j++) {
