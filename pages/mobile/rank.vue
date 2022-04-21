@@ -38,12 +38,10 @@
             <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 2"><img :src="require('./img/rank/no2.png')" alt="">2</template>
             <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 3"><img :src="require('./img/rank/no3.png')" alt="">3</template>
             <template v-else-if="t.prop==='rank_score'"> {{item.rank_score}} </template>
-            <template v-else-if="t_i===1">{{item[t.prop.name]}}</template>
-            <template v-else-if="t_i===2">{{item[t.prop.name]}}</template>
             <template v-else-if="t.prop==='ret'"><span :style="{color: item[t.prop] > 0? '#C00000':'#009819'}">{{item[t.prop]}}%</span></template>
             <template v-else-if="t.prop==='ret_m'"><span :style="{color: item[t.prop] > 0? '#C00000':'#009819'}">{{item[t.prop]}}%</span></template>
             <template v-else-if="t.prop==='maxdown'"><span>{{item[t.prop]}}%</span></template>
-            <template v-else>{{item[t.prop]}}</template>
+            <template v-else>{{item[t.prop] || item[t.prop.name]}}</template>
           </div>
         </div>
       </div>
