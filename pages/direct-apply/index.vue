@@ -38,7 +38,7 @@
                 <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
             </common-flex>
-            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+            <common-flex align="center" class="form-errMsg"><span class="ellipsis">{{ i.errMsg }}</span></common-flex>
           </div>
           <common-flex direction="column" class="form" v-else-if="i.type === 'checkbox'">
             <div class="star" v-if="+i.required === 1" />
@@ -79,7 +79,7 @@
                 <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
             </common-flex>
-            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+            <common-flex align="center" class="form-errMsg"><span class="ellipsis">{{ i.errMsg }}</span></common-flex>
           </div>
           <common-flex class="form" v-else-if="i.type === 'number'">
             <div class="star" v-if="+i.required === 1" />
@@ -405,7 +405,9 @@ export default {
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
             if (this.companyFields[i].value.constructor === Array) {
-              company_data.recommend_other_name = this.companyFields[i].value[1]
+              for (let m = 0; m < this.companyFields.length; m++) {
+                if (this.companyFields[m].property === 'recommend_other_name') this.$set(this.companyFields[m], 'value', this.companyFields[i].value[1])
+              }
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
             } else company_data[this.companyFields[i].property] = this.companyFields[i].value
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
@@ -737,6 +739,7 @@ export default {
     position: absolute;
     left: 0;
     bottom: -.45rem;
+    max-width: 6rem;
     font-size: .3rem;
     color: #C00000;
   }

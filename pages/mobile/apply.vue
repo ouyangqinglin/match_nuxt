@@ -40,7 +40,7 @@
                 <el-radio @change="radioChange($event, i)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
             </common-flex>
-            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+            <common-flex align="center" class="form-errMsg"><span class="ellipsis">{{ i.errMsg }}</span></common-flex>
           </div>
           <common-flex direction="column" class="form" v-else-if="i.type === 'checkbox'">
             <div class="star" v-if="+i.required === 1" />
@@ -82,12 +82,12 @@
                 <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
             </common-flex>
-            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+            <common-flex align="center" class="form-errMsg"><span class="ellipsis">{{ i.errMsg }}</span></common-flex>
           </div>
           <common-flex class="form" v-else-if="i.type === 'number'">
             <div class="star" v-if="+i.required === 1" />
             <el-input :disabled="!!+(i.disabled)" @blur="inputProVerify(i, j, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
-            <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
+            <common-flex align="center" class="form-errMsg ellipsis">{{ i.errMsg }}</common-flex>
           </common-flex>
         </template>
       </div>
@@ -379,10 +379,10 @@ export default {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
     },
     submit () {
-      if (!this.agreeFlag) {
-        this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
-        return
-      }
+      // if (!this.agreeFlag) {
+      //   this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
+      //   return
+      // }
       const company_data = {}, product_list = []
       let sms_code = ''
       let i = 0, k = 0, errMsg = ''
@@ -393,7 +393,9 @@ export default {
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
             if (this.companyFields[i].value.constructor === Array) {
-              company_data.recommend_other_name = this.companyFields[i].value[1]
+              for (let m = 0; m < this.companyFields.length; m++) {
+                if (this.companyFields[m].property === 'recommend_other_name') this.$set(this.companyFields[m], 'value', this.companyFields[i].value[1])
+              }
               company_data[this.companyFields[i].property] = this.companyFields[i].value[0]
             } else company_data[this.companyFields[i].property] = this.companyFields[i].value
           } else if (this.companyFields[i].property === 'extend_attributes_interest_bussiness') {
@@ -411,6 +413,7 @@ export default {
         } else company_data[this.companyFields[i].property] = this.companyFields[i].value
         errMsg = errMsg || this.companyFields[i].errMsg
       }
+      console.log('company_data', company_data)
       for(k; k < this.productFields.length; k++) {
         let product_info = {}
         for (let j = 0; j < this.productFields[k].length; j++) {
@@ -738,6 +741,7 @@ export default {
   }
   .form-errMsg {
     position: absolute;
+    max-width: 6rem;
     left: 0;
     bottom: -.45rem;
     font-size: .3rem;
