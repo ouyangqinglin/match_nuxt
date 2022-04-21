@@ -69,7 +69,7 @@
         <template v-else-if="i.type === 'radio'">
           <span class="form-name" style="margin-top: 0" :class="{star: i.required === '1'}">{{ i.name }}:</span>
           <div style="flex-shrink: 0; max-width: 490px">
-            <common-flex wrap="wrap" style="height: 85px" align="center">
+            <common-flex wrap="wrap" style="height: 70px" align="center">
               <template v-for="k of optionDefinition[i.property]">
                 <el-radio @change="radioChange($event, i, j)" v-model="i.value" :label="k.value">{{ k.label }}</el-radio>
               </template>
@@ -142,6 +142,7 @@ export default {
       data: { match_code: query.match_code }
     })
     let productFields = []
+    console.log(config.data.data)
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
     let optionDefinition = config.data.data.option_definition
