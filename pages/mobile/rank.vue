@@ -340,6 +340,9 @@ export default {
     height: 1rem;
     border: .02rem solid #D7DAE2;
     border-radius: .1rem;
+    input {
+      height: 1rem;
+    }
     .tri {
       width: 0;
       height: 0;
