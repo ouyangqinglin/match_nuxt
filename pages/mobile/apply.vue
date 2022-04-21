@@ -379,10 +379,10 @@ export default {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
     },
     submit () {
-      // if (!this.agreeFlag) {
-      //   this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
-      //   return
-      // }
+      if (!this.agreeFlag) {
+        this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
+        return
+      }
       const company_data = {}, product_list = []
       let sms_code = ''
       let i = 0, k = 0, errMsg = ''
