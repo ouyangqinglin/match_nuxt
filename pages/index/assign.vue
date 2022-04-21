@@ -27,7 +27,7 @@
       </div>
       <div class="ppw-w1200 table">
         <common-flex class="th">
-          <div v-for="i of itemList">{{ i.label }}</div>
+          <div :class="i.prop" v-for="i of itemList">{{ i.label }}</div>
         </common-flex>
         <template v-if="Object.keys(dataList).length">
           <template v-for="(s, index) of strategyType">
@@ -38,7 +38,7 @@
               <common-flex justify="center" style="flex: 1" direction="column">
                 <common-flex class="tr-item" style="flex-grow: 1; min-height: 60px" :key="k" v-for="(i, k) of dataList[s.value]">
                   <template v-for="prop of itemList.slice(1)">
-                    <common-flex align="center" :class="`${prop.prop}`">
+                    <common-flex justify="center" align="center" :class="`${prop.prop}`">
                       <span class="ellipsis">{{ i[prop.prop] }}</span>
                       <template v-if="prop.prop === 'rank_score'">
                         <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
@@ -294,23 +294,23 @@ $borderColor: #DDDDDD;
           text-align: right;
           border-right: 1px solid $borderColor;
         }
-        :first-child {
+        .strategy {
           width: 277px;
           padding: 0;
           text-align: center;
         }
-        :nth-child(2) {
+        .rank_score {
           padding-right: 0;
           width: 80px;
           text-align: center;
         }
-        :nth-child(3) {
-          width: 500px;
-          text-indent: 20px;
-          text-align: left;
+        .product_register_number {
+          padding: 0;
+          width: 235px;
+          text-align: center;
         }
-        :nth-child(4) {
-          text-indent: 20px;
+        .company_name {
+          text-indent: 36px;
           text-align: left;
           flex-grow: 1;
           border-right: none;
@@ -350,13 +350,12 @@ $borderColor: #DDDDDD;
           }
         }
         .product_register_number {
-          width: 500px;
-          text-indent: 20px;
-          text-align: left;
+          width: 235px;
+          text-align: center;
           border-right: 1px solid $borderColor;
         }
         .company_name {
-          text-indent: 20px;
+          text-indent: 36px;
           text-align: left;
           border-right: none;
         }

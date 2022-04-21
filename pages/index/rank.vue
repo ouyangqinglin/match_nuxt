@@ -39,7 +39,7 @@
       </div>
       <div class="ppw-w1200 table">
         <common-flex class="th">
-          <div v-for="i of itemList">{{ i.label }}</div>
+          <div :class="i.prop" v-for="i of itemList">{{ i.label }}</div>
         </common-flex>
         <template v-if="dataList.length">
           <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">
@@ -62,13 +62,13 @@
                   <div @click="login()" class="td ellipsis" style="color: #C00000; cursor: pointer">登录可见</div>
                 </template>
               </template>
-              <div class="td ellipsis" style="position: relative; z-index: 1" v-else-if="j.prop === 'rank_score'">
+              <div class="td ellipsis" :class="j.prop" style="position: relative; z-index: 1" v-else-if="j.prop === 'rank_score'">
                 <img class="rank-img" :src="require('@img/rank/rank-1.png')" alt="" v-if="+(i[j.prop]) === 1">
                 <img class="rank-img" :src="require('@img/rank/rank-2.png')" alt="" v-if="+(i[j.prop]) === 2">
                 <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.prop]) === 3">
                 {{ i[j.prop] }}
               </div>
-              <div class="td ellipsis" v-else>{{ i[j.prop] || i[j.prop.name]}}</div>
+              <div class="td ellipsis" :class="j.prop" v-else>{{ i[j.prop] || i[j.prop.name]}}</div>
             </template>
           </common-flex>
         </template>
@@ -369,20 +369,23 @@ $borderColor: #DDDDDD;
         background-color: #e8e8e8;
         div  {
           padding-right: 20px;
-          flex: .5;
           flex-shrink: 0;
-          text-align: right;
           border-right: 1px solid $borderColor;
         }
-        :first-child {
+        .rank_score {
           padding-right: 0;
-          flex: .3;
+          width: 100px;
           text-align: center;
         }
-        :nth-child(2), :nth-child(3) {
+        .name {
           flex: 1;
-          text-indent: 20px;
+          text-indent: 30px;
           text-align: left;
+        }
+        .product_register_number {
+          width: 200px;
+          text-indent: 20px;
+          text-align: center;
         }
         :last-child {
           border-right: none;
