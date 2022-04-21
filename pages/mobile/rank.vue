@@ -284,7 +284,7 @@ export default {
       position: relative;
       >img {
         position: absolute;
-        top: .09rem;
+        top: .07rem;
         left: .2rem;
         width: .4rem;
         height: .5rem;
