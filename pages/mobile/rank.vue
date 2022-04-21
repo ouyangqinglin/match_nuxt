@@ -28,20 +28,17 @@
       <div class="margin-box" />
       <div class="rank-form" v-if="dataList.length">
         <div class="rank-form-thred">
-          <div style="background: rgba(225, 137, 72, .12)" v-for="(t, i) in itemList">
+          <div style="background: rgba(225, 137, 72, .12)" :class="t.prop" v-for="(t, i) in itemList">
             {{t.label}}
           </div>
         </div>
         <div class="rank-form-content"  v-for="(item, i) of dataList" :key="i">
-          <div class="rank-form-content-item" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in itemList" :key="i+''+t_i">
+          <div class="rank-form-content-item ellipsis" :class="t.prop" :style="{background: i % 2 === 1? 'rgba(225, 137, 72, .04)':''}" v-for="(t, t_i) in itemList" :key="i+''+t_i">
             <template v-if="t.prop==='rank_score'&&+item.rank_score === 1"><img :src="require('./img/rank/no1.png')" alt="">1</template>
             <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 2"><img :src="require('./img/rank/no2.png')" alt="">2</template>
             <template v-else-if="t.prop==='rank_score'&&+item.rank_score === 3"><img :src="require('./img/rank/no3.png')" alt="">3</template>
             <template v-else-if="t.prop==='rank_score'"> {{item.rank_score}} </template>
-            <template v-else-if="t.prop==='ret'"><span :style="{color: item[t.prop] > 0? '#C00000':'#009819'}">{{item[t.prop]}}%</span></template>
-            <template v-else-if="t.prop==='ret_m'"><span :style="{color: item[t.prop] > 0? '#C00000':'#009819'}">{{item[t.prop]}}%</span></template>
-            <template v-else-if="t.prop==='maxdown'"><span>{{item[t.prop]}}%</span></template>
-            <template v-else>{{item[t.prop] || item[t.prop.name]}}</template>
+            <span v-else>{{item[t.prop] || item[t.prop.name]}}</span>
           </div>
         </div>
       </div>
@@ -279,20 +276,6 @@ export default {
       line-height: .6rem;
       font-size: .24rem;
     }
-    >:nth-child(1) {
-      width: .8rem;
-      text-align: center;
-    }
-    >:nth-child(2) {
-      flex: 1;
-      text-align: center;
-      padding-left: 0.2rem;
-    }
-    >:nth-child(3) {
-      flex: 1;
-      text-align: left;
-      padding-left: 0.2rem;
-    }
   }
   &-content {
     display: flex;
@@ -315,25 +298,22 @@ export default {
       line-height: .8rem;
       font-size: .24rem;
     }
-    >:nth-child(1) {
+  }
+  &-thred, &-content {
+    .rank_score {
       z-index: 1;
       width: .8rem;
       text-align: center;
     }
-    >:nth-child(2) {
-      flex: 1;
-      text-align: center;
-      padding-left: 0.2rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .product_register_number {
+      padding-left: .3rem;
+      width: 2rem;
+      text-align: left;
     }
-    >:nth-child(3) {
+    .name {
       flex: 1;
+      text-align: left;
       padding-left: 0.2rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
   }
 }
