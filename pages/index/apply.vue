@@ -672,7 +672,7 @@ export default {
     padding-bottom: 25px;
   }
   .form {
-    width: 1120px;
+    width: 1190px;
   }
   .title {
     margin: 0 auto 30px;
@@ -831,6 +831,7 @@ input[type='number'] {
 }
 .checkbox-container {
   margin-top: 36px;
+  width: 520px;
 .el-checkbox {
   margin-right: 12px;
   position: relative;
