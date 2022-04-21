@@ -285,10 +285,12 @@ export default {
     }
     >:nth-child(2) {
       flex: 1;
+      text-align: center;
       padding-left: 0.2rem;
     }
     >:nth-child(3) {
       flex: 1;
+      text-align: left;
       padding-left: 0.2rem;
     }
   }
@@ -320,6 +322,7 @@ export default {
     }
     >:nth-child(2) {
       flex: 1;
+      text-align: center;
       padding-left: 0.2rem;
       overflow: hidden;
       text-overflow: ellipsis;
