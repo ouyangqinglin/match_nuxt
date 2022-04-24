@@ -387,6 +387,10 @@ $borderColor: #DDDDDD;
           text-indent: 20px;
           text-align: center;
         }
+        .score, .ret {
+          width: 140px;
+          text-align: right;
+        }
         :last-child {
           border-right: none;
         }
