@@ -61,9 +61,11 @@ export default {
     if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
     if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
     if (data.section.apply_disclaimer) store.commit('saveApplyDisclaimer', data.section.apply_disclaimer)
+    if (data.config.award_strategy_icon) {
+      const awardStrategyIcon = JSON.parse(data.config.award_strategy_icon)
+      store.commit('saveAwardIcon', awardStrategyIcon)
+    }
     const menuActiveBg = data.config.menu_background
-    const awardStrategyIcon = JSON.parse(data.config.award_strategy_icon)
-    store.commit('saveAwardIcon', awardStrategyIcon)
     store.commit('saveMenuBg', menuActiveBg)
     let menu = JSON.parse(data.config.menu)
     let list = [
