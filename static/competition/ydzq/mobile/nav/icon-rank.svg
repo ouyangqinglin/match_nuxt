@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="111px" height="115px" viewBox="0 0 111 115" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <defs>
+        <linearGradient x1="53.2052734%" y1="5.18747965%" x2="53.2052734%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#F6CF92" offset="0%"></stop>
+            <stop stop-color="#FFF7DB" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="51" cy="51" r="51"></circle>
+        <filter x="-7.4%" y="-10.3%" width="114.7%" height="119.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.655541019   0 0 0 0 0.225649932   0 0 0 0 0.0747401507  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="-3" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <radialGradient cx="50%" cy="37.4062581%" fx="50%" fy="37.4062581%" r="62.5937419%" id="radialGradient-4">
+            <stop stop-color="#E06314" offset="0%"></stop>
+            <stop stop-color="#990000" stop-opacity="0.973568683" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient x1="50%" y1="5.78522675%" x2="81.5412733%" y2="94.9613555%" id="linearGradient-5">
+            <stop stop-color="#FFE8CE" offset="0%"></stop>
+            <stop stop-color="#FFE3CE" offset="54.3488936%"></stop>
+            <stop stop-color="#FFB680" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0大赛简介" transform="translate(-471.000000, -881.000000)">
+            <g id="TAB" transform="translate(-0.500000, 838.927377)">
+                <g id="icon" transform="translate(475.625000, 49.072623)">
+                    <g id="0">
+                        <g id="椭圆形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        </g>
+                        <circle id="椭圆形" fill="url(#radialGradient-4)" fill-rule="nonzero" cx="51" cy="51" r="44.1188442"></circle>
+                    </g>
+                    <g id="24gf-podium3" transform="translate(18.875000, 10.000000)" fill-rule="nonzero">
+                        <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="66" height="66"></rect>
+                        <path d="M62,54.125 L62,62.875 C61.9980072,64.6000867 60.5600892,65.9980625 58.7857143,66 L45.2857143,66 C44.9447217,66 44.6176952,65.868304 44.376577,65.6338835 C44.1354588,65.399463 44,65.0815206 44,64.75 L44,52.25 C44,51.9184794 44.1354588,51.600537 44.376577,51.3661165 C44.6176952,51.131696 44.9447217,51 45.2857143,51 L58.7857143,51 C60.5600892,51.0019375 61.9980072,52.3999133 62,54.125 L62,54.125 Z M38.7857142,31 L27.2142857,31 C25.4399108,31.0019375 24.0019928,32.3999133 24,34.125 L24,64.75 C24,65.0815206 24.1354588,65.399463 24.376577,65.6338835 C24.6176952,65.868304 24.9447216,66 25.2857143,66 L40.7142857,66 C41.0552783,66 41.3823048,65.868304 41.623423,65.6338835 C41.8645412,65.399463 42,65.0815206 42,64.75 L42,34.125 C41.9980072,32.3999133 40.5600891,31.0019374 38.7857142,31 Z M20.7142857,41 L7.2142857,41 C5.43991083,41.0019375 4.00199281,42.3999133 4,44.125 L4,62.875 C4.00199281,64.6000867 5.43991083,65.9980625 7.2142857,66 L20.7142857,66 C21.4243661,66 22,65.4403559 22,64.75 L22,42.25 C22,41.5596441 21.4243661,41 20.7142857,41 Z M40.9455392,16.906498 L36.2181562,16.1897159 L34.1043984,11.7170597 C33.8970298,11.2780032 33.4688541,11 33,11 C32.5311371,11 32.1029614,11.2780032 31.8955927,11.7170597 L29.7818349,16.1897159 L25.054452,16.906498 C24.5906064,16.9768321 24.2052247,17.3160138 24.0603414,17.7814336 C23.9154582,18.2468534 24.0361997,18.7577955 24.3718002,19.0994334 L27.7927554,22.5808892 L26.9846557,27.4967128 C26.9054895,27.9790359 27.0954226,28.4664642 27.4746063,28.7540808 C27.85379,29.0416974 28.3564731,29.0796291 28.7713256,28.8519292 L33,26.5316283 L37.2282808,28.852331 C37.6431333,29.0800309 38.1458164,29.0420992 38.5250001,28.7544826 C38.9041838,28.466866 39.0941168,27.9794376 39.0149506,27.4971146 L38.206851,22.581291 L41.6278061,19.0998352 C41.9636247,18.7582804 42.0845585,18.2472564 41.939742,17.7817034 C41.7949255,17.3161504 41.4094849,16.9768437 40.9455392,16.906498 Z" id="形状" fill="url(#linearGradient-5)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
