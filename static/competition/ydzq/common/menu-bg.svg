@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="170px" height="81px" viewBox="0 0 170 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>menu-bg</title>
+<svg width="162px" height="61px" viewBox="0 0 162 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>矩形</title>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="1大赛简介" transform="translate(-360.000000, -704.000000)">
-            <g id="TAB" transform="translate(0.000000, 704.000000)">
-                <g id="menu-bg" transform="translate(360.000000, 0.000000)">
-                    <rect id="矩形" fill-opacity="0.52" fill="#FFFFFF" x="0" y="0" width="170" height="81"></rect>
-                    <rect id="矩形" fill="#990000" x="30" y="23" width="111" height="36" rx="4"></rect>
-                    <g id="编组" transform="translate(12.000000, 6.000000)" fill="#990000">
-                        <g id="编组-5" transform="translate(0.000000, 0.000000)">
-                            <rect id="矩形备份-3" x="0" y="0" width="3" height="10"></rect>
-                            <rect id="矩形备份-4" x="3" y="0" width="7" height="3"></rect>
-                        </g>
-                        <g id="编组-5备份-2" transform="translate(140.000000, 5.000000) rotate(-270.000000) translate(-140.000000, -5.000000) translate(135.000000, 0.000000)">
-                            <rect id="矩形备份-3" x="0" y="0" width="3" height="10"></rect>
-                            <rect id="矩形备份-4" x="3" y="0" width="7" height="3"></rect>
-                        </g>
-                        <g id="编组-5备份" transform="translate(5.000000, 65.000000) rotate(-90.000000) translate(-5.000000, -65.000000) translate(0.000000, 60.000000)">
-                            <rect id="矩形备份-3" x="0" y="0" width="3" height="10"></rect>
-                            <rect id="矩形备份-4" x="3" y="0" width="7" height="3"></rect>
-                        </g>
-                        <g id="编组-5备份-3" transform="translate(140.000000, 65.000000) rotate(-180.000000) translate(-140.000000, -65.000000) translate(135.000000, 60.000000)">
-                            <rect id="矩形备份-3" x="0" y="0" width="3" height="10"></rect>
-                            <rect id="矩形备份-4" x="3" y="0" width="7" height="3"></rect>
-                        </g>
-                    </g>
-                </g>
+        <g id="4-报名申请" transform="translate(-879.000000, -642.000000)" fill="#B90404">
+            <g id="导航菜单" transform="translate(0.000000, 632.000000)">
+                <path d="M882.531848,10 L1037.46815,10 C1039.12501,10 1040.46815,11.3431458 1040.46815,13 C1040.46815,13.1625785 1040.45494,13.3248881 1040.42864,13.4853251 L1031.41224,68.4853251 C1031.17451,69.9355031 1029.92129,71 1028.45176,71 L891.548241,71 C890.078706,71 888.825492,69.9355031 888.587758,68.4853251 L879.571365,13.4853251 C879.303327,11.8502955 880.411493,10.3075546 882.046523,10.039517 C882.20696,10.0132159 882.369269,10 882.531848,10 Z" id="矩形"></path>
             </g>
         </g>
     </g>
