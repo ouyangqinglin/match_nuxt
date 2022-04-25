@@ -142,22 +142,22 @@ export default {
       data: { match_code: query.match_code }
     })
     let productFields = []
-    let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
-    let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
+
+    let applyFields = config.data.data.fields
+    let hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
+    let i = 0
+    for (i; i < applyFields.length; i++) {
+      if (hiddenArr.includes(applyFields[i].property)) applyFields[i].type = 'hidden'
+      if (applyFields[i].property === 'email') applyFields[i].type = 'text'
+      if (applyFields[i].property === 'product_name') applyFields[i].type = 'select'
+    }
+    let companyFields = applyFields.filter((i) => i.form_title === '私募机构信息')
+    let productFieldsSingle = applyFields.filter((i) => i.form_title === '参赛产品信息')
     let optionDefinition = config.data.data.option_definition
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
-    for (i; i < companyFields.length; i++) {
-      if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
-      if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
-      if (companyFields[i].property === 'email') companyFields[i].type = 'text'
-    }
-    for (j; j < productFieldsSingle.length; j++) {
-      if (hiddenArr.includes(productFieldsSingle[j].property)) productFieldsSingle[j].type = 'hidden'
-      if (productFieldsSingle[j].property === 'product_name') productFieldsSingle[j].type = 'select'
-    }
+
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
     return {
@@ -208,6 +208,7 @@ export default {
               this.$set(this.companyFields[j], 'value', searchObj[this.companyFields[j].property])
             }
           }
+          this.getCompanyInfo(this.companyFields[0], searchObj.register_number)
         }
         if (searchObj.channel === 'ppw' || searchObj.channel === 'fm') {
           let i = 0
@@ -487,9 +488,18 @@ export default {
       if (!v || !v.replace(/\s*/g, '')) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
-      }
-      else {
-        this.$set(item, 'errMsg', '')
+      } else {
+        if (item.rule) {
+          if (item.rule['<='] && +v > +item.rule['<='].limit) {
+            // 最大值边界
+            this.$set(item, 'errMsg', item.rule['<='].msg)
+          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+            // 最小值边界
+            this.$set(item, 'errMsg', item.rule['>='].msg)
+          } else this.$set(item, 'errMsg', '')
+        } else {
+          this.$set(item, 'errMsg', '')
+        }
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },

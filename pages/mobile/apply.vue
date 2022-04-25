@@ -176,6 +176,7 @@ export default {
     for (j; j < productFieldsSingle.length; j++) {
       if (hiddenArr.includes(productFieldsSingle[j].property)) productFieldsSingle[j].type = 'hidden'
       if (productFieldsSingle[j].property === 'product_name') productFieldsSingle[j].type = 'select'
+      if (productFieldsSingle[j].property === 'product_scale') productFieldsSingle[j].type = 'number'
     }
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)

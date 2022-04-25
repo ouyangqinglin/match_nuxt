@@ -165,22 +165,15 @@ export default {
       data: { match_code: query.match_code }
     })
     let productFields = []
+
     let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
     let optionDefinition = config.data.data.option_definition
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_money_account', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account2']
-    for (i; i < companyFields.length; i++) {
-      if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
-      if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
-      if (companyFields[i].property === 'email') companyFields[i].type = 'text'
-    }
-    for (j; j < productFieldsSingle.length; j++) {
-      if (hiddenArr.includes(productFieldsSingle[j].property)) productFieldsSingle[j].type = 'hidden'
-      if (productFieldsSingle[j].property === 'product_name') productFieldsSingle[j].type = 'select'
-    }
+
+
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
     return {
