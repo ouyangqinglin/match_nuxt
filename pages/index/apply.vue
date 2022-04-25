@@ -209,6 +209,7 @@ export default {
               this.$set(this.companyFields[j], 'value', searchObj[this.companyFields[j].property])
             }
           }
+          this.getCompanyInfo(this.companyFields[0], searchObj.register_number)
         }
         if (searchObj.channel === 'ppw' || searchObj.channel === 'fm') {
           let i = 0
