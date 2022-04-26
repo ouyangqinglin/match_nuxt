@@ -318,6 +318,8 @@ export default {
       }
       if (item.form_title === '参赛产品信息') {
         if (item.property === 'product_name') {
+          this.clearProductInfo(index+1)
+          this.$set(item, 'value', data)
           for (let j = 0; j < this.productFields[index].length; j++) {
             if (this.productFields[index][j].property === 'product_register_number') {
               this.$set(this.productFields[index][j], 'value', data[1])
@@ -600,6 +602,20 @@ export default {
         }
       })
     },
+    // 清空产品信息
+    clearProductInfo (index) {
+      if (index) {
+        this.productFields[index-1].forEach(i => {
+          delete i.value
+        })
+      } else {
+        this.productFields.forEach(i => {
+          i.forEach(item => {
+            delete item.value
+          })
+        })
+      }
+    },
     // el-input表单失去焦点验证
     inputVerify (item, v) {
       let regObj = {
@@ -607,11 +623,7 @@ export default {
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       }
       if (item.property === 'register_number') {
-        this.productFields.forEach(i => {
-          i.forEach(item => {
-            delete item.value
-          })
-        })
+        this.clearProductInfo()
         this.getCompanyInfo(item, v)
       }
       let i = 0

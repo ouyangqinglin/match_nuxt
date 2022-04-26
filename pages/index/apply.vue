@@ -456,6 +456,20 @@ export default {
         }
       })
     },
+    // 清空产品信息
+    clearProductInfo (index) {
+      if (index) {
+        this.productFields[index-1].forEach(i => {
+          delete i.value
+        })
+      } else {
+        this.productFields.forEach(i => {
+          i.forEach(item => {
+            delete item.value
+          })
+        })
+      }
+    },
     // el-input表单失去焦点验证
     inputVerify (item, v) {
       let regObj = {
@@ -463,11 +477,7 @@ export default {
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       }
       if (item.property === 'register_number') {
-        this.productFields.forEach(i => {
-          i.forEach(item => {
-            delete item.value
-          })
-        })
+        this.clearProductInfo()
         this.getCompanyInfo(item, v)
       }
       let i = 0
@@ -588,6 +598,8 @@ export default {
         }
       }
       if (item.property === 'product_name') {
+        this.clearProductInfo(index+1)
+        this.$set(item, 'value', v)
         for (j; j < this.productFields[index].length; j++) {
           if (this.productFields[index][j].property === 'product_register_number') if (v) {
             this.$set(this.productFields[index][j], 'value', item.value[0][1])
