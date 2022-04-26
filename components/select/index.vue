@@ -1,6 +1,6 @@
 <template>
   <div class="comp-select" :style="{color: themeColor}">
-    <el-select disabled class="comp-select-form" type="text" :placeholder="placeholder"  :value="lableVal"/>
+    <el-select disabled class="comp-select-form" type="text" :placeholder="placeholder" :value="lableVal"/>
     <div class="open" @click="openSelect"></div>
     <transition name="toast">
       <common-flex justify="center" align="center" class="toast" v-if="toastShow">

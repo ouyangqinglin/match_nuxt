@@ -590,6 +590,7 @@ export default {
     },
     // 清空产品信息
     clearProductInfo (index) {
+
       if (index) {
         this.productFields[index-1].forEach(i => {
           delete i.value
