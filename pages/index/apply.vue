@@ -238,6 +238,11 @@ export default {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
     },
     submit () {
+      setTimeout(() => {
+        this.delaySubmit()
+      }, 100)
+    },
+    delaySubmit () {
       if (!this.agreeFlag) {
         this.$alert(`请勾选我同意《参赛承诺书》`, '提示')
         return
@@ -251,7 +256,6 @@ export default {
           this.$set(this.companyFields[i], 'errMsg', `${this.companyFields[i].name}不能为空`)
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
-            console.log('11', this.companyFields[i].value)
             if (this.companyFields[i].value.constructor === Array) {
               for (let m = 0; m < this.companyFields.length; m++) {
                 if (this.companyFields[m].property === 'recommend_other_name') this.$set(this.companyFields[m], 'value', this.companyFields[i].value[1])
@@ -459,6 +463,11 @@ export default {
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       }
       if (item.property === 'register_number') {
+        this.productFields.forEach(i => {
+          i.forEach(item => {
+            delete item.value
+          })
+        })
         this.getCompanyInfo(item, v)
       }
       let i = 0

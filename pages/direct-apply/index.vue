@@ -392,6 +392,11 @@ export default {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
     },
     submit () {
+      setTimeout(() => {
+        this.delaySubmit()
+      }, 100)
+    },
+    delaySubmit () {
       if (!this.agreeFlag) {
         this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
         return
@@ -602,6 +607,11 @@ export default {
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       }
       if (item.property === 'register_number') {
+        this.productFields.forEach(i => {
+          i.forEach(item => {
+            delete item.value
+          })
+        })
         this.getCompanyInfo(item, v)
       }
       let i = 0
