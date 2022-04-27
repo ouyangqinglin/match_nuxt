@@ -418,7 +418,6 @@ export default {
         } else company_data[this.companyFields[i].property] = this.companyFields[i].value
         errMsg = errMsg || this.companyFields[i].errMsg
       }
-      console.log('company_data', company_data)
       for(k; k < this.productFields.length; k++) {
         let product_info = {}
         for (let j = 0; j < this.productFields[k].length; j++) {
