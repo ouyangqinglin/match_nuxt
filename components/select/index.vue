@@ -39,10 +39,11 @@ export default {
     recommend: String,
     selector: {
       type: Array,
-      default () {
+      default: () => {
         return []
       }
-    }
+    },
+    value: [Number, String, Array, Object],
   },
   data () {
     return {
@@ -63,7 +64,13 @@ export default {
           if (v === 'recommend_name' && ['ppw', 'fm'].includes(this.urlObj.channel)) this.lableVal = '私募排排网'
         }, 1000)
       }
-    }
+    },
+    value: {
+      immediate: true,
+      handler (v) {
+        if (!v) this.lableVal = ''
+      }
+    },
   },
   computed: {
     parentList () {

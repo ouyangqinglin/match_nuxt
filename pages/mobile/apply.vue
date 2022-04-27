@@ -29,7 +29,7 @@
           </common-flex>
           <common-flex class="form" align="center" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select :value="i.value" :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <div class="form" v-else-if="i.type === 'radio'">
@@ -71,7 +71,7 @@
           </common-flex>
           <common-flex class="form" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select :value="i.value" :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <div class="form" v-else-if="i.type === 'radio'">
