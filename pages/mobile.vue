@@ -35,27 +35,27 @@ export default {
     let i = 0, routeList = [
       {
         key: 'service',
-        route: 'family',
+        route: '/mobile/family',
       },
       {
         key: 'rule',
-        route: 'rule'
+        route: '/mobile/rule'
       },
       {
         key: 'reward',
-        route: 'award'
+        route: '/mobile/award'
       },
       {
         key: 'apply',
-        route: 'apply'
+        route: '/mobile/apply'
       },
       {
         key: 'rank',
-        route: 'rank'
+        route: '/mobile/rank'
       },
       {
         key: 'prize',
-        route: 'assign'
+        route: '/mobile/assign'
       },
     ]
     for (i; i < menu.length; i++) {
