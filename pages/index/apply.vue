@@ -249,6 +249,7 @@ export default {
       }
       const company_data = {}, product_list = []
       let sms_code = ''
+
       let i = 0, k = 0, errMsg = ''
       for (i; i < this.companyFields.length; i++) {
         if (this.companyFields[i].property === 'sms_code') sms_code = this.companyFields[i].value
@@ -582,6 +583,7 @@ export default {
           if (v.length > 1) this.$set(item, 'value', v)
           else if (v.constructor === Array) this.$set(item, 'value', v.join(''))
         }
+        if (item.value && item.property === 'product_name') this.$set(item, 'placeholder', item.value.split(',')[0])
       }, 500)
     },
     selectVerify (item, v, index) {
@@ -599,6 +601,7 @@ export default {
       }
       if (item.property === 'product_name') {
         this.clearProductInfo(index+1)
+
         this.$set(item, 'value', v)
         for (j; j < this.productFields[index].length; j++) {
           if (this.productFields[index][j].property === 'product_register_number') if (v) {
