@@ -6,7 +6,7 @@
         <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
-            <common-flex>
+            <common-flex wrap="wrap">
               <div style="margin-bottom: 30px" v-if="key === 'csearch_strategy'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
@@ -336,6 +336,7 @@ $borderColor: #DDDDDD;
           cursor: pointer;
         }
         &-type {
+          flex-shrink: 0;
           margin-top: 10px;
           @include nFont(20 500 #333 28);
           span {
