@@ -383,7 +383,7 @@ $borderColor: #DDDDDD;
           text-indent: 30px;
           text-align: left;
         }
-        .product_register_number {
+        .product_register_number, .fund_name {
           width: 200px;
           text-indent: 20px;
           text-align: center;
