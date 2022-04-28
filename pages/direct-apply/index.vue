@@ -320,6 +320,7 @@ export default {
         if (item.property === 'product_name') {
           this.clearProductInfo(index+1)
           this.$set(item, 'value', data)
+          this.$set(item, 'placeholder', data[0])
           for (let j = 0; j < this.productFields[index].length; j++) {
             if (this.productFields[index][j].property === 'product_register_number') {
               this.$set(this.productFields[index][j], 'value', data[1])
