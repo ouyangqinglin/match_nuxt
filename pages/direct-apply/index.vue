@@ -68,7 +68,7 @@
           </common-flex>
           <common-flex class="form" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :value="i.value" :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select v-if="selectVisible" :value="i.value" :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <div class="form" v-else-if="i.type === 'radio'">
@@ -132,6 +132,7 @@ export default {
   },
   data () {
     return {
+      selectVisible: true,
       checkVal: [],
       otherVal: '',
       value: '',
@@ -390,6 +391,10 @@ export default {
     },
     deleteProduct (j) {
       this.productFields.splice(j, 1)
+      this.selectVisible = false
+      this.$nextTick(() => {
+        this.selectVisible = true
+      })
     },
     addProduct () {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
