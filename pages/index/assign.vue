@@ -327,9 +327,6 @@ $borderColor: #DDDDDD;
           width: 277px;
           border-right: 1px solid $borderColor;
           border-bottom: 1px solid $borderColor;
-          img {
-            @include wh(153 153)
-          }
         }
         &-item {
           border-bottom: 1px solid $borderColor;
