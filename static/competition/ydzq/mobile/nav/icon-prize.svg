@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="121px" height="120px" viewBox="0 0 121 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="113" height="110.753769" rx="55.3768844"></rect>
+        <filter x="-5.8%" y="-5.0%" width="111.5%" height="111.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.383020373   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="37.4062581%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#ECA658" offset="0%"></stop>
+            <stop stop-color="#A55C00" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="50%" cy="32.308021%" fx="50%" fy="32.308021%" r="71.1912288%" gradientTransform="translate(0.500000,0.323080),scale(0.575758,1.000000),rotate(40.633501),translate(-0.500000,-0.323080)" id="radialGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFDFC8" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="32.308021%" fx="50%" fy="32.308021%" r="136.063406%" gradientTransform="translate(0.500000,0.323080),scale(1.000000,0.350000),rotate(76.784477),translate(-0.500000,-0.323080)" id="radialGradient-5">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFDFC8" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="32.308021%" fx="50%" fy="32.308021%" r="79.400468%" gradientTransform="translate(0.500000,0.323080),scale(1.000000,0.634615),rotate(66.935820),translate(-0.500000,-0.323080)" id="radialGradient-6">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFDFC8" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="32.308021%" fx="50%" fy="32.308021%" r="65.7718625%" gradientTransform="translate(0.500000,0.323080),scale(1.000000,0.800000),rotate(61.774750),translate(-0.500000,-0.323080)" id="radialGradient-7">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFDFC8" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1大赛简介" transform="translate(-614.000000, -853.000000)">
+            <g id="TAB" transform="translate(23.000000, 856.927377)">
+                <g id="icon" transform="translate(595.000000, 0.000000)">
+                    <g id="矩形备份-6">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <g id="0" transform="translate(6.000000, 4.000000)" fill="url(#linearGradient-3)" fill-rule="nonzero">
+                        <circle id="椭圆形" cx="51" cy="51" r="44.1188442"></circle>
+                    </g>
+                    <g id="排名" transform="translate(24.000000, 22.072623)" fill-rule="nonzero">
+                        <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="65" height="65"></rect>
+                        <path d="M32.5,42 C23.26,42 16,35.0333333 16,26.1666667 C16,24.2666667 17.32,23 19.3,23 C21.28,23 22.6,24.2666667 22.6,26.1666667 C22.6,31.55 26.89,35.6666667 32.5,35.6666667 C38.11,35.6666667 42.4,31.55 42.4,26.1666667 C42.4,24.2666667 43.72,23 45.7,23 C47.68,23 49,24.2666667 49,26.1666667 C49,35.0333333 41.74,42 32.5,42 L32.5,42 Z" id="路径" fill="url(#radialGradient-4)"></path>
+                        <path d="M32.5,58 C30.4,58 29,56.6666667 29,54.6666667 L29,41.3333333 C29,39.3333333 30.4,38 32.5,38 C34.6,38 36,39.3333333 36,41.3333333 L36,54.6666667 C36,56.6666667 34.6,58 32.5,58 L32.5,58 Z" id="路径" fill="url(#radialGradient-5)"></path>
+                        <path d="M42.4,58 L22.6,58 C20.62,58 19.3,56.7 19.3,54.75 C19.3,52.8 20.62,51.5 22.6,51.5 L42.4,51.5 C44.38,51.5 45.7,52.8 45.7,54.75 C45.7,56.7 44.38,58 42.4,58 L42.4,58 Z M45.7,28.75 C43.72,28.75 42.4,27.45 42.4,25.5 L42.4,12.5 L22.6,12.5 L22.6,25.5 C22.6,27.45 21.28,28.75 19.3,28.75 C17.32,28.75 16,27.45 16,25.5 L16,9.25 C16,7.3 17.32,6 19.3,6 L45.7,6 C47.68,6 49,7.3 49,9.25 L49,25.5 C49,27.45 47.68,28.75 45.7,28.75 Z" id="形状" fill="url(#radialGradient-6)"></path>
+                        <path d="M48.4,29 L45.2,29 C43.28,29 42,27.6666667 42,25.6666667 C42,23.6666667 43.28,22.3333333 45.2,22.3333333 L48.4,22.3333333 C50.32,22.3333333 51.6,21 51.6,19 L51.6,15.6666667 L45.2,15.6666667 C43.28,15.6666667 42,14.3333333 42,12.3333333 C42,10.3333333 43.28,9 45.2,9 L54.8,9 C56.72,9 58,10.3333333 58,12.3333333 L58,19 C58,24.6666667 53.84,29 48.4,29 L48.4,29 Z" id="路径" fill="url(#radialGradient-7)"></path>
+                        <path d="M19.8,29 L16.6,29 C11.16,29 7,24.6666667 7,19 L7,12.3333333 C7,10.3333333 8.28,9 10.2,9 L19.8,9 C21.72,9 23,10.3333333 23,12.3333333 C23,14.3333333 21.72,15.6666667 19.8,15.6666667 L13.4,15.6666667 L13.4,19 C13.4,21 14.68,22.3333333 16.6,22.3333333 L19.8,22.3333333 C21.72,22.3333333 23,23.6666667 23,25.6666667 C23,27.6666667 21.72,29 19.8,29 L19.8,29 Z" id="路径" fill="url(#radialGradient-7)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

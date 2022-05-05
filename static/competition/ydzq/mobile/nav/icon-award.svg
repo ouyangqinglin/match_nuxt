@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="121px" height="120px" viewBox="0 0 121 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="113" height="110.753769" rx="55.3768844"></rect>
+        <filter x="-5.8%" y="-5.0%" width="111.5%" height="111.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.383020373   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="37.4062581%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#ECA658" offset="0%"></stop>
+            <stop stop-color="#A55C00" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="50%" cy="32.308021%" fx="50%" fy="32.308021%" r="69.8428393%" gradientTransform="translate(0.500000,0.323080),scale(1.000000,0.741379),rotate(63.552821),translate(-0.500000,-0.323080)" id="radialGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFDFC8" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1大赛简介" transform="translate(-168.000000, -853.000000)">
+            <g id="TAB" transform="translate(23.000000, 856.927377)">
+                <g id="icon" transform="translate(149.000000, 0.000000)">
+                    <g id="矩形备份-6">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <g id="0" transform="translate(5.000000, 4.000000)" fill="url(#linearGradient-3)" fill-rule="nonzero">
+                        <circle id="椭圆形" cx="51.1188442" cy="51.1188442" r="44.1188442"></circle>
+                    </g>
+                    <g id="奖励2-面型" transform="translate(34.000000, 30.072623)" fill="url(#radialGradient-4)" fill-rule="nonzero">
+                        <path d="M21.2489483,14.4996277 C28.9894581,14.408182 36.1809788,18.5334862 40.0775623,25.3003697 C43.9741459,32.0672532 43.9741459,40.4308851 40.0775623,47.1977687 C36.1809788,53.9646522 28.9894581,58.0899563 21.2489483,57.9985106 C9.47355493,57.8593972 0,48.1627042 0,36.2490692 C0,24.3354341 9.47355493,14.6387411 21.2489483,14.4996277 L21.2489483,14.4996277 Z M23.781809,28.560322 C23.110772,27.8793558 22.1994052,27.4966161 21.2489483,27.4966161 C20.2984914,27.4966161 19.3871246,27.8793558 18.7160876,28.560322 L13.6503664,33.6851648 C12.9763564,34.3641517 12.5974605,35.2867914 12.5974605,36.2490691 C12.5974605,37.2113469 12.9763564,38.1339866 13.6503664,38.8129734 L18.7160876,43.9378163 C19.3871246,44.6187825 20.2984914,45.0015222 21.2489483,45.0015222 C22.1994052,45.0015222 23.110772,44.6187825 23.781809,43.9378163 L28.8475302,38.8129734 C29.5215402,38.1339866 29.9004361,37.2113469 29.9004361,36.2490691 C29.9004361,35.2867914 29.5215402,34.3641517 28.8475302,33.6851648 L23.781809,28.560322 Z M31.9989483,0 C33.9806772,0 35.5813044,1.62227376 35.5813044,3.62713124 L35.5813044,10.8754622 L32.7670148,13.7225971 C30.282113,12.4258932 27.599549,11.5607024 24.8313044,11.1631414 L24.8313044,3.62713124 L17.6665922,3.62713124 L17.6665922,11.1601757 C14.8990024,11.5599227 12.2174387,12.4271155 9.73381336,13.7255629 L6.91952372,10.8754622 L6.91952372,3.62713124 C6.91952372,1.62227376 8.5172194,0 10.4989483,0 L31.9989483,0 Z" id="形状"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

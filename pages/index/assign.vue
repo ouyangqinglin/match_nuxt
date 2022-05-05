@@ -304,10 +304,15 @@ $borderColor: #DDDDDD;
           width: 80px;
           text-align: center;
         }
-        .product_register_number {
+        .product_register_number, {
           padding: 0;
           width: 235px;
           text-align: center;
+        }
+        .fund_name {
+          text-indent: 36px;
+          width: 400px;
+          text-align: left;
         }
         .company_name {
           text-indent: 36px;
@@ -322,9 +327,6 @@ $borderColor: #DDDDDD;
           width: 277px;
           border-right: 1px solid $borderColor;
           border-bottom: 1px solid $borderColor;
-          img {
-            @include wh(153 153)
-          }
         }
         &-item {
           border-bottom: 1px solid $borderColor;
@@ -352,6 +354,13 @@ $borderColor: #DDDDDD;
         .product_register_number {
           width: 235px;
           text-align: center;
+          border-right: 1px solid $borderColor;
+        }
+        .fund_name {
+          width: 400px;
+          text-align: left;
+          text-indent: 36px;
+          justify-content: flex-start;
           border-right: 1px solid $borderColor;
         }
         .company_name {

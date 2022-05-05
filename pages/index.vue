@@ -61,50 +61,52 @@ export default {
     if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
     if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
     if (data.section.apply_disclaimer) store.commit('saveApplyDisclaimer', data.section.apply_disclaimer)
+    if (data.config.award_strategy_icon) {
+      const awardStrategyIcon = JSON.parse(data.config.award_strategy_icon)
+      store.commit('saveAwardIcon', awardStrategyIcon)
+    }
     const menuActiveBg = data.config.menu_background
-    const awardStrategyIcon = JSON.parse(data.config.award_strategy_icon)
-    store.commit('saveAwardIcon', awardStrategyIcon)
     store.commit('saveMenuBg', menuActiveBg)
     let menu = JSON.parse(data.config.menu)
     let list = [
       {
         props: 'introduction',
-        route: 'introduction',
+        route: '/introduction',
         key: 'index-introduction'
       },
       {
         props: 'service',
-        route: 'service',
+        route: '/service',
         key: 'index-service'
       },
       {
         props: 'reward',
-        route: 'award',
+        route: '/award',
         key: 'index-award'
       },
       {
         props: 'rule',
-        route: 'rule',
+        route: '/rule',
         key: 'index-rule'
       },
       {
         props: 'apply',
-        route: 'apply',
+        route: '/apply',
         key: 'index-apply'
       },
       {
         props: 'prize',
-        route: 'assign',
+        route: '/assign',
         key: 'index-assign'
       },
       {
         props: 'report',
-        route: 'report',
+        route: '/report',
         key: 'index-report'
       },
       {
         props: 'rank',
-        route: 'rank',
+        route: '/rank',
         key: 'index-rank'
       },
     ]

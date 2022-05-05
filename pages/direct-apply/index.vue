@@ -27,7 +27,7 @@
           </common-flex>
           <common-flex class="form" align="center" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select :value="i.value" :placeholder="i.placeholder" @change="getSelectVal($event, i)" :recommend="i.property" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <div class="form" v-else-if="i.type === 'radio'">
@@ -68,7 +68,7 @@
           </common-flex>
           <common-flex class="form" v-else-if="i.type === 'select'">
             <div class="star" v-if="+i.required === 1" />
-            <comp-select :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
+            <comp-select v-if="selectVisible" :value="i.value" :placeholder="i.placeholder" @change="getSelectVal($event, i, j)" :selector="optionDefinition[i.property]" v-model="i.value" />
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <div class="form" v-else-if="i.type === 'radio'">
@@ -132,6 +132,7 @@ export default {
   },
   data () {
     return {
+      selectVisible: true,
       checkVal: [],
       otherVal: '',
       value: '',
@@ -165,22 +166,23 @@ export default {
       data: { match_code: query.match_code }
     })
     let productFields = []
-    let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
-    let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
+
+    let applyFields = config.data.data.fields
+    let hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
+    let i = 0
+    for (i; i < applyFields.length; i++) {
+      if (hiddenArr.includes(applyFields[i].property)) applyFields[i].type = 'hidden'
+      if (applyFields[i].property === 'email') applyFields[i].type = 'text'
+      if (applyFields[i].property === 'product_name') applyFields[i].type = 'select'
+    }
+    let companyFields = applyFields.filter((i) => i.form_title === '私募机构信息')
+    let productFieldsSingle = applyFields.filter((i) => i.form_title === '参赛产品信息')
     let optionDefinition = config.data.data.option_definition
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_money_account', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account2']
-    for (i; i < companyFields.length; i++) {
-      if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
-      if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
-      if (companyFields[i].property === 'email') companyFields[i].type = 'text'
-    }
-    for (j; j < productFieldsSingle.length; j++) {
-      if (hiddenArr.includes(productFieldsSingle[j].property)) productFieldsSingle[j].type = 'hidden'
-      if (productFieldsSingle[j].property === 'product_name') productFieldsSingle[j].type = 'select'
-    }
+
+
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
     return {
@@ -317,6 +319,9 @@ export default {
       }
       if (item.form_title === '参赛产品信息') {
         if (item.property === 'product_name') {
+          this.clearProductInfo(index+1)
+          this.$set(item, 'value', data)
+          this.$set(item, 'placeholder', data[0])
           for (let j = 0; j < this.productFields[index].length; j++) {
             if (this.productFields[index][j].property === 'product_register_number') {
               this.$set(this.productFields[index][j], 'value', data[1])
@@ -386,11 +391,20 @@ export default {
     },
     deleteProduct (j) {
       this.productFields.splice(j, 1)
+      this.selectVisible = false
+      this.$nextTick(() => {
+        this.selectVisible = true
+      })
     },
     addProduct () {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
     },
     submit () {
+      setTimeout(() => {
+        this.delaySubmit()
+      }, 100)
+    },
+    delaySubmit () {
       if (!this.agreeFlag) {
         this.$alert(`请勾选我同意《参赛机构承诺书》`, '提示')
         return
@@ -594,6 +608,20 @@ export default {
         }
       })
     },
+    // 清空产品信息
+    clearProductInfo (index) {
+      if (index) {
+        this.productFields[index-1].forEach(i => {
+          delete i.value
+        })
+      } else {
+        this.productFields.forEach(i => {
+          i.forEach(item => {
+            delete item.value
+          })
+        })
+      }
+    },
     // el-input表单失去焦点验证
     inputVerify (item, v) {
       let regObj = {
@@ -601,6 +629,7 @@ export default {
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       }
       if (item.property === 'register_number') {
+        this.clearProductInfo()
         this.getCompanyInfo(item, v)
       }
       let i = 0
@@ -627,9 +656,21 @@ export default {
       for (i; i < this.productFields[index].length; i++) {
         if (item.property === this.productFields[index][i].property) break
       }
-      if (!v || !v.replace(/\s*/g, '')) this.$set(item, 'errMsg', `${item.name}不能为空`)
-      else {
-        this.$set(item, 'errMsg', '')
+      if (!v || !v.replace(/\s*/g, '')) {
+        if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
+        else this.$set(item, 'errMsg', '')
+      } else {
+        if (item.rule) {
+          if (item.rule['<='] && +v > +item.rule['<='].limit) {
+            // 最大值边界
+            this.$set(item, 'errMsg', item.rule['<='].msg)
+          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+            // 最小值边界
+            this.$set(item, 'errMsg', item.rule['>='].msg)
+          } else this.$set(item, 'errMsg', '')
+        } else {
+          this.$set(item, 'errMsg', '')
+        }
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },

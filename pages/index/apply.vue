@@ -142,23 +142,22 @@ export default {
       data: { match_code: query.match_code }
     })
     let productFields = []
-    console.log(config.data.data)
-    let companyFields = config.data.data.fields.filter((i) => i.form_title === '私募机构信息')
-    let productFieldsSingle = config.data.data.fields.filter((i) => i.form_title === '参赛产品信息')
+
+    let applyFields = config.data.data.fields
+    let hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
+    let i = 0
+    for (i; i < applyFields.length; i++) {
+      if (hiddenArr.includes(applyFields[i].property)) applyFields[i].type = 'hidden'
+      if (applyFields[i].property === 'email') applyFields[i].type = 'text'
+      if (applyFields[i].property === 'product_name') applyFields[i].type = 'select'
+    }
+    let companyFields = applyFields.filter((i) => i.form_title === '私募机构信息')
+    let productFieldsSingle = applyFields.filter((i) => i.form_title === '参赛产品信息')
     let optionDefinition = config.data.data.option_definition
     optionDefinition['product_tactics'].forEach((i) => {
       if (i.children && !i.children.length) delete i.children
     })
-    let i = 0, j = 0, hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
-    for (i; i < companyFields.length; i++) {
-      if (hiddenArr.includes(companyFields[i].property)) companyFields[i].type = 'hidden'
-      if (companyFields[i].property === 'contacts_phone') companyFields[i].type = 'number'
-      if (companyFields[i].property === 'email') companyFields[i].type = 'text'
-    }
-    for (j; j < productFieldsSingle.length; j++) {
-      if (hiddenArr.includes(productFieldsSingle[j].property)) productFieldsSingle[j].type = 'hidden'
-      if (productFieldsSingle[j].property === 'product_name') productFieldsSingle[j].type = 'select'
-    }
+
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
     return {
@@ -239,12 +238,18 @@ export default {
       this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
     },
     submit () {
+      setTimeout(() => {
+        this.delaySubmit()
+      }, 100)
+    },
+    delaySubmit () {
       if (!this.agreeFlag) {
         this.$alert(`请勾选我同意《参赛承诺书》`, '提示')
         return
       }
       const company_data = {}, product_list = []
       let sms_code = ''
+
       let i = 0, k = 0, errMsg = ''
       for (i; i < this.companyFields.length; i++) {
         if (this.companyFields[i].property === 'sms_code') sms_code = this.companyFields[i].value
@@ -252,7 +257,6 @@ export default {
           this.$set(this.companyFields[i], 'errMsg', `${this.companyFields[i].name}不能为空`)
         } else if (this.companyFields[i].required === '1' && this.companyFields[i].value) {
           if (this.companyFields[i].property === 'recommend_name') {
-            console.log('11', this.companyFields[i].value)
             if (this.companyFields[i].value.constructor === Array) {
               for (let m = 0; m < this.companyFields.length; m++) {
                 if (this.companyFields[m].property === 'recommend_other_name') this.$set(this.companyFields[m], 'value', this.companyFields[i].value[1])
@@ -453,6 +457,20 @@ export default {
         }
       })
     },
+    // 清空产品信息
+    clearProductInfo (index) {
+      if (index) {
+        this.productFields[index-1].forEach(i => {
+          delete i.value
+        })
+      } else {
+        this.productFields.forEach(i => {
+          i.forEach(item => {
+            delete item.value
+          })
+        })
+      }
+    },
     // el-input表单失去焦点验证
     inputVerify (item, v) {
       let regObj = {
@@ -460,6 +478,7 @@ export default {
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       }
       if (item.property === 'register_number') {
+        this.clearProductInfo()
         this.getCompanyInfo(item, v)
       }
       let i = 0
@@ -489,9 +508,18 @@ export default {
       if (!v || !v.replace(/\s*/g, '')) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
-      }
-      else {
-        this.$set(item, 'errMsg', '')
+      } else {
+        if (item.rule) {
+          if (item.rule['<='] && +v > +item.rule['<='].limit) {
+            // 最大值边界
+            this.$set(item, 'errMsg', item.rule['<='].msg)
+          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+            // 最小值边界
+            this.$set(item, 'errMsg', item.rule['>='].msg)
+          } else this.$set(item, 'errMsg', '')
+        } else {
+          this.$set(item, 'errMsg', '')
+        }
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },
@@ -555,6 +583,7 @@ export default {
           if (v.length > 1) this.$set(item, 'value', v)
           else if (v.constructor === Array) this.$set(item, 'value', v.join(''))
         }
+        if (item.value && item.property === 'product_name') this.$set(item, 'placeholder', item.value.split(',')[0])
       }, 500)
     },
     selectVerify (item, v, index) {
@@ -571,6 +600,9 @@ export default {
         }
       }
       if (item.property === 'product_name') {
+        this.clearProductInfo(index+1)
+
+        this.$set(item, 'value', v)
         for (j; j < this.productFields[index].length; j++) {
           if (this.productFields[index][j].property === 'product_register_number') if (v) {
             this.$set(this.productFields[index][j], 'value', item.value[0][1])

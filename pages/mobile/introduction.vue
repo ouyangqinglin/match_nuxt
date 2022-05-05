@@ -3,12 +3,12 @@
     <img :src="mobileConfig.index_banner" alt="">
     <common-flex justify="space-between" align="center" class="mobile-introduction-nav">
       <template v-for="(i, j) of menu">
-        <a @click="routeLink(i)">
+        <nuxt-link :to="{path: i.route, query: {match_code: match_code, channel: channel, title: i.name}}">
           <common-flex direction="column" align="center" justify="center" class="mobile-introduction-nav-item">
             <img :src="i.icon" alt="">
             <div>{{ i.name }}</div>
           </common-flex>
-        </a>
+        </nuxt-link>
       </template>
     </common-flex>
     <div class="mobile-introduction-blank"  v-for="(i, j) of currPage.content">
@@ -42,16 +42,11 @@ export default {
     }),
     currPage () {
       return this.mobilePage.find(i => i.title.includes('简介'))
+    },
+    channel () {
+      return this.$route.query.channel || ''
     }
   },
-  methods: {
-    routeLink (i) {
-      let url
-      if (this.$route.query.channel) url = `${this.$store.state.apiHost}competition/mobile/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}&channel=${this.$route.query.channel}`
-      else url = `${this.$store.state.apiHost}competition/mobile/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}`
-      location.href = url
-    }
-  }
 }
 </script>
 

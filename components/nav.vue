@@ -2,18 +2,19 @@
   <div class="nav">
     <div id="fix" style="height: 1px" />
     <common-flex class="comp-nav" justify="center" align="center" :class="{fixed: fixed}">
-      <a @click="navChange(i)" v-for="i of dyNav" :key="i.route">
-        <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="curNav = i.path">
+      <template v-for="i of dyNav">
+        <div class="comp-nav-item" :style="{color: curNav === i.path ? '#fff': theme}" :class="{active: curNav === i.path}" @click="navChange(i)">
           <span>{{ i.name }}</span>
           <img v-show="curNav === i.path" :src="menuBg" alt="">
         </div>
-      </a>
+      </template>
     </common-flex>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import $ from 'jquery'
 export default {
   name: 'comp-nav',
   data () {
@@ -27,8 +28,9 @@ export default {
     ...mapState({
       dyNav: 'dyNav',
       theme: 'theme',
-      menuBg: 'menu_bg'
-    }),
+      menuBg: 'menu_bg',
+      match_code: 'match_code'
+    })
   },
   mounted () {
     this.$nextTick(() => {
@@ -44,20 +46,30 @@ export default {
   },
   methods: {
     navChange (i) {
+      this.curNav = i.path
       if (this.$route.query.channel) {
         let query = []
         let temp
         for (let key in this.$route.query) {
-          if (key === 'title') {}
+          if (key === 'title' || key === 'match_code') {}
           else {
             temp = `${key}=${this.$route.query[key]}`
             if (this.$route.query[key]) query.push(temp)
           }
         }
         let urlParams = query.join('&')
-        location.href = `${this.$store.state.apiHost}competition/${i.route}?${urlParams}&title=${i.name}`
-      } else location.href = `${this.$store.state.apiHost}competition/${i.route}?match_code=${this.$route.query.match_code}&title=${i.name}`
-
+        this.$router.push(`${i.route}?match_code=${this.match_code}&${urlParams}&title=${i.name}`)
+      } else this.$router.push({
+        path: i.route,
+        query: {
+          match_code: this.match_code,
+          title: i.name
+        }
+      })
+      $("html,body").animate({scrollTop: this.navScrollTop}, 300);
+      // setTimeout( () => {
+      //   $("html,body").animate({scrollTop: this.navScrollTop}, 300);
+      // },0)
     },
     scrolling () {
       let scrollTop = document.documentElement.scrollTop
@@ -84,7 +96,6 @@ export default {
       @include nFont(24 400 81);
       z-index: 2;
       cursor: pointer;
-      border-right: solid 1px #7C5053;
       img {
         position: absolute;
         top: 0;

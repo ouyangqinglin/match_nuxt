@@ -339,7 +339,7 @@ export default {
             z-index: 0;
           }
         }
-        .product_register_number {
+        .product_register_number, .fund_name {
           flex: .7;
           max-width: 2rem;
           padding-left: 0.2rem;

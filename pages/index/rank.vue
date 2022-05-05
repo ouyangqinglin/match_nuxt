@@ -6,7 +6,7 @@
         <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">
           <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
           <div>
-            <common-flex>
+            <common-flex wrap="wrap">
               <div style="margin-bottom: 30px" v-if="key === 'csearch_strategy'" class="item"
                    @click="changeStra(i.value, key, index)" :class="{active: curStra === index}" v-for="(i, index) of val">
                 {{ i.label }}</div>
@@ -39,7 +39,7 @@
       </div>
       <div class="ppw-w1200 table">
         <common-flex class="th">
-          <div :class="i.prop" v-for="i of itemList">{{ i.label }}</div>
+          <div :class="i.prop.name ? i.prop.name : i.prop" v-for="i of itemList">{{ i.label }}</div>
         </common-flex>
         <template v-if="dataList.length">
           <common-flex class="tr" v-for="(i, index) of dataList" :key="index" :style="{backgroundColor: index % 2 ? '#faf3ee' : '#fff'}">
@@ -54,12 +54,12 @@
                   </template>
                   <!--                未认证-->
                   <template v-else>
-                    <div @click="login()" class="td ellipsis" style="color: #C00000; cursor: pointer">认证可见</div>
+                    <div @click="login()" class="td ellipsis score" style="color: #C00000; cursor: pointer">认证可见</div>
                   </template>
                 </template>
                 <!--              未登录-->
                 <template v-else>
-                  <div @click="login()" class="td ellipsis" style="color: #C00000; cursor: pointer">登录可见</div>
+                  <div @click="login()" class="td ellipsis score" style="color: #C00000; cursor: pointer">登录可见</div>
                 </template>
               </template>
               <div class="td ellipsis" :class="j.prop" style="position: relative; z-index: 1" v-else-if="j.prop === 'rank_score'">
@@ -68,7 +68,7 @@
                 <img class="rank-img" :src="require('@img/rank/rank-3.png')" alt="" v-if="+(i[j.prop]) === 3">
                 {{ i[j.prop] }}
               </div>
-              <div class="td ellipsis" :class="j.prop" v-else>{{ i[j.prop] || i[j.prop.name]}}</div>
+              <div class="td ellipsis" :class="j.prop.name ? j.prop.name : j.prop" v-else>{{ i[j.prop] || i[j.prop.name]}}</div>
             </template>
           </common-flex>
         </template>
@@ -268,6 +268,7 @@ export default {
         success: (res) => {
           this.loading.close()
           this.itemList = res.data.title_arr
+          console.log('v', this.itemList)
           this.dataList = res.data.list
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }
@@ -336,6 +337,7 @@ $borderColor: #DDDDDD;
           cursor: pointer;
         }
         &-type {
+          flex-shrink: 0;
           margin-top: 10px;
           @include nFont(20 500 #333 28);
           span {
@@ -377,15 +379,26 @@ $borderColor: #DDDDDD;
           width: 100px;
           text-align: center;
         }
-        .name {
-          flex: 1;
-          text-indent: 30px;
-          text-align: left;
-        }
         .product_register_number {
           width: 200px;
           text-indent: 20px;
           text-align: center;
+        }
+        .fund_name {
+          text-indent: 20px;
+          text-align: left;
+          width: 500px;
+        }
+        .company_name {
+          text-indent: 20px;
+          text-align: left;
+          flex-grow: 1;
+          flex-shrink: 1;
+        }
+        .score, .ret {
+          flex-shrink: 0;
+          width: 140px;
+          text-align: right;
         }
         :last-child {
           border-right: none;
