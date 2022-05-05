@@ -171,6 +171,7 @@ export default {
     let hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
     let i = 0
     for (i; i < applyFields.length; i++) {
+      if (applyFields[i].property === 'contacts_phone')  applyFields[i].type = 'number'
       if (hiddenArr.includes(applyFields[i].property)) applyFields[i].type = 'hidden'
       if (applyFields[i].property === 'email') applyFields[i].type = 'text'
       if (applyFields[i].property === 'product_name') applyFields[i].type = 'select'
