@@ -309,7 +309,7 @@ $borderColor: #DDDDDD;
           width: 235px;
           text-align: center;
         }
-        .fund_name {
+        .fund_name, .fund_short_name {
           text-indent: 36px;
           width: 400px;
           text-align: left;
@@ -356,7 +356,7 @@ $borderColor: #DDDDDD;
           text-align: center;
           border-right: 1px solid $borderColor;
         }
-        .fund_name {
+        .fund_name, .fund_short_name {
           width: 400px;
           text-align: left;
           text-indent: 36px;

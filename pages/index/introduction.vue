@@ -16,6 +16,28 @@
           <a class="name-link name-ppw" href="https://www.simuwang.com/" target="_blank"></a>
         </div>
       </common-flex>
+      <common-flex direction="column" class="route-link ydzq" v-if="i.title.includes('大赛组织') && match_code === 'ydzq'">
+        <div class="item">
+          <a class="ydzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="ydzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ydzq-ppw-logo" href="https://www.simuwang.com" target="_blank"></a>
+          <a class="ydzq-ppw-name" href="https://www.simuwang.com" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ydzq-hs-logo" href="https://www.hundsun.com/" target="_blank"></a>
+          <a class="ydzq-hs-name" href="https://www.hundsun.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ydzq-lhhj-logo" href="https://www.hongkingsystem.cn/" target="_blank"></a>
+          <a class="ydzq-lhhj-name" href="https://www.hongkingsystem.cn/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ydzq-jjlh-logo" href="https://www.myquant.cn/" target="_blank"></a>
+          <a class="ydzq-jjlh-name" href="https://www.myquant.cn/" target="_blank"></a>
+        </div>
+      </common-flex>
     </div>
   </common-flex>
 </template>
@@ -82,6 +104,83 @@ export default {
         }
         .name-ppw {
           top: -3px;
+        }
+      }
+    }
+    .ydzq {
+      height: 1910px;
+      .item {
+        flex-grow: 1;
+        position: relative;
+        .ydzq-logo {
+          position: absolute;
+          left: 117px;
+          top: 242px;
+          width: 203px;
+          height: 84px;
+        }
+        .ydzq-name {
+          position: absolute;
+          left: 395px;
+          top: 145px;
+          width: 203px;
+          height: 42px;
+        }
+        .ydzq-ppw-logo {
+          position: absolute;
+          left: 117px;
+          top: 284px;
+          width: 203px;
+          height: 84px;
+        }
+        .ydzq-ppw-name {
+          position: absolute;
+          left: 403px;
+          top: 140px;
+          width: 203px;
+          height: 42px;
+        }
+        .ydzq-hs-logo {
+          position: absolute;
+          left: 105px;
+          top: 360px;
+          width: 228px;
+          height: 84px;
+        }
+        .ydzq-hs-name {
+          position: absolute;
+          left: 395px;
+          top: 225px;
+          width: 203px;
+          height: 42px;
+        }
+        .ydzq-lhhj-logo {
+          position: absolute;
+          left: 105px;
+          top: 328px;
+          width: 228px;
+          height: 84px;
+        }
+        .ydzq-lhhj-name {
+          position: absolute;
+          left: 395px;
+          top: 264px;
+          width: 203px;
+          height: 42px;
+        }
+        .ydzq-jjlh-logo {
+          position: absolute;
+          left: 105px;
+          bottom: 76px;
+          width: 228px;
+          height: 84px;
+        }
+        .ydzq-jjlh-name {
+          position: absolute;
+          left: 395px;
+          top: 153px;
+          width: 303px;
+          height: 42px;
         }
       }
     }
