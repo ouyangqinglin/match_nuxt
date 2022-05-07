@@ -24,6 +24,23 @@
           <a class="img-link img-ppw" href="https://mobile.simuwang.com/" target="_blank"></a>
         </div>
       </common-flex>
+      <common-flex direction="column" class="route-link ydzq" v-if="j === 3 && match_code === 'ydzq'">
+        <div class="item">
+          <a class="ydzq-link" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ppw-link" href="https://www.simuwang.com" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="hs-link" href="https://www.hundsun.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="lhhj-link" href="https://www.hongkingsystem.cn/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="jjlh-link" href="https://www.myquant.cn/" target="_blank"></a>
+        </div>
+      </common-flex>
     </div>
   </div>
 </template>
@@ -102,6 +119,33 @@ export default {
         .img-ppw {
           top: .09rem;
         }
+      }
+    }
+    .ydzq {
+      height: 35rem;
+      a {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2.6rem;
+        height: 1.8rem;
+      }
+      .ydzq-link {
+        top: 1.7rem;
+      }
+      .ppw-link {
+        top: 1.6rem;
+      }
+      .hs-link {
+        width: 3rem;
+        top: 2.8rem;
+      }
+      .lhhj-link {
+        top: 3.7rem;
+      }
+      .jjlh-link {
+        width: 4rem;
+        top: 2.4rem;
       }
     }
   }

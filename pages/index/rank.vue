@@ -49,8 +49,8 @@
                 <template v-if="logined">
                   <!--                已认证-->
                   <template v-if="certificated">
-                    <div class="td ellipsis" v-if="j.prop === 'ret'" v-profit_handler.percent="i[j.prop]" />
-                    <div class="td ellipsis" v-else-if="j.prop === 'score'">{{ (i[j.prop] + '').slice(0, 5) }}</div>
+                    <div class="td ellipsis score" v-if="j.prop === 'ret'" v-profit_handler.percent="i[j.prop]" />
+                    <div class="td ellipsis score" v-else-if="j.prop === 'score'">{{ (i[j.prop] + '').slice(0, 5) }}</div>
                   </template>
                   <!--                未认证-->
                   <template v-else>
@@ -268,7 +268,6 @@ export default {
         success: (res) => {
           this.loading.close()
           this.itemList = res.data.title_arr
-          console.log('v', this.itemList)
           this.dataList = res.data.list
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }

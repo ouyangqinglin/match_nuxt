@@ -1,67 +1,69 @@
 <template>
-  <div class="pc-assign">
-    <common-flex direction="column" align="center" class="ppw-w1200 main">
-      <div class="title">获奖名单</div>
-      <div class="body">
-        <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">
-          <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
-          <div>
-            <common-flex>
-              <div style="margin-bottom: 30px" v-if="key === 'rank_range'" class="item"
-                   @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
-                {{ i.label }}</div>
-              <div style="margin-bottom: 30px" v-if="key === 'scale_group'" class="item"
-                   @click="changeStra(i.value, key, index)" :class="{active: curScale === index}" v-for="(i, index) of val">
-                {{ i.label }}</div>
-            </common-flex>
-            <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'rank_range'">
-              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">
-                {{ i.label }}</div>
-            </common-flex>
-            <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'scale_group'">
-              <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubScale === index}" v-for="(i, index) of subScaleList">
-                {{ i.label }}</div>
-            </common-flex>
-          </div>
-        </common-flex>
-      </div>
-      <div class="ppw-w1200 table">
-        <common-flex class="th">
-          <div :class="i.prop" v-for="i of itemList">{{ i.label }}</div>
-        </common-flex>
-        <template v-if="Object.keys(dataList).length">
-          <template v-for="(s, index) of strategyType">
-            <common-flex class="tr" :style="{background: index % 2 === 0 ? '#fff' : '#FFFBF0'}" v-if="dataList[s.value] ? dataList[s.value].length : false">
-              <common-flex class="strategy" justify="center" align="center">
-                <img :src="award_strategy_icon[s.value]" alt="">
+  <client-only>
+    <div class="pc-assign">
+      <common-flex direction="column" align="center" class="ppw-w1200 main">
+        <div class="title">获奖名单</div>
+        <div class="body">
+          <common-flex class="strategy" v-for="(val, key) in option_definition" :key="key">
+            <div class="strategy-type"><span>*</span>{{ getName(key) }}：</div>
+            <div>
+              <common-flex>
+                <div style="margin-bottom: 30px" v-if="key === 'rank_range'" class="item"
+                     @click="changeStra(i.value, key, index)" :class="{active: curRang === index}" v-for="(i, index) of val">
+                  {{ i.label }}</div>
+                <div style="margin-bottom: 30px" v-if="key === 'scale_group'" class="item"
+                     @click="changeStra(i.value, key, index)" :class="{active: curScale === index}" v-for="(i, index) of val">
+                  {{ i.label }}</div>
               </common-flex>
-              <common-flex justify="center" style="flex: 1" direction="column">
-                <common-flex class="tr-item" style="flex-grow: 1; min-height: 60px" :key="k" v-for="(i, k) of dataList[s.value]">
-                  <template v-for="prop of itemList.slice(1)">
-                    <common-flex justify="center" align="center" :class="`${prop.prop}`">
-                      <span class="ellipsis">{{ i[prop.prop] }}</span>
-                      <template v-if="prop.prop === 'rank_score'">
-                        <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
-                        <img v-show="+i[prop.prop] === 2" :src="require('@img/rank/rank-2.png')" alt="">
-                        <img v-show="+i[prop.prop] ===3" :src="require('@img/rank/rank-3.png')" alt="">
-                      </template>
-                    </common-flex>
-                  </template>
+              <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'rank_range'">
+                <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubRang === index}" v-for="(i, index) of subRangList">
+                  {{ i.label }}</div>
+              </common-flex>
+              <common-flex wrap="wrap" class="sub-strategy" v-if="key === 'scale_group'">
+                <div class="item" @click="changeSub(index, i.value, key)" :class="{active: curSubScale === index}" v-for="(i, index) of subScaleList">
+                  {{ i.label }}</div>
+              </common-flex>
+            </div>
+          </common-flex>
+        </div>
+        <div class="ppw-w1200 table">
+          <common-flex class="th">
+            <div :class="i.prop" v-for="i of itemList">{{ i.label }}</div>
+          </common-flex>
+          <template v-if="Object.keys(dataList).length">
+            <template v-for="(s, index) of strategyType">
+              <common-flex class="tr" :style="{background: index % 2 === 0 ? '#fff' : '#FFFBF0'}" v-if="dataList[s.value] ? dataList[s.value].length : false">
+                <common-flex class="strategy" justify="center" align="center">
+                  <img :src="award_strategy_icon[s.value]" alt="">
+                </common-flex>
+                <common-flex justify="center" style="flex: 1" direction="column">
+                  <common-flex class="tr-item" style="flex-grow: 1; min-height: 60px" :key="k" v-for="(i, k) of dataList[s.value]">
+                    <template v-for="prop of itemList.slice(1)">
+                      <common-flex justify="center" align="center" :class="`${prop.prop}`">
+                        <span class="ellipsis">{{ i[prop.prop] }}</span>
+                        <template v-if="prop.prop === 'rank_score'">
+                          <img v-show="+i[prop.prop] === 1" :src="require('@img/rank/rank-1.png')" alt="">
+                          <img v-show="+i[prop.prop] === 2" :src="require('@img/rank/rank-2.png')" alt="">
+                          <img v-show="+i[prop.prop] ===3" :src="require('@img/rank/rank-3.png')" alt="">
+                        </template>
+                      </common-flex>
+                    </template>
+                  </common-flex>
                 </common-flex>
               </common-flex>
+            </template>
+          </template>
+          <template v-else>
+            <common-flex class="empty" direction="column" justify="center" align="center">
+              <img :src="require('@img/no-data.png')" alt="">
+              <p>没有符合条件的产品或产品未上榜</p>
             </common-flex>
           </template>
-        </template>
-        <template v-else>
-          <common-flex class="empty" direction="column" justify="center" align="center">
-            <img :src="require('@img/no-data.png')" alt="">
-            <p>没有符合条件的产品或产品未上榜</p>
-          </common-flex>
-        </template>
-        <p class="assign-ps" v-html="note" />
-      </div>
-    </common-flex>
-  </div>
+          <p class="assign-ps" v-html="note" />
+        </div>
+      </common-flex>
+    </div>
+  </client-only>
 </template>
 
 <script>
@@ -309,7 +311,7 @@ $borderColor: #DDDDDD;
           width: 235px;
           text-align: center;
         }
-        .fund_name {
+        .fund_name, .fund_short_name {
           text-indent: 36px;
           width: 400px;
           text-align: left;
@@ -356,7 +358,7 @@ $borderColor: #DDDDDD;
           text-align: center;
           border-right: 1px solid $borderColor;
         }
-        .fund_name {
+        .fund_name, .fund_short_name {
           width: 400px;
           text-align: left;
           text-indent: 36px;
