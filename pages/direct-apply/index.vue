@@ -648,7 +648,17 @@ export default {
           this.$set(item, 'value', v)
         }
       } else {
-        this.$set(item, 'errMsg', '')
+        if (item.rule) {
+          if (item.rule['<='] && +v > +item.rule['<='].limit) {
+            // 最大值边界
+            this.$set(item, 'errMsg', item.rule['<='].msg)
+          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+            // 最小值边界
+            this.$set(item, 'errMsg', item.rule['>='].msg)
+          } else this.$set(item, 'errMsg', '')
+        } else {
+          this.$set(item, 'errMsg', '')
+        }
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },

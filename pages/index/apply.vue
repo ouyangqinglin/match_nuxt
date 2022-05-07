@@ -489,15 +489,25 @@ export default {
       if (!v || !v.replace(/\s*/g, '')) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
-      }
-      else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
+      } else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
         if (!(regObj[this.companyFields[i].property].test(v))) this.$set(item, 'errMsg', `${item.name}格式不正确`)
         else {
           this.$set(item, 'errMsg', '')
           this.$set(item, 'value', v)
         }
       } else {
-        this.$set(item, 'errMsg', '')
+        if (item.rule) {
+          console.log(item, v)
+          if (item.rule['<='] && +v > +item.rule['<='].limit) {
+            // 最大值边界
+            this.$set(item, 'errMsg', item.rule['<='].msg)
+          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+            // 最小值边界
+            this.$set(item, 'errMsg', item.rule['>='].msg)
+          } else this.$set(item, 'errMsg', '')
+        } else {
+          this.$set(item, 'errMsg', '')
+        }
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },
