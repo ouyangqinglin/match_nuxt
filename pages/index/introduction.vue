@@ -146,6 +146,7 @@ export default {
           top: 360px;
           width: 228px;
           height: 84px;
+          z-index: 10;
         }
         .ydzq-hs-name {
           position: absolute;
@@ -160,6 +161,7 @@ export default {
           top: 328px;
           width: 228px;
           height: 84px;
+          z-index: 10;
         }
         .ydzq-lhhj-name {
           position: absolute;
