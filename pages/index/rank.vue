@@ -268,7 +268,6 @@ export default {
         success: (res) => {
           this.loading.close()
           this.itemList = res.data.title_arr
-          console.log('v', this.itemList)
           this.dataList = res.data.list
           this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }
