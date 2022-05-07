@@ -20,7 +20,7 @@
 
       <div class="mobile-assign-form" v-if="Object.keys(dataList).length">
         <div class="mobile-assign-form-thred">
-          <div v-for="(t, i) in itemList">
+          <div v-for="(t, i) in itemList" :class="t.prop">
             {{t.label}}
           </div>
         </div>
@@ -275,23 +275,27 @@ export default {
       line-height: .6rem;
       font-size: .24rem;
     }
-    >:nth-child(1) {
+    .strategy {
       width: 1.5rem;
       text-align: center;
       border-right: 1px solid #D7DAE2;
     }
-    >:nth-child(2) {
+
+    .rank_score {
       width: .6rem;
       text-align: center;
     }
-    >:nth-child(3) {
+    .product_register_number, .fund_short_name {
       flex: .7;
       max-width: 2rem;
       padding-left: 0.2rem;
       text-align: center;
       border-right: 1px solid #D7DAE2;
     }
-    >:nth-child(4) {
+    .fund_short_name {
+      text-align: left;
+    }
+    .company_name {
       flex: .8;
       max-width: 2.7rem;
       padding-left: 0.2rem;
@@ -345,6 +349,10 @@ export default {
           padding-left: 0.2rem;
           text-align: center;
           border-right: 1px solid #D7DAE2;
+        }
+        .fund_short_name {
+          text-align: left;
+          justify-content: flex-start;
         }
         .company_name {
           flex: .8;
