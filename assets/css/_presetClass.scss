@@ -22,6 +22,8 @@
     border-radius: 10px;
     background: #fff;
   }
+  &-red {color: $commonRed}
+  &-green {color: $commonGreen}
 }
 // 通用属性
 html {
