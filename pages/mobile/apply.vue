@@ -238,8 +238,8 @@ export default {
   },
   methods: {
     radioChange (data, item, index) {
-      // console.log(data, item)
       this.$set(item, 'errMsg', '')
+      let scaleItem = {}
       if (['open_account', 'open_account2'].includes(item.property)) {
         let k = 0, p = 0
         for (k; k < this.companyFields.length; k++) {
@@ -265,6 +265,7 @@ export default {
           }
         }
         for (p; p < this.productFields[index].length; p++) {
+          if (this.productFields[index][p].property === 'product_scale') scaleItem = this.productFields[index][p]
           if (item.property === 'open_account' && this.productFields[index][p].property === 'extend_attributes_money_account') {
             if (+item.value === 1) {
               this.productFields[index][p].type = 'text'
@@ -287,6 +288,7 @@ export default {
           }
         }
       }
+      if (scaleItem.value) this.inputProVerify(scaleItem, index, scaleItem.value)
     },
     getSelectVal (data, item, index) {
       this.$set(item, 'errMsg', '')
@@ -656,19 +658,66 @@ export default {
       if (!v || !v.replace(/\s*/g, '')) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
-      } else {
+      }
+      else {
         if (item.rule) {
-          if (item.rule['<='] && +v > +item.rule['<='].limit) {
-            // 最大值边界
-            this.$set(item, 'errMsg', item.rule['<='].msg)
-          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
-            // 最小值边界
-            this.$set(item, 'errMsg', item.rule['>='].msg)
-          } else this.$set(item, 'errMsg', '')
-        } else {
-          this.$set(item, 'errMsg', '')
-        }
+          if (item.rule.checkif) {
+            const checkIf = item.rule.checkif
+            let y = 0, valueList = [], originList = []
+            for (y; y < checkIf.length; y++) {
+              if (checkIf[y].logic && checkIf[y].logic === 'and') {
+                let q = 0
+                for (q; q < checkIf[y].list.length; q++) {
+                  originList.push(checkIf[y].list[q].value)
+                  this.companyFields.forEach(my => {
+                    if (my.property === checkIf[y].list[q].field) {
+                      valueList.push(my.value)
+                    }
+                  })
+                  this.productFields[index].forEach(pro => {
+                    if (pro.property === checkIf[y].list[q].field) {
+                      valueList.push(pro.value)
+                    }
+                  })
+                }
+                const flag = this.arrayEqual(valueList, originList)
+                if (flag) {
+                  const it = checkIf[y].list[0]
+                  this.checkRule(item, v, it)
+                }
+                else this.$set(item, 'errMsg', '')
+              } else this.$set(item, 'errMsg', '')
+            }
+          }
+          else this.checkRule(item, v)
+        } else this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v.replace(/\s*/g, ''))
+      }
+    },
+    arrayEqual(arr1, arr2) {
+      if (arr1.length !== arr2.length) return false
+      for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false
+      }
+      return true
+    },
+    checkRule (item, v, it) {
+      if (it) {
+        if (it.rule['<='] && +v > +it.rule['<='].limit) {
+          // 最大值边界
+          this.$set(item, 'errMsg', it.rule['<='].msg)
+        } else if (it.rule['>='] && +v < +it.rule['>='].limit) {
+          // 最小值边界
+          this.$set(item, 'errMsg', it.rule['>='].msg)
+        } else this.$set(item, 'errMsg', '')
+      } else {
+        if (item.rule['<='] && +v > +item.rule['<='].limit) {
+          // 最大值边界
+          this.$set(item, 'errMsg', item.rule['<='].msg)
+        } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+          // 最小值边界
+          this.$set(item, 'errMsg', item.rule['>='].msg)
+        } else this.$set(item, 'errMsg', '')
       }
     },
     dateVerify (item, v) {
