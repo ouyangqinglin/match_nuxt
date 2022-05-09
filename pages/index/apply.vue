@@ -497,7 +497,6 @@ export default {
         }
       } else {
         if (item.rule) {
-          console.log(item, v)
           if (item.rule['<='] && +v > +item.rule['<='].limit) {
             // 最大值边界
             this.$set(item, 'errMsg', item.rule['<='].msg)
