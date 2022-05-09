@@ -172,7 +172,7 @@ export default {
     ...mapState({
       match_code: 'match_code',
       theme: 'theme',
-      disclaimer: 'disclaimer',
+      disclaimer: 'apply_disclaimer',
       commitment_letter: 'commitment_letter',
       time: 'time'
     }),
