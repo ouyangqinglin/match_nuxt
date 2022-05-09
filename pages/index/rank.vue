@@ -250,6 +250,7 @@ export default {
       if (this.subScaleList.length) csearch_sub_scale_group = this.subScaleList[this.curSubScale].value || ''
       else csearch_sub_scale_group = ''
 
+      let fixPage = ''
       this.axios({
         url: '/competition/match/api/match/rank/common_list',
         type: 'get',
@@ -269,7 +270,15 @@ export default {
           this.loading.close()
           this.itemList = res.data.title_arr
           this.dataList = res.data.list
-          this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
+          let k = 0
+          for (k; k < this.option_definition['csearch_rank_range'].length; k++) {
+            if (this.option_definition['csearch_rank_range'][k].value === csearch_rank_range) {
+              if (this.option_definition['csearch_rank_range'][k].total_size && this.option_definition['csearch_rank_range'][k].page_size) {
+                fixPage = Math.ceil(+(this.option_definition['csearch_rank_range'][k].total_size) / +(this.option_definition['csearch_rank_range'][k].page_size))
+              } else fixPage = 3
+            }
+          }
+          this.maxPage = Math.min(+res.data.pager.total_page, fixPage) * 10
         }
       })
     },
