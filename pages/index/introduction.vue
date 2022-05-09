@@ -38,6 +38,44 @@
           <a class="ydzq-jjlh-name" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
       </common-flex>
+      <common-flex direction="column" class="route-link dbzq" v-if="i.title === '大赛组委会简介' && match_code === 'dbzq'">
+        <div class="item">
+          <a class="dbzq-logo" href="" target="_blank"></a>
+          <a class="dbzq-name" href="" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dbzq-logo" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+          <a class="dbzq-name" href="http://www.ydzq.sgcc.com.cn/ydzq/index.html" target="_blank"></a>
+        </div>
+      </common-flex>
     </div>
   </common-flex>
 </template>
@@ -53,6 +91,7 @@ export default {
       page: 'page'
     }),
     currPage () {
+      console.log('x', this.page)
       return this.page.find(i => i.title.includes('简介'))
     }
   },
@@ -182,6 +221,30 @@ export default {
           left: 395px;
           top: 153px;
           width: 303px;
+          height: 42px;
+        }
+      }
+    }
+    .dbzq {
+      height: 1910px;
+      .item {
+        flex-grow: 1;
+        position: relative;
+        a {
+          //border: 1px solid red;
+        }
+        .dbzq-logo {
+          position: absolute;
+          left: 117px;
+          top: 242px;
+          width: 203px;
+          height: 84px;
+        }
+        .dbzq-name {
+          position: absolute;
+          left: 395px;
+          top: 145px;
+          width: 203px;
           height: 42px;
         }
       }

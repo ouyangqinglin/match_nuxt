@@ -310,7 +310,6 @@ $borderColor: #DDDDDD;
     }
   }
   .main {
-    padding-bottom: 52px;
     .title {
       margin-bottom: 30px;
       width: 359px;

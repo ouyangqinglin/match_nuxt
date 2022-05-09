@@ -91,12 +91,12 @@
         <div>添加参赛产品</div>
       </common-flex>
       <common-flex class="agree" justify="center" align="center">
-        <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail()">
+        <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail(0)">
           <img v-if="agreeFlag" style="margin: 1px 0 0 2px; width: 18px; height: 18px" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
         <div>我已阅读</div>
-        <div class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
-        <div v-if="disclaimer" @click="disclaimerShow = true" class="book">《免责声明》</div>
+        <div v-if="commitment_letter" class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
+        <div v-if="disclaimer" @click="agreeDetail(2)" class="book">《免责声明》</div>
       </common-flex>
       <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
@@ -173,6 +173,7 @@ export default {
       match_code: 'match_code',
       theme: 'theme',
       disclaimer: 'disclaimer',
+      commitment_letter: 'commitment_letter',
       time: 'time'
     }),
     startTime () {
@@ -245,7 +246,10 @@ export default {
     },
     delaySubmit () {
       if (!this.agreeFlag) {
-        this.$alert(`请勾选我同意《参赛承诺书》`, '提示')
+        let message = ''
+        if (this.disclaimer) message = '请勾选我同意《免责声明》'
+        if (this.commitment_letter) message = '请勾选我同意《参赛承诺书》'
+        this.$alert(message, '提示')
         return
       }
       const company_data = {}, product_list = []
@@ -323,15 +327,22 @@ export default {
     },
     agreeDetail (m) {
       if(m) {
-        this.promiseShow = true
+        if (m === 1) this.promiseShow = true
+        if (m === 2 && this.disclaimer) this.disclaimerShow = true
         this.detailCount++
         return
       }
+
       if (!this.detailCount) {
-        this.$alert('请先阅读《参赛机构承诺书》', '提示',{
+        let message = ''
+        if (this.disclaimer) message = '请勾选我同意《免责声明》'
+        if (this.commitment_letter) message = '请勾选我同意《参赛承诺书》'
+        this.$alert(message, '提示',{
           confirmButtonText: '确定',
           callback: () => {
-            this.promiseShow = true
+            if (this.commitment_letter && this.disclaimer) this.promiseShow = true
+            else if (this.commitment_letter) this.promiseShow = true
+            else if (this.disclaimer) this.disclaimerShow = true
             this.detailCount++
           }
         })
