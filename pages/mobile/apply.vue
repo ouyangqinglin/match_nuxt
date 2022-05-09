@@ -647,13 +647,7 @@ export default {
         }
       } else {
         if (item.rule) {
-          if (item.rule['<='] && +v > +item.rule['<='].limit) {
-            // 最大值边界
-            this.$set(item, 'errMsg', item.rule['<='].msg)
-          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
-            // 最小值边界
-            this.$set(item, 'errMsg', item.rule['>='].msg)
-          } else this.$set(item, 'errMsg', '')
+          this.checkRule(item, v)
         } else {
           this.$set(item, 'errMsg', '')
         }
@@ -727,6 +721,12 @@ export default {
         } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
           // 最小值边界
           this.$set(item, 'errMsg', item.rule['>='].msg)
+        } else if (item.rule['<'] && +v >= +item.rule['<'].limit) {
+          // 最大值边界
+          this.$set(item, 'errMsg', item.rule['<'].msg)
+        } else if (item.rule['>'] && +v <= +item.rule['>'].limit) {
+          // 最小值边界
+          this.$set(item, 'errMsg', item.rule['>'].msg)
         } else this.$set(item, 'errMsg', '')
       }
     },

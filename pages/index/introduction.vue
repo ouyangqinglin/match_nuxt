@@ -82,7 +82,6 @@ export default {
       page: 'page'
     }),
     currPage () {
-      console.log('x', this.page)
       return this.page.find(i => i.title.includes('简介'))
     }
   },
@@ -222,7 +221,6 @@ export default {
         flex-grow: 1;
         position: relative;
         a {
-          border: 1px solid red;
           position: absolute;
           left: 50%;
           transform: translateX(-50%);
