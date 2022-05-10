@@ -285,21 +285,21 @@ export default {
       width: .6rem;
       text-align: center;
     }
-    .product_register_number, .fund_short_name {
+    .product_register_number, .fund_short_name, .fund_name {
       flex: .7;
       max-width: 2rem;
       padding-left: 0.2rem;
       text-align: center;
       border-right: 1px solid #D7DAE2;
     }
-    .fund_short_name {
+    .fund_short_name, .fund_name {
       text-align: left;
     }
     .company_name {
       flex: .8;
       max-width: 2.7rem;
       padding-left: 0.2rem;
-      text-align: center;
+      text-align: left;
     }
   }
   &-content {
