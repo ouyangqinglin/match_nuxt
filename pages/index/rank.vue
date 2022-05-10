@@ -104,8 +104,8 @@ export default {
       script: [
         { src: `https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js` },
         { src: `/lab/vue.min.js` },
-        { src: `https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`, async: true, defer: true },
-        { src: `https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`, async: true, defer: true },
+        { src: `https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html` },
+        { src: `https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0` },
       ]
     }
   },
