@@ -38,6 +38,35 @@
           <a class="ydzq-jjlh-name" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
       </common-flex>
+      <common-flex direction="column" class="route-link dbzq" v-if="i.title === '大赛组委会简介' && match_code === 'dbzq'">
+        <div class="item">
+          <a class="dbzq-logo" href="https://www.nesc.cn/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="bhqh-logo" href="https://www.bhfcc.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dzrh-logo" href="https://www.dzronghui.com" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="gttk-logo" href="https://www.sdictktrust.com/gttk/index.htm" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="xt-logo" href="http://www.thinktrader.net/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="kfkj-logo" href="https://www.kafangtech.com/#/index" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="aklk-logo" href="https://www.accelecom.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="fakj-logo" href="https://ft.tech/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ppw-logo" href="https://www.simuwang.com/" target="_blank"></a>
+        </div>
+      </common-flex>
     </div>
   </common-flex>
 </template>
@@ -183,6 +212,63 @@ export default {
           top: 153px;
           width: 303px;
           height: 42px;
+        }
+      }
+    }
+    .dbzq {
+      height: 3394px;
+      .item {
+        flex-grow: 1;
+        position: relative;
+        a {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        .dbzq-logo {
+          top: 140px;
+          width: 215px;
+          height: 116px;
+        }
+        .bhqh-logo {
+          top: 170px;
+          width: 271px;
+          height: 139px;
+        }
+        .dzrh-logo {
+          top: 161px;
+          width: 425px;
+          height: 126px;
+        }
+        .gttk-logo {
+          top: 132px;
+          width: 350px;
+          height: 126px;
+        }
+        .xt-logo {
+          top: 131px;
+          width: 240px;
+          height: 118px;
+        }
+        .kfkj-logo {
+          top: 57px;
+          width: 286px;
+          height: 107px;
+        }
+        .aklk-logo {
+          top: -14px;
+          width: 286px;
+          height: 114px;
+        }
+        .fakj-logo {
+          top: -37px;
+          width: 286px;
+          height: 114px;
+        }
+        .ppw-logo {
+          top: -102px;
+          width: 286px;
+          height: 114px;
         }
       }
     }

@@ -91,12 +91,12 @@
         <div>添加参赛产品</div>
       </common-flex>
       <common-flex class="agree" justify="center" align="center">
-        <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail()">
+        <common-flex align="center" justify="center" class="toggle-check" @click.native="agreeDetail(0)">
           <img v-if="agreeFlag" style="margin: 1px 0 0 2px; width: 18px; height: 18px" :src="require('@img/agree-active.svg')" alt="">
         </common-flex>
         <div>我已阅读</div>
-        <div class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
-        <div v-if="disclaimer" @click="disclaimerShow = true" class="book">《免责声明》</div>
+        <div v-if="commitment_letter" class="book" @click="agreeDetail(1)">《参赛承诺书》</div>
+        <div v-if="disclaimer" @click="agreeDetail(2)" class="book">《免责声明》</div>
       </common-flex>
       <div class="submit" @click="hasApply ? '': submit()">提交报名</div>
     </common-flex>
@@ -172,7 +172,8 @@ export default {
     ...mapState({
       match_code: 'match_code',
       theme: 'theme',
-      disclaimer: 'disclaimer',
+      disclaimer: 'apply_disclaimer',
+      commitment_letter: 'commitment_letter',
       time: 'time'
     }),
     startTime () {
@@ -245,7 +246,10 @@ export default {
     },
     delaySubmit () {
       if (!this.agreeFlag) {
-        this.$alert(`请勾选我同意《参赛承诺书》`, '提示')
+        let message = ''
+        if (this.disclaimer) message = '请勾选我同意《免责声明》'
+        if (this.commitment_letter) message = '请勾选我同意《参赛承诺书》'
+        this.$alert(message, '提示')
         return
       }
       const company_data = {}, product_list = []
@@ -323,15 +327,22 @@ export default {
     },
     agreeDetail (m) {
       if(m) {
-        this.promiseShow = true
+        if (m === 1) this.promiseShow = true
+        if (m === 2 && this.disclaimer) this.disclaimerShow = true
         this.detailCount++
         return
       }
+
       if (!this.detailCount) {
-        this.$alert('请先阅读《参赛机构承诺书》', '提示',{
+        let message = ''
+        if (this.disclaimer) message = '请勾选我同意《免责声明》'
+        if (this.commitment_letter) message = '请勾选我同意《参赛承诺书》'
+        this.$alert(message, '提示',{
           confirmButtonText: '确定',
           callback: () => {
-            this.promiseShow = true
+            if (this.commitment_letter && this.disclaimer) this.promiseShow = true
+            else if (this.commitment_letter) this.promiseShow = true
+            else if (this.disclaimer) this.disclaimerShow = true
             this.detailCount++
           }
         })
@@ -489,17 +500,28 @@ export default {
       if (!v || !v.replace(/\s*/g, '')) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
-      }
-      else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
+      } else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
         if (!(regObj[this.companyFields[i].property].test(v))) this.$set(item, 'errMsg', `${item.name}格式不正确`)
         else {
           this.$set(item, 'errMsg', '')
           this.$set(item, 'value', v)
         }
       } else {
-        this.$set(item, 'errMsg', '')
+        if (item.rule) {
+          // 111
+          this.checkRule(item, v)
+        } else {
+          this.$set(item, 'errMsg', '')
+        }
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
+    },
+    arrayEqual(arr1, arr2) {
+      if (arr1.length !== arr2.length) return false
+      for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false
+      }
+      return true
     },
     inputProVerify (item, index, v) {
       let i = 0
@@ -509,24 +531,70 @@ export default {
       if (!v || !v.replace(/\s*/g, '')) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
-      } else {
+      }
+      else {
         if (item.rule) {
-          if (item.rule['<='] && +v > +item.rule['<='].limit) {
-            // 最大值边界
-            this.$set(item, 'errMsg', item.rule['<='].msg)
-          } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
-            // 最小值边界
-            this.$set(item, 'errMsg', item.rule['>='].msg)
-          } else this.$set(item, 'errMsg', '')
-        } else {
-          this.$set(item, 'errMsg', '')
-        }
+          if (item.rule.checkif) {
+            const checkIf = item.rule.checkif
+            let y = 0, valueList = [], originList = []
+            for (y; y < checkIf.length; y++) {
+              if (checkIf[y].logic && checkIf[y].logic === 'and') {
+                let q = 0
+                for (q; q < checkIf[y].list.length; q++) {
+                  originList.push(checkIf[y].list[q].value)
+                  this.companyFields.forEach(my => {
+                    if (my.property === checkIf[y].list[q].field) {
+                      valueList.push(my.value)
+                    }
+                  })
+                  this.productFields[index].forEach(pro => {
+                    if (pro.property === checkIf[y].list[q].field) {
+                      valueList.push(pro.value)
+                    }
+                  })
+                }
+                const flag = this.arrayEqual(valueList, originList)
+                if (flag) {
+                  const it = checkIf[y].list[0]
+                  this.checkRule(item, v, it)
+                }
+                else this.$set(item, 'errMsg', '')
+              } else this.$set(item, 'errMsg', '')
+            }
+          }
+          else this.checkRule(item, v)
+        } else this.$set(item, 'errMsg', '')
         this.$set(item, 'value', v.replace(/\s*/g, ''))
       }
     },
+    checkRule (item, v, it) {
+      if (it) {
+        if (it.rule['<='] && +v > +it.rule['<='].limit) {
+          // 最大值边界
+          this.$set(item, 'errMsg', it.rule['<='].msg)
+        } else if (it.rule['>='] && +v < +it.rule['>='].limit) {
+          // 最小值边界
+          this.$set(item, 'errMsg', it.rule['>='].msg)
+        } else this.$set(item, 'errMsg', '')
+      } else {
+        if (item.rule['<='] && +v > +item.rule['<='].limit) {
+          // 最大值边界
+          this.$set(item, 'errMsg', item.rule['<='].msg)
+        } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
+          // 最小值边界
+          this.$set(item, 'errMsg', item.rule['>='].msg)
+        } else if (item.rule['<'] && +v >= +item.rule['<'].limit) {
+          // 最大值边界
+          this.$set(item, 'errMsg', item.rule['<'].msg)
+        } else if (item.rule['>'] && +v <= +item.rule['>'].limit) {
+          // 最小值边界
+          this.$set(item, 'errMsg', item.rule['>'].msg)
+        } else this.$set(item, 'errMsg', '')
+      }
+    },
     radioChange (data, item, index) {
-      // console.log(data, item)
       this.$set(item, 'errMsg', '')
+      let scaleItem = {}
       if (['open_account', 'open_account2'].includes(item.property)) {
         let k = 0, p = 0
         for (k; k < this.companyFields.length; k++) {
@@ -552,6 +620,7 @@ export default {
           }
         }
         for (p; p < this.productFields[index].length; p++) {
+          if (this.productFields[index][p].property === 'product_scale') scaleItem = this.productFields[index][p]
           if (item.property === 'open_account' && this.productFields[index][p].property === 'extend_attributes_money_account') {
             if (+item.value === 1) {
               this.productFields[index][p].type = 'text'
@@ -574,6 +643,7 @@ export default {
           }
         }
       }
+      if (scaleItem.value) this.inputProVerify(scaleItem, index, scaleItem.value)
     },
     selectBlur (item) {
       setTimeout(() => {

@@ -115,7 +115,7 @@
 import popUp from '@comp/pop-up'
 import CommonTitle from '@comp/mobile-page-title'
 import Header from '@comp/nav-header'
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: 'rank',
@@ -142,12 +142,11 @@ export default {
       curSubScale: 0,
       csearch_fund_name: '',
       timer: null,
-      maxPage: 0,
       itemList: [], // 表头
       dataList: [], // 表单
       pageParam: {
         page: 1,
-        rows: 30
+        rows: 10
       },
       strategyShow: false,
       rangShow: false,
@@ -234,6 +233,15 @@ export default {
       if (this.subScaleList.length) csearch_sub_scale_group = this.subScaleList[this.curSubScale].value || ''
       else csearch_sub_scale_group = ''
 
+      let k = 0
+      for (k; k < this.option_definition['csearch_rank_range'].length; k++) {
+        if (this.option_definition['csearch_rank_range'][k].value === csearch_rank_range) {
+          if (this.option_definition['csearch_rank_range'][k].total_size && this.option_definition['csearch_rank_range'][k].page_size) {
+            this.pageParam.rows = +this.option_definition['csearch_rank_range'][k].total_size
+          }
+        }
+      }
+
       this.axios({
         url: '/competition/match/api/match/rank/common_list',
         type: 'get',
@@ -253,11 +261,9 @@ export default {
         success: (res) => {
           this.itemList = res.data.title_arr
           this.dataList = res.data.list
-          this.maxPage = Math.min(+res.data.pager.total_page, 3) * 10
         }
       })
-    },
-
+    }
   },
 }
 </script>

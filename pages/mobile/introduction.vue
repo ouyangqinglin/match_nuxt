@@ -41,6 +41,35 @@
           <a class="jjlh-link" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
       </common-flex>
+      <common-flex direction="column" class="route-link dbzq" v-if="j === 3 && match_code === 'dbzq'">
+        <div class="item">
+          <a class="dbzq-logo" href="https://www.nesc.cn/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="bhqh-logo" href="https://www.bhfcc.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="dzrh-logo" href="https://www.dzronghui.com" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="gttk-logo" href="https://www.sdictktrust.com/gttk/index.htm" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="xt-logo" href="http://www.thinktrader.net/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="kfkj-logo" href="https://www.kafangtech.com/#/index" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="aklk-logo" href="https://www.accelecom.com/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="fakj-logo" href="https://ft.tech/" target="_blank"></a>
+        </div>
+        <div class="item">
+          <a class="ppw-logo" href="https://mobile.simuwang.com/" target="_blank"></a>
+        </div>
+      </common-flex>
     </div>
   </div>
 </template>
@@ -146,6 +175,49 @@ export default {
       .jjlh-link {
         width: 4rem;
         top: 2.4rem;
+      }
+    }
+    .dbzq {
+      height: 52rem;
+      a {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2.6rem;
+        height: 1.8rem;
+      }
+      .dbzq-logo {
+        top: 1.2rem;
+      }
+      .bhqh-logo {
+        top: 2.9rem;
+      }
+      .dzrh-logo {
+        top: 2.3rem;
+        width: 4.2rem;
+      }
+      .gttk-logo {
+        top: 1.6rem;
+        width: 4.2rem;
+      }
+      .xt-logo {
+        top: .8rem;
+      }
+      .kfkj-logo {
+        width: 3rem;
+        top: -.4rem;
+      }
+      .aklk-logo {
+        width: 3.3rem;
+        top: -1.6rem;
+      }
+      .fakj-logo {
+        width: 3.3rem;
+        top: -2.5rem;
+      }
+      .ppw-logo {
+        width: 3rem;
+        top: -3.8rem;
       }
     }
   }
