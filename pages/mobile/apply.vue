@@ -115,14 +115,16 @@
 </template>
 
 <script>
+import mixin from '@js/apply'
 import ValidationToast from '@comp/validationToast'
 import PromiseBook from '@comp/promise'
 import Disclaimer from '@comp/apply-disclaimer'
 import CompSelect from '@comp/select'
 import Header from '@comp/nav-header'
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   name: 'mobile-apply',
+  mixins: [mixin],
   components: {
     ValidationToast,
     PromiseBook,
@@ -132,31 +134,10 @@ export default {
   },
   data () {
     return {
-      selectVisible: true,
-      checkVal: [],
-      otherVal: '',
-      value: '',
-      inputVal: '',
-      hasApply: false,
-      validateShow: false,
-      promiseShow: false,
-      disclaimerShow: false,
-      agreeFlag: false,
-      getCodeShow: true,
-      detailCount: 0,
-      timer: null,
-      codeTxt: 60,
+
     }
   },
   async asyncData ({ app, query, store }) {
-    let initData = await app.axios({
-      url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
-    })
-    let init = initData.data.data
-    let themeColor = init.config.theme_color
-    let competitionName = init.info.competition_name
-    store.commit('saveLetter', init.section.commitment_letter)
-    store.commit('saveTheme', themeColor)
     let config = await app.axios({
       url: `/competition/activity/backend/api/competition/getMatchApplyFields`,
       data: { match_code: query.match_code }
@@ -180,8 +161,6 @@ export default {
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
     productFields.push(productFieldsSingle)
     return {
-      themeColor,
-      competitionName,
       singleProduct,
       companyFields,
       productFields,
@@ -190,6 +169,8 @@ export default {
   },
   computed: {
     ...mapState({
+      themeColor: 'theme',
+      match_code: 'match_code',
       urlObj: 'urlObj',
       disclaimer: 'apply_disclaimer',
       commitment_letter: 'commitment_letter',
@@ -238,59 +219,6 @@ export default {
     }
   },
   methods: {
-    radioChange (data, item, index) {
-      this.$set(item, 'errMsg', '')
-      let scaleItem = {}
-      if (['open_account', 'open_account2'].includes(item.property)) {
-        let k = 0, p = 0
-        for (k; k < this.companyFields.length; k++) {
-          if (item.property === 'open_account' && this.companyFields[k].property === 'extend_attributes_money_account') {
-            if (+item.value === 1) {
-              this.companyFields[k].type = 'text'
-              this.companyFields[k].required = '1'
-            } else {
-              this.companyFields[k].type = 'hidden'
-              this.companyFields[k].required = '0'
-              this.$set(this.companyFields[k], 'errMsg', '')
-            }
-          }
-          if (item.property === 'open_account2' && this.companyFields[k].property === 'extend_attributes_money_account2') {
-            if (+item.value === 1) {
-              this.companyFields[k].type = 'text'
-              this.companyFields[k].required = '1'
-            } else {
-              this.companyFields[k].type = 'hidden'
-              this.companyFields[k].required = '0'
-              this.$set(this.companyFields[k], 'errMsg', '')
-            }
-          }
-        }
-        for (p; p < this.productFields[index].length; p++) {
-          if (this.productFields[index][p].property === 'product_scale') scaleItem = this.productFields[index][p]
-          if (item.property === 'open_account' && this.productFields[index][p].property === 'extend_attributes_money_account') {
-            if (+item.value === 1) {
-              this.productFields[index][p].type = 'text'
-              this.productFields[index][p].required = '1'
-            } else {
-              this.productFields[index][p].type = 'hidden'
-              this.productFields[index][p].required = '0'
-              this.$set(this.productFields[index][p], 'errMsg', '')
-            }
-          }
-          if (item.property === 'open_account2' && this.productFields[index][p].property === 'extend_attributes_money_account2') {
-            if (+item.value === 1) {
-              this.productFields[index][p].type = 'text'
-              this.productFields[index][p].required = '1'
-            } else {
-              this.productFields[index][p].type = 'hidden'
-              this.productFields[index][p].required = '0'
-              this.$set(this.productFields[index][p], 'errMsg', '')
-            }
-          }
-        }
-      }
-      if (scaleItem.value) this.inputProVerify(scaleItem, index, scaleItem.value)
-    },
     getSelectVal (data, item, index) {
       this.$set(item, 'errMsg', '')
       if (item.property === 'recommend_name') {
@@ -385,14 +313,7 @@ export default {
         this.selectVisible = true
       })
     },
-    addProduct () {
-      this.productFields.push(JSON.parse(JSON.stringify(this.singleProduct)))
-    },
-    submit () {
-      setTimeout(() => {
-        this.delaySubmit()
-      }, 100)
-    },
+
     delaySubmit () {
       if (!this.agreeFlag) {
         let message = ''
@@ -458,39 +379,6 @@ export default {
       if (errMsg) this.$alert(errMsg, '错误')
       else this.applyMulProduct(data)
     },
-    applyMulProduct (data) {
-      this.hasApply = true
-      this.axios({
-        url: '/competition/activity/backend/api/competition/applyMulProducts',
-        data,
-        success: (resp) => {
-          this.$alert(resp.msg, '提示')
-          this.hasApply = false
-        }
-      })
-    },
-    agreeDetail (m) {
-      if(m) {
-        if (m === 1) this.promiseShow = true
-        if (m === 2 && this.disclaimer) this.disclaimerShow = true
-        this.detailCount++
-        return
-      }
-      if (!this.detailCount) {
-        let message = ''
-        if (this.disclaimer) message = '请勾选我同意《免责声明》'
-        if (this.commitment_letter) message = '请勾选我同意《参赛承诺书》'
-        this.$alert(message, '提示',{
-          confirmButtonText: '确定',
-          callback: () => {
-            if (this.commitment_letter && this.disclaimer) this.promiseShow = true
-            else if (this.commitment_letter) this.promiseShow = true
-            else if (this.disclaimer) this.disclaimerShow = true
-            this.detailCount++
-          }
-        })
-      } else this.agreeFlag = !this.agreeFlag
-    },
     getValidation (data) {
       let message = document.getElementById('message').getBoundingClientRect().top
       window.scrollTo(0, message)
@@ -499,263 +387,6 @@ export default {
         this.getPhoneCode(data)
       }, 1000)
     },
-    sendMsg () {
-      if (!this.getCodeShow) {
-        this.$alert('短信验证码已发送!请注意查看', '提示')
-        return
-      }
-      let i = 0
-      for (i; i < this.companyFields.length; i++) {
-        if (this.companyFields[i].property === 'contacts_phone') break
-      }
-      if ((this.companyFields[i].errMsg && this.companyFields[i].value) || !this.companyFields[i].value) {
-        this.$alert(this.companyFields[i].errMsg || `${this.companyFields[i].name}不能为空`, '提示')
-        return
-      }
-      this.validateShow = true
-    },
-    getPhoneCode (data) {
-      let i = 0
-      for (i; i < this.companyFields.length; i++) {
-        if (this.companyFields[i].property === 'contacts_phone') break
-      }
-      const phone = this.companyFields[i].value
-      this.axios({
-        url: `/competition/activity/backend/api/competition/sendMatchApplySmsCode`,
-        type: 'get',
-        data: {
-          phone,
-          sessId: data.sessionId,
-          token: data.token,
-          sig: data.sig,
-          scene: 'nc_register',
-          match_code: this.$route.query.match_code
-        },
-        success: ({ data }) => {
-          if (+data.status === 1) {
-            this.getCodeShow = false
-            this.countDown(i)
-          }
-          this.$alert(data.msg, '提示')
-        }
-      })
-    },
-    countDown (j) {
-      clearInterval(this.timer)
-      let time = 60
-      this.timer = setInterval( () => {
-        time--
-        this.codeTxt = time
-        if(time === 0) {
-          this.getCodeShow = true
-          clearInterval(this.timer)}
-      },1000)
-    },
-    getCompanyInfo (item, v) {
-      if (!v || !v.replace(/\s*/g, '')) return
-      this.axios({
-        url: `/competition/activity/backend/api/competition/findCompany`,
-        type: 'get',
-        data: { registerNumber: v.replace(/\s*/g, '') },
-        success: (res) => {
-          if (res.code !== 20000) {
-            this.$set(item, 'errMsg', '公司备案编号有误!')
-            return
-          }
-          let data = res.data
-          if (data.companyId) this.getProductList(data.companyId)
-          let i = 0
-          for (i; i < this.companyFields.length; i++) {
-            if (this.companyFields[i].property === 'company_name') {
-              this.$set(this.companyFields[i], 'value', data.companyName)
-              this.$set(this.companyFields[i], 'errMsg', '')
-            }
-            if (this.companyFields[i].property === 'company_id') {
-              this.$set(this.companyFields[i], 'value', data.companyId)
-              this.$set(this.companyFields[i], 'errMsg', '')
-            }
-            if (this.companyFields[i].property === 'register_date') {
-              this.$set(this.companyFields[i], 'value', data.registerDate)
-              this.$set(this.companyFields[i], 'errMsg', '')
-            }
-            if (this.companyFields[i].property === 'company_asset_size' && this.companyFields[i].type === 'select') {
-              this.optionDefinition['company_asset_size'].forEach(item => {
-                if (+item.value === +data.companyAssetSize) {
-                  this.$set(this.companyFields[i], 'placeholder', item.label)
-                }
-              })
-              this.$set(this.companyFields[i], 'value', data.companyAssetSize)
-              this.$set(this.companyFields[i], 'errMsg', '')
-            }
-          }
-        }
-      })
-    },
-    getProductList (id) {
-      this.axios({
-        url: `/competition/activity/backend/api/competition/getCompanyProduct`,
-        type: 'get',
-        data: { companyId: id, limitFundType: 1 },
-        success: ({ data }) => {
-          let productList = data.filter((i) => i.registerNumber)
-          productList.forEach((i) => {
-            i.label = i.fundShortName
-            i.value = [i.fundShortName, i.registerNumber, i.fundId, i.personnelName]
-          })
-          this.$set(this.optionDefinition, 'product_name', productList)
-        }
-      })
-    },
-    // 清空产品信息
-    clearProductInfo (index) {
-
-      if (index) {
-        this.productFields[index-1].forEach(i => {
-          delete i.value
-        })
-      } else {
-        this.productFields.forEach(i => {
-          i.forEach(item => {
-            delete item.value
-          })
-        })
-      }
-    },
-    // el-input表单失去焦点验证
-    inputVerify (item, v) {
-      let regObj = {
-        contacts_phone: /^0?(13[0-9]|15[012356789]|16[6]|17[01235678]|18[0-9]|14[01456789]|19[0-9])[0-9]{8}$/,
-        email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
-      }
-      if (item.property === 'register_number') {
-        this.clearProductInfo()
-        this.getCompanyInfo(item, v)
-      }
-      let i = 0
-      for (i; i < this.companyFields.length; i++) {
-        if (item.property === this.companyFields[i].property) break
-      }
-      if (!v || !v.replace(/\s*/g, '')) {
-        if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
-        else this.$set(item, 'errMsg', '')
-      }
-      else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
-        if (!(regObj[this.companyFields[i].property].test(v))) this.$set(item, 'errMsg', `${item.name}格式不正确`)
-        else {
-          this.$set(item, 'errMsg', '')
-          this.$set(item, 'value', v)
-        }
-      } else {
-        if (item.rule) {
-          this.checkRule(item, v)
-        } else {
-          this.$set(item, 'errMsg', '')
-        }
-        this.$set(item, 'value', v.replace(/\s*/g, ''))
-      }
-    },
-    inputProVerify (item, index, v) {
-      let i = 0
-      for (i; i < this.productFields[index].length; i++) {
-        if (item.property === this.productFields[index][i].property) break
-      }
-      if (!v || !v.replace(/\s*/g, '')) {
-        if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
-        else this.$set(item, 'errMsg', '')
-      }
-      else {
-        if (item.rule) {
-          if (item.rule.checkif) {
-            const checkIf = item.rule.checkif
-            let y = 0, valueList = [], originList = []
-            for (y; y < checkIf.length; y++) {
-              if (checkIf[y].logic && checkIf[y].logic === 'and') {
-                let q = 0
-                for (q; q < checkIf[y].list.length; q++) {
-                  originList.push(checkIf[y].list[q].value)
-                  this.companyFields.forEach(my => {
-                    if (my.property === checkIf[y].list[q].field) {
-                      valueList.push(my.value)
-                    }
-                  })
-                  this.productFields[index].forEach(pro => {
-                    if (pro.property === checkIf[y].list[q].field) {
-                      valueList.push(pro.value)
-                    }
-                  })
-                }
-                const flag = this.arrayEqual(valueList, originList)
-                if (flag) {
-                  const it = checkIf[y].list[0]
-                  this.checkRule(item, v, it)
-                }
-                else this.$set(item, 'errMsg', '')
-              } else this.$set(item, 'errMsg', '')
-            }
-          }
-          else this.checkRule(item, v)
-        } else this.$set(item, 'errMsg', '')
-        this.$set(item, 'value', v.replace(/\s*/g, ''))
-      }
-    },
-    arrayEqual(arr1, arr2) {
-      if (arr1.length !== arr2.length) return false
-      for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) return false
-      }
-      return true
-    },
-    checkRule (item, v, it) {
-      if (it) {
-        if (it.rule['<='] && +v > +it.rule['<='].limit) {
-          // 最大值边界
-          this.$set(item, 'errMsg', it.rule['<='].msg)
-        } else if (it.rule['>='] && +v < +it.rule['>='].limit) {
-          // 最小值边界
-          this.$set(item, 'errMsg', it.rule['>='].msg)
-        } else this.$set(item, 'errMsg', '')
-      } else {
-        if (item.rule['<='] && +v > +item.rule['<='].limit) {
-          // 最大值边界
-          this.$set(item, 'errMsg', item.rule['<='].msg)
-        } else if (item.rule['>='] && +v < +item.rule['>='].limit) {
-          // 最小值边界
-          this.$set(item, 'errMsg', item.rule['>='].msg)
-        } else if (item.rule['<'] && +v >= +item.rule['<'].limit) {
-          // 最大值边界
-          this.$set(item, 'errMsg', item.rule['<'].msg)
-        } else if (item.rule['>'] && +v <= +item.rule['>'].limit) {
-          // 最小值边界
-          this.$set(item, 'errMsg', item.rule['>'].msg)
-        } else this.$set(item, 'errMsg', '')
-      }
-    },
-    dateVerify (item, v) {
-      if (!v) this.$set(item, 'errMsg', `${item.name}不能为空`)
-      else {
-        this.$set(item, 'errMsg', '')
-        this.$set(item, 'value', v)
-      }
-    },
-    checkVerify (item) {
-      let v = this.checkVal
-      let i = 0
-      for (i; i < this.companyFields.length; i++) {
-        if (item.property === this.companyFields[i].property) break
-      }
-      if (v.includes('其他') && v.length <= 1) {
-        if (!this.otherVal) this.$set(item, 'errMsg', `${item.name}不能为空`)
-        else {
-          this.$set(item, 'errMsg', '')
-          this.$set(item, 'value', v)
-        }
-      } else if (!v.length) {
-        this.$set(item, 'errMsg', `${item.name}不能为空`)
-      } else {
-        this.$set(item, 'errMsg', '')
-        this.$set(item, 'value', v)
-      }
-    }
   }
 }
 </script>

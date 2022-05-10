@@ -21,6 +21,8 @@ export default {
       url: `/competition/match/api/match/init?match_code=${query.match_code}&channel=h5`,
     })
     let data = config.data.data
+    let themeColor = data.config.theme_color
+    store.commit('saveTheme', themeColor)
     if (data.section.commitment_letter) store.commit('saveLetter', data.section.commitment_letter)
     if (data.section.disclaimer) store.commit('saveDisclaimer', data.section.disclaimer)
     if (data.section.apply_disclaimer) store.commit('saveApplyDisclaimer', data.section.apply_disclaimer)
