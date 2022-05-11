@@ -118,8 +118,8 @@ export default {
         this.parentLabel = i.label
       } else {
         if (this.showChild) {
-          this.lableVal = `${this.parentLabel}>${i.label}`
-          let value = `${this.parentVal}>${i.value}`
+          this.lableVal = `${this.parentLabel}/${i.label}`
+          let value = `${this.parentVal}/${i.value}`
           this.$emit('change', value)
         } else {
           this.lableVal = i.label

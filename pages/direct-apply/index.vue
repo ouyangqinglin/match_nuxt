@@ -157,9 +157,10 @@ export default {
     let productFields = []
 
     let applyFields = config.data.data.fields
-    let hiddenArr = ['recommend_other_name', 'validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
+    let hiddenArr = ['validation', 'extend_attributes_recommend_person_name', 'product_code', 'extend_attributes_money_account', 'extend_attributes_money_account2']
     let i = 0
     for (i; i < applyFields.length; i++) {
+      if (applyFields[i].parent_field) applyFields[i].type = 'hidden'
       if (applyFields[i].property === 'contacts_phone')  applyFields[i].type = 'number'
       if (hiddenArr.includes(applyFields[i].property)) applyFields[i].type = 'hidden'
       if (applyFields[i].property === 'email') applyFields[i].type = 'text'
@@ -168,9 +169,11 @@ export default {
     let companyFields = applyFields.filter((i) => i.form_title === '私募机构信息')
     let productFieldsSingle = applyFields.filter((i) => i.form_title === '参赛产品信息')
     let optionDefinition = config.data.data.option_definition
-    optionDefinition['product_tactics'].forEach((i) => {
-      if (i.children && !i.children.length) delete i.children
-    })
+    for(let v in optionDefinition) {
+      optionDefinition[v].forEach(i => {
+        if (i.children && !i.children.length) delete i.children
+      })
+    }
 
 
     let singleProduct = JSON.parse(JSON.stringify(productFieldsSingle))
@@ -213,8 +216,8 @@ export default {
       if (item.property === 'recommend_name') {
         for (let i = 0; i < this.companyFields.length; i++) {
           if (this.companyFields[i].property === 'extend_attributes_recommend_person_name') {
-            if (data.indexOf('>') !== -1) {
-              this.$set(item, 'value', data.split('>'))
+            if (data.indexOf('/') !== -1) {
+              this.$set(item, 'value', data.split('/'))
               this.$set(this.companyFields[i], 'type', 'text')
             } else {
               this.$set(item, 'value', data)
@@ -243,7 +246,7 @@ export default {
             }
           }
         } else {
-          if (data.includes('>')) this.$set(item, 'value', data.split('>'))
+          if (data.includes('/')) this.$set(item, 'value', data.split('/'))
           else this.$set(item, 'value', data)
         }
       }
@@ -341,6 +344,7 @@ export default {
         } else company_data[this.companyFields[i].property] = this.companyFields[i].value
         errMsg = errMsg || this.companyFields[i].errMsg
       }
+      console.log('company_data', company_data)
       for(k; k < this.productFields.length; k++) {
         let product_info = {}
         for (let j = 0; j < this.productFields[k].length; j++) {

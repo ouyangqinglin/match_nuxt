@@ -178,7 +178,7 @@ export default {
       }
     }
     .dbzq {
-      height: 52rem;
+      height: 50rem;
       a {
         position: absolute;
         left: 50%;
@@ -193,31 +193,31 @@ export default {
         top: 2.9rem;
       }
       .dzrh-logo {
-        top: 2.3rem;
+        top: 2.6rem;
         width: 4.2rem;
       }
       .gttk-logo {
-        top: 1.6rem;
+        top: 2rem;
         width: 4.2rem;
       }
       .xt-logo {
-        top: .8rem;
+        top: 1.6rem;
       }
       .kfkj-logo {
         width: 3rem;
-        top: -.4rem;
+        top: .6rem;
       }
       .aklk-logo {
         width: 3.3rem;
-        top: -1.6rem;
+        top: -.4rem;
       }
       .fakj-logo {
         width: 3.3rem;
-        top: -2.5rem;
+        top: -1rem;
       }
       .ppw-logo {
         width: 3rem;
-        top: -3.8rem;
+        top: -2.3rem;
       }
     }
   }
