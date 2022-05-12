@@ -104,8 +104,8 @@ export default {
       script: [
         { src: `https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js` },
         { src: `/lab/vue.min.js` },
-        { src: `https://www${this.$store.state.suffix}.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html`, async: true, defer: true },
-        { src: `https://passport${this.$store.state.suffix}.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0`, async: true, defer: true },
+        { src: `https://www.simuwang.com/global/common/mt/simple/t/1558575004/force_login/0.html` },
+        { src: `https://passport.simuwang.com/Static/Passport/Js/smppw_auth_mc.1.6.1.js?v=1558573200&force_auth=0` },
       ]
     }
   },
@@ -166,8 +166,18 @@ export default {
     this.subScaleList = this.option_definition['csearch_scale_group'] ? this.option_definition['csearch_scale_group'][this.curScale].children || [] : []
     this.getDataList()
     this.start()
+    // this.getUserInfo()
   },
   methods: {
+    getUserInfo () {
+      this.axios({
+        url: `https://sppwapi.simuwang.com/sun/member/getUserInfoApi`,
+        type: 'get',
+        success: (res) => {
+          console.log(res)
+        }
+      })
+    },
     start () {
       if (!window.muid || window.muid.toString() === "0") {
         this.logined = false
@@ -440,5 +450,29 @@ $borderColor: #DDDDDD;
 }
 .ppw-login-btn {
   top: -65px;
+}
+#gr_certification_treaty {
+  margin-right: 10px;
+}
+.gr_certification_type_item {
+  font-size: 18px;
+}
+.gr_certification_content {
+  height: 460px;
+}
+.gr_certification_item {
+  span {
+    font-size: 20px;
+  }
+}
+.gr_certification_item {
+  display: flex;
+  align-items: center;
+  height: 50px !important;
+  //line-height: 70px !important;
+  border: none !important;
+}
+.gr_certification_type_item {
+  line-height: 35px;
 }
 </style>
