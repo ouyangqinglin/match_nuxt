@@ -40,6 +40,9 @@
         <div class="item">
           <a class="jjlh-link" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
+        <div class="item">
+          <a class="ddrj-link" href="https://www.apexsoft.com.cn/index.jsp" target="_blank"></a>
+        </div>
       </common-flex>
       <common-flex direction="column" class="route-link dbzq" v-if="j === 3 && match_code === 'dbzq'">
         <div class="item">
@@ -151,7 +154,7 @@ export default {
       }
     }
     .ydzq {
-      height: 35rem;
+      height: 43rem;
       a {
         position: absolute;
         left: 50%;
@@ -163,18 +166,22 @@ export default {
         top: 1.7rem;
       }
       .ppw-link {
-        top: 1.6rem;
+        top: 1.4rem;
       }
       .hs-link {
         width: 3rem;
-        top: 2.8rem;
+        top: 2.6rem;
       }
       .lhhj-link {
-        top: 3.7rem;
+        top: 3.3rem;
       }
       .jjlh-link {
         width: 4rem;
-        top: 2.4rem;
+        top: 1.6rem;
+      }
+      .ddrj-link {
+        width: 4rem;
+        top: -.5rem;
       }
     }
     .dbzq {

@@ -37,6 +37,10 @@
           <a class="ydzq-jjlh-logo" href="https://www.myquant.cn/" target="_blank"></a>
           <a class="ydzq-jjlh-name" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
+        <div class="item">
+          <a class="ydzq-ddrj-logo" href="https://www.apexsoft.com.cn/index.jsp" target="_blank"></a>
+          <a class="ydzq-ddrj-name" href="https://www.apexsoft.com.cn/index.jsp" target="_blank"></a>
+        </div>
       </common-flex>
       <common-flex direction="column" class="route-link dbzq" v-if="i.title === '大赛组委会简介' && match_code === 'dbzq'">
         <div class="item">
@@ -137,7 +141,7 @@ export default {
       }
     }
     .ydzq {
-      height: 1910px;
+      height: 2390px;
       .item {
         flex-grow: 1;
         position: relative;
@@ -158,21 +162,21 @@ export default {
         .ydzq-ppw-logo {
           position: absolute;
           left: 117px;
-          top: 284px;
+          top: 270px;
           width: 203px;
           height: 84px;
         }
         .ydzq-ppw-name {
           position: absolute;
           left: 403px;
-          top: 140px;
+          top: 122px;
           width: 203px;
           height: 42px;
         }
         .ydzq-hs-logo {
           position: absolute;
           left: 105px;
-          top: 360px;
+          top: 325px;
           width: 228px;
           height: 84px;
           z-index: 10;
@@ -180,14 +184,14 @@ export default {
         .ydzq-hs-name {
           position: absolute;
           left: 395px;
-          top: 225px;
+          top: 190px;
           width: 203px;
           height: 42px;
         }
         .ydzq-lhhj-logo {
           position: absolute;
           left: 105px;
-          top: 328px;
+          top: 280px;
           width: 228px;
           height: 84px;
           z-index: 10;
@@ -195,23 +199,37 @@ export default {
         .ydzq-lhhj-name {
           position: absolute;
           left: 395px;
-          top: 264px;
+          top: 217px;
           width: 203px;
           height: 42px;
         }
         .ydzq-jjlh-logo {
           position: absolute;
           left: 105px;
-          bottom: 76px;
+          bottom: 165px;
           width: 228px;
           height: 84px;
         }
         .ydzq-jjlh-name {
           position: absolute;
           left: 395px;
-          top: 153px;
+          top: 88px;
           width: 303px;
           height: 42px;
+        }
+        .ydzq-ddrj-name {
+          position: absolute;
+          left: 395px;
+          top: -40px;
+          width: 303px;
+          height: 42px;
+        }
+        .ydzq-ddrj-logo {
+          position: absolute;
+          left: 105px;
+          top: 20px;
+          width: 228px;
+          height: 84px;
         }
       }
     }
