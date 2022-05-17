@@ -263,7 +263,7 @@ export default {
       for (i; i < this.productFields[index].length; i++) {
         if (item.property === this.productFields[index][i].property) break
       }
-      if (!v || !v.replace(/\s*/g, '')) {
+      if (!v) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
       }
@@ -299,7 +299,7 @@ export default {
           }
           else this.checkRule(item, v)
         } else this.$set(item, 'errMsg', '')
-        this.$set(item, 'value', v.replace(/\s*/g, ''))
+        this.$set(item, 'value', v)
       }
     },
     // el-input表单失去焦点验证
@@ -316,7 +316,7 @@ export default {
       for (i; i < this.companyFields.length; i++) {
         if (item.property === this.companyFields[i].property) break
       }
-      if (!v || !v.replace(/\s*/g, '')) {
+      if (!v) {
         if (item.required === '1') this.$set(item, 'errMsg', `${item.name}不能为空`)
         else this.$set(item, 'errMsg', '')
       } else if (Object.keys(regObj).includes(this.companyFields[i].property)) {
@@ -332,7 +332,7 @@ export default {
         } else {
           this.$set(item, 'errMsg', '')
         }
-        this.$set(item, 'value', v.replace(/\s*/g, ''))
+        this.$set(item, 'value', v)
       }
     },
     // 清空产品信息

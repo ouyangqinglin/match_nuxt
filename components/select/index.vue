@@ -9,7 +9,7 @@
             <div class="txt">{{ placeholder }}</div>
             <img src="./close.png" alt="" @click="close">
           </common-flex>
-          <div class="toast-body-search" v-if="parentList.length > 7">
+          <div class="toast-body-search" v-if="showChild || parentList.length > 10">
             <input type="text" v-model="keyword" placeholder="请输入关键字搜索">
             <img src="./search.png" alt="">
           </div>
