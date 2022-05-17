@@ -38,8 +38,8 @@
           <a class="ydzq-jjlh-name" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
         <div class="item">
-          <a class="ydzq-ddrj-logo" href="https://www.apexsoft.com.cn/index.jsp" target="_blank"></a>
-          <a class="ydzq-ddrj-name" href="https://www.apexsoft.com.cn/index.jsp" target="_blank"></a>
+<!--          <a class="ydzq-ddrj-logo" href="" target="_blank"></a>-->
+<!--          <a class="ydzq-ddrj-name" href="" target="_blank"></a>-->
         </div>
       </common-flex>
       <common-flex direction="column" class="route-link dbzq" v-if="i.title === '大赛组委会简介' && match_code === 'dbzq'">

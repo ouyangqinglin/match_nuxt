@@ -41,7 +41,7 @@
           <a class="jjlh-link" href="https://www.myquant.cn/" target="_blank"></a>
         </div>
         <div class="item">
-          <a class="ddrj-link" href="https://www.apexsoft.com.cn/index.jsp" target="_blank"></a>
+<!--          <a class="ddrj-link" href="#" target="_blank"></a>-->
         </div>
       </common-flex>
       <common-flex direction="column" class="route-link dbzq" v-if="j === 3 && match_code === 'dbzq'">
