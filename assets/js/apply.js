@@ -259,6 +259,13 @@ export default {
       }
     },
     inputProVerify (item, index, v) {
+      if (item.type === 'number') {
+        const numReg = /^\d+(?=\.{0,1}\d+$|$)/
+        if (!numReg.test(v)) {
+          this.$set(item, 'errMsg', `${item.name}仅支持输入数字`)
+          return
+        }
+      }
       let i = 0
       for (i; i < this.productFields[index].length; i++) {
         if (item.property === this.productFields[index][i].property) break
@@ -304,6 +311,13 @@ export default {
     },
     // el-input表单失去焦点验证
     inputVerify (item, v) {
+      if (item.type === 'number') {
+        const numReg = /^\d+(?=\.{0,1}\d+$|$)/
+        if (!numReg.test(v)) {
+          this.$set(item, 'errMsg', `${item.name}仅支持输入数字`)
+          return
+        }
+      }
       let regObj = {
         contacts_phone: /^0?(13[0-9]|15[012356789]|16[6]|17[01235678]|18[0-9]|14[01456789]|19[0-9])[0-9]{8}$/,
         email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
