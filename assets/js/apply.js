@@ -208,6 +208,7 @@ export default {
         if (searchObj.register_number) {
           this.$set(this.companyFields[0], 'value', searchObj.register_number)
           this.$set(this.companyFields[0], 'disabled', true)
+          this.getCompanyInfo(this.companyFields[0], searchObj.register_number)
           let j = 0
           for (j; j < this.companyFields.length; j++) {
             if (searchObj.hasOwnProperty(this.companyFields[j].property)) {
