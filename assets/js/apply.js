@@ -318,6 +318,9 @@ export default {
         const numReg = /^\d+(?=\.{0,1}\d+$|$)/
         if (!numReg.test(v)) {
           this.$set(item, 'errMsg', `${item.name}仅支持输入数字`)
+          setTimeout(() => {
+            this.$set(item, 'value', '')
+          }, 1000)
           return
         }
       }
