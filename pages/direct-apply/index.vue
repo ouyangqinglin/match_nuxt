@@ -16,7 +16,7 @@
           </common-flex>
           <common-flex class="form" align="center" v-else-if="i.type === 'number'">
             <div class="star" v-if="+i.required === 1" />
-            <el-input @blur="inputVerify(i, i.value)" type="number" v-model.number="i.value" :placeholder="i.placeholder"></el-input>
+            <el-input @blur="inputVerify(i, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
           <common-flex class="form" align="center" v-else-if="i.type === 'date'">
@@ -83,7 +83,7 @@
           </div>
           <common-flex class="form" v-else-if="i.type === 'number'">
             <div class="star" v-if="+i.required === 1" />
-            <el-input :disabled="!!+(i.disabled)" @blur="inputProVerify(i, j, i.value)" type="number" v-model.number="i.value" :placeholder="i.placeholder"></el-input>
+            <el-input :disabled="!!+(i.disabled)" @blur="inputProVerify(i, j, i.value)" type="number" v-model="i.value" :placeholder="i.placeholder"></el-input>
             <common-flex align="center" class="form-errMsg">{{ i.errMsg }}</common-flex>
           </common-flex>
         </template>
