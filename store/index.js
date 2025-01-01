@@ -57,7 +57,7 @@ export const mutations = {
     Vue.set(state, 'apply_disclaimer', data)
   },
   saveTheme (state, data) {
-    Vue.set(state,'theme', data)
+    Vue.set(state, 'theme', data)
   },
   saveMenu (state, data) {
     Vue.set(state, 'menu', data)

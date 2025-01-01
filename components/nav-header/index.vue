@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     goBack() {
-      history.back()
+      history.back();
     }
   }
 }

@@ -1,13 +1,13 @@
 <template>
-<transition name="trans">
-  <div class="common-fixed-toast" v-show="display">
-    <div class="common-fixed-toast-mask" v-show="mask"></div>
-    <div class="common-fixed-toast-msg" :class="{sp: type}" :style="style">
-      <i class="common-fixed-toast-icon" v-show="type"></i>
-      <div class="common-fixed-toast-content" v-html="content"></div>
+  <transition name="trans">
+    <div class="common-fixed-toast" v-show="display">
+      <div class="common-fixed-toast-mask" v-show="mask"/>
+      <div class="common-fixed-toast-msg" :class="{sp: type}" :style="style">
+        <i class="common-fixed-toast-icon" v-show="type"/>
+        <div class="common-fixed-toast-content" v-html="content"/>
+      </div>
     </div>
-  </div>
-</transition>
+  </transition>
 </template>
 
 <script>
